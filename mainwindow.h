@@ -2,6 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPushButton>
+#include <QGraphicsScene>
+#include <vector>
+
+using namespace std;
 
 namespace Ui {
 class MainWindow;
@@ -15,8 +20,15 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void handleCalculateInvestment();
+    void on_pbCalculateInvestmentValue_clicked();
+
 private:
     Ui::MainWindow *ui;
+    QPushButton *pbCalculateInvestmentValue;
+    QGraphicsScene *scene;
+    void drawGraph(vector < vector<double> >);
 };
 
 #endif // MAINWINDOW_H
