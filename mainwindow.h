@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QGraphicsScene>
 #include <vector>
+#include "lsbarchart.h"
 
 using namespace std;
 
@@ -27,7 +28,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QPushButton *pbCalculateInvestmentValue;
-    QGraphicsScene *scene;
+    LSBarChart *scene;
     void drawGraph(vector < vector<double> >);
 };
 

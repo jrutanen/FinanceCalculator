@@ -177,10 +177,13 @@
        </rect>
       </property>
       <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
+       <enum>Qt::ScrollBarAsNeeded</enum>
       </property>
       <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+      <property name="renderHints">
+       <set>QPainter::TextAntialiasing</set>
       </property>
      </widget>
     </widget>

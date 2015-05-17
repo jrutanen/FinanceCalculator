@@ -13,9 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QGraphicsScene* scene = new QGraphicsScene(0, 0,
-                                              ui->gvInvestments->size().width()-2,
-                                              ui->gvInvestments->size().height()-2);
+    scene = new LSBarChart(ui->gvInvestments->size().width()-2,
+                                       ui->gvInvestments->size().height()-2);
     scene->setBackgroundBrush(Qt::white);
 
     ui->gvInvestments->setScene( scene );
@@ -46,7 +45,7 @@ void MainWindow::on_pbCalculateInvestmentValue_clicked()
                          ui->lePayments->text().toInt(),
                          ui->leSavingsTime->text().toInt() );
 
-    drawGraph(values);
+    scene->drawChart( values );
     //  delete inv;
 }
 void MainWindow::drawGraph( vector < vector<double> > data)
