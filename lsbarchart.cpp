@@ -1,6 +1,9 @@
 #include "lsbarchart.h"
 #include <QDebug>
 
+const QColor cInterest = QColor(Qt::green);
+const QColor cSavings = QColor(Qt::blue);
+
 LSBarChart::LSBarChart() : QGraphicsScene()
 {
 
@@ -20,6 +23,7 @@ LSBarChart::LSBarChart(double width, double height) : QGraphicsScene()
     yAxis.length = canvasHeight;
     xAxis.label.append("Months");
     yAxis.label.append("Value");
+
 }
 LSBarChart::~LSBarChart(void)
 {
@@ -37,7 +41,7 @@ void LSBarChart::drawChart(std::vector<std::vector<double> > data)
     double unitHeight;
     double maxValue = 0.0;
 
-    for (int i=0; i< data.size(); i++)
+    for (uint i=0; i< data.size(); i++)
     {
         double max = *max_element(data[i].begin(), data[i].end());
         if ( max > maxValue )
@@ -52,11 +56,11 @@ void LSBarChart::drawChart(std::vector<std::vector<double> > data)
 
     unitHeight = canvasHeight/maxValue;
 
-    for (int i = 0; i < data[0].size(); i++)
+    for (uint i = 0; i < data[0].size(); i++)
     {
-        drawBarWithColor(0 + i*(barWidth + gap), data[2][i]*unitHeight, barWidth, QColor(Qt::cyan));
+        drawBarWithColor(0 + i*(barWidth + gap), data[2][i]*unitHeight, barWidth, cInterest);
         //drawBar(0+i*barWidth, (data[0][i] + data[1][i])*unitHeight, barWidth);
-        drawBarWithColor(0 + i*(barWidth + gap), data[0][i]*unitHeight, barWidth, QColor(Qt::green));
+        drawBarWithColor(0 + i*(barWidth + gap), data[0][i]*unitHeight, barWidth, cSavings);
     }
 }
 
@@ -104,11 +108,18 @@ void LSBarChart::drawYAxis()
     this->addText(yAxis.label)->setPos(canvasWidth, 0);
 }
 
-void LSBarChart::drawBar(double position, double height, double width) {
+void LSBarChart::drawBar(double position, double height, double width)
+{
     this->addRect(position, canvasHeight-height, width, height);
 }
-void LSBarChart::drawBarWithColor(double position, double height, double width, QColor color) {
+void LSBarChart::drawBarWithColor(double position, double height, double width, QColor color)
+{
     this->addRect(position, canvasHeight-height, width, height, Qt::NoPen, QBrush(color) );
+//    const QPen & pen = QPen(), const QBrush & brush = QBrush()
+}
+void LSBarChart::drawSummaryBox(vector <vector<double> > data,  vector<QString> titles)
+{
+    //this->addRect(position, canvasHeight-height, width, height, Qt::NoPen, QBrush(color) );
 //    const QPen & pen = QPen(), const QBrush & brush = QBrush()
 }
 

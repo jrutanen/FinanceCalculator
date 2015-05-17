@@ -33,6 +33,8 @@ private:
     void drawBar(double, double, double);
     void drawBarWithColor(double, double, double, QColor);
     void drawSummaryBox(vector <vector<double> >, vector<QString>);
+    const QColor cInterest;
+    const QColor cSavings;
 
 protected:
     bool animation;
