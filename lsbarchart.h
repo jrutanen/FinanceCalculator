@@ -9,6 +9,8 @@
 #include <QGraphicsTextItem>
 #include <algorithm>
 #include <QColor>
+#include <math.h>
+#include <QLocale>
 
 #define LEFT 0
 #define RIGHT 1
@@ -28,13 +30,13 @@ public:
     void drawChart(std::vector< std::vector<double> >);
 
 private:
-    void drawXAxis();
-    void drawYAxis();
+    void drawXAxis(int);
+    void drawYAxis(double);
     void drawBar(double, double, double);
     void drawBarWithColor(double, double, double, QColor);
     void drawSummaryBox(vector <vector<double> >, vector<QString>);
-    const QColor cInterest;
-    const QColor cSavings;
+    //const QColor cInterest;
+    //const QColor cSavings;
 
 protected:
     bool animation;

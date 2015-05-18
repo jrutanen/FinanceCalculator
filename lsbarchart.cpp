@@ -40,6 +40,7 @@ void LSBarChart::drawChart(std::vector<std::vector<double> > data)
     double barWidth = (canvasWidth - (dataPoints - 1) * gap)/dataPoints;
     double unitHeight;
     double maxValue = 0.0;
+    double maxAxisValue;
 
     for (uint i=0; i< data.size(); i++)
     {
@@ -50,11 +51,15 @@ void LSBarChart::drawChart(std::vector<std::vector<double> > data)
         }
     }
 
-    clear();
-    drawXAxis();
-    drawYAxis();
+    if (maxValue < 10000) maxAxisValue = ceil(maxValue/100)*100;
+    if (maxValue >9999 && maxValue < 100000) maxAxisValue = ceil(maxValue/1000)*1000;
+    if (maxValue >99999 && maxValue < 10000000) maxAxisValue = ceil(maxValue/100000)*100000;
 
-    unitHeight = canvasHeight/maxValue;
+    clear();
+    drawXAxis(dataPoints);
+    drawYAxis(maxAxisValue);
+
+    unitHeight = canvasHeight/maxAxisValue;
 
     for (uint i = 0; i < data[0].size(); i++)
     {
@@ -64,7 +69,7 @@ void LSBarChart::drawChart(std::vector<std::vector<double> > data)
     }
 }
 
-void LSBarChart::drawXAxis()
+void LSBarChart::drawXAxis(int max)
 {
     double y = 0.0;
     switch ( xAxis.position )
@@ -86,7 +91,7 @@ void LSBarChart::drawXAxis()
     this->addText(xAxis.label)->setPos(0, y);
 }
 
-void LSBarChart::drawYAxis()
+void LSBarChart::drawYAxis(double max)
 {
     double x = 0.0;
     switch (yAxis.position)
@@ -105,7 +110,11 @@ void LSBarChart::drawYAxis()
             break;
     }
     this->addLine(x, 0, x, yAxis.length, QPen(Qt::black));
-    this->addText(yAxis.label)->setPos(canvasWidth, 0);
+    this->addLine(xAxis.length, 0, xAxis.length + 8, 0, QPen(Qt::black));
+    this->addLine(xAxis.length, canvasHeight/2, xAxis.length + 8, canvasHeight/2, QPen(Qt::black));
+    this->addText(yAxis.label)->setPos(canvasWidth, canvasHeight-20);
+    this->addText(QString::number(max))->setPos(canvasWidth, 0);
+    this->addText(QString::number(max/2))->setPos(canvasWidth, canvasHeight/2);
 }
 
 void LSBarChart::drawBar(double position, double height, double width)

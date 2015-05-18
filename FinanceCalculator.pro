@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += testlib
 QMAKE_LIBDIR += "glu32_location"
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -16,10 +17,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     investment.cpp \
-    lsbarchart.cpp
+    lsbarchart.cpp \
+    test/testinterestcalc.cpp
 
 HEADERS  += mainwindow.h \
     investment.h \
-    lsbarchart.h
+    lsbarchart.h \
+    test/testinterestcalc.h
 
 FORMS    += mainwindow.ui
