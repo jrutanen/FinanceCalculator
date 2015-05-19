@@ -30,6 +30,7 @@ private:
     QPushButton *pbCalculateInvestmentValue;
     LSBarChart *scene;
     void drawGraph(vector < vector<double> >);
+    void skipUserInput();
 };
 
 #endif // MAINWINDOW_H

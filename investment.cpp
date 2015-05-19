@@ -13,8 +13,7 @@ Investment::Investment(double rate, double balance, double monthlyPayment, int p
 }
 vector< vector<double> > Investment :: CalculateValue (double rate, double balance, double monthlyPayment, int paymentTime, int savingsTime) {
     int i = 1;
-    int savingsTimeInMonths = savingsTime * 12;
-    double monthlyRate = rate/12/100; //input is percent
+    double yearlyRate = rate/100; //input is percent
     double totalValue = 0.0;
     double interest = 0.0;
     double payments = 0.0;
@@ -24,16 +23,21 @@ vector< vector<double> > Investment :: CalculateValue (double rate, double balan
 
     totalValue = totalValue + balance;
 
-    for ( i = 1; i <= savingsTimeInMonths; i++ ) {
-        interest = monthlyRate * totalValue;
-        if ( i <= paymentTime) {
-            payments += monthlyPayment;
-            totalValue += monthlyPayment;
+    for ( i = 1; i <= savingsTime; i++ ) {
+        if( paymentTime >= i ) {
+            payments = monthlyPayment*12;
         }
-        totalValue += interest;
+        else
+        {
+            payments = 0.0;
+        }
+        interest = yearlyRate *(totalValue + payments);
+
         moneyPaid.push_back(payments);
         interestReceived.push_back(interest);
         valueOfInvestment.push_back(totalValue);
+        totalValue += payments;
+        totalValue += interest;
     }
 
     std::vector< std::vector<double> > value;

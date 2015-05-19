@@ -11,6 +11,7 @@
 #include <QColor>
 #include <math.h>
 #include <QLocale>
+#include <QPainter>
 
 #define LEFT 0
 #define RIGHT 1
@@ -32,11 +33,10 @@ public:
 private:
     void drawXAxis(int);
     void drawYAxis(double);
-    void drawBar(double, double, double);
+    void drawBar(double, double, double, double, QColor);
     void drawBarWithColor(double, double, double, QColor);
-    void drawSummaryBox(vector <vector<double> >, vector<QString>);
-    //const QColor cInterest;
-    //const QColor cSavings;
+    void drawStackedBarWithColor(double, double, double, QColor);
+    void drawSummaryBox(double, double, double, int);
 
 protected:
     bool animation;
