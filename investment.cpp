@@ -19,30 +19,30 @@ vector< vector<double> > Investment :: CalculateValue (double rate, double balan
     double payments = 0.0;
     std::vector<double> moneyPaid;
     std::vector<double> interestReceived;
-    std::vector<double> valueOfInvestment;
+    std::vector<double> savings;
 
-    totalValue = totalValue + balance;
+    totalValue += balance;
 
     for ( i = 1; i <= savingsTime; i++ ) {
         if( paymentTime >= i ) {
-            payments = monthlyPayment*12;
+            payments = monthlyPayment * 12;
         }
         else
         {
             payments = 0.0;
         }
-        interest = yearlyRate *(totalValue + payments);
+
+        interest = yearlyRate * (totalValue + payments);
 
         moneyPaid.push_back(payments);
         interestReceived.push_back(interest);
-        valueOfInvestment.push_back(totalValue);
-        totalValue += payments;
-        totalValue += interest;
+        savings.push_back(totalValue);
+        totalValue += payments + interest;
     }
 
     std::vector< std::vector<double> > value;
     value.push_back(moneyPaid);
     value.push_back(interestReceived);
-    value.push_back(valueOfInvestment);
+    value.push_back(savings);
     return value;
 }
