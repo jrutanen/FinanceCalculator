@@ -39,7 +39,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QPushButton *pbCalculateInvestmentValue;
-    LSBarChart *scene;
+//    LSBarChart *scene;
     void drawGraph(QGraphicsView*, vector<DataSet>);
     void skipUserInput();
 };

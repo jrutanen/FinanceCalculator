@@ -69,7 +69,7 @@ void MainWindow::on_pbCalculateInvestmentValue_clicked()
 }
 void MainWindow::drawGraph( QGraphicsView *view, vector<DataSet> data)
 {
-    scene = new LSBarChart(view->size().width()-2,
+    LSBarChart *scene = new LSBarChart(view->size().width()-2,
                            view->size().height()-2);
 
     scene->setBackgroundBrush(Qt::white);
@@ -77,7 +77,6 @@ void MainWindow::drawGraph( QGraphicsView *view, vector<DataSet> data)
     view->setScene( scene );
 
     scene->drawChart(data);
-//    scene->addSummary(values);
 }
 
 void MainWindow::on_pbCalculateMortagePayment_clicked()

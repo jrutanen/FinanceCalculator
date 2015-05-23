@@ -33,6 +33,7 @@ public:
     ~ LSBarChart(void);
     void drawChart(std::vector<DataSet>);
     void addSummary(std::vector<DataSet>);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent*);
 
 private:
     void drawXAxis(int);
@@ -41,6 +42,12 @@ private:
     void drawBarWithColor(double, double, double, QColor);
     void drawStackedBarWithColor(double, double, double, QColor);
     void drawSummaryBox(double, double, double, int);
+    double calculateMaxAxisValue(double);
+    std::vector<DataSet> dataSets;
+    void drawCursorLine(double);
+    QGraphicsLineItem *cursorLine;
+    QGraphicsRectItem *infoBox;
+//    QLineF cursorLine;
 
 protected:
     bool animation;
@@ -48,7 +55,9 @@ protected:
     double height;
     double canvasWidth;
     double canvasHeight;
+    double leftMargin;
     double barWidth;
+    double gap;
     struct Axis {
         int position;
         double length;
@@ -57,6 +66,7 @@ protected:
     };
     Axis xAxis;
     Axis yAxis;
+
 };
 
 #endif // LSBARCHART_H

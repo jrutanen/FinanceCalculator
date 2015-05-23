@@ -1,10 +1,13 @@
 #include "lsbarchart.h"
+#include <QGraphicsSceneHoverEvent>
 
 const QColor colorOne = QColor(Qt::green);
 const QColor colorTwo = QColor(Qt::cyan);
 const QColor colorThree = QColor(Qt::blue);
 const QColor colorFour = QColor(Qt::red);
+const QColor cursorColor = QColor(238, 224, 229);
 std::vector<QColor> colors;
+//QLineF *cursorLine = new QLineF(0, 0, 0, 50);;
 
 LSBarChart::LSBarChart() : QGraphicsScene()
 {
@@ -21,6 +24,7 @@ LSBarChart::LSBarChart(double width, double height) : QGraphicsScene()
     yAxis.position = RIGHT;
     canvasHeight = height-xAxis.width;
     canvasWidth = width-yAxis.width;
+    leftMargin = 6.0;
     xAxis.length = canvasWidth;
     yAxis.length = canvasHeight;
     xAxis.label.append("Years");
@@ -39,7 +43,7 @@ void LSBarChart::addSummary( std::vector<DataSet> data)
 {
     std::vector<double> values;
 
-    for ( int i = 0; i < data.size(); i++)
+    for ( uint i = 0; i < data.size(); i++)
     {
         values.push_back((std::accumulate(data[i].getData().begin(), data[i].getData().end(), 0)));
     }
@@ -49,44 +53,48 @@ void LSBarChart::addSummary( std::vector<DataSet> data)
 
 void LSBarChart::drawChart(std::vector<DataSet> data)
 {
-    int dataPoints = data[0].getData().size();
-    double gap = 72/dataPoints;
+    dataSets = data;
+    int dataPoints = dataSets[0].getData().size();
+    gap = 72/dataPoints;
     if (gap < 1) gap = 0.0;
     if ( dataPoints >= 15 && dataPoints <= 36 ) gap = 2.0;
     if ( dataPoints < 15 ) gap = 3.0;
     if ( dataPoints > 36) gap = 0.0;
-    double barWidth = (canvasWidth - 8 - (dataPoints - 1) * gap)/dataPoints;
+    barWidth = (canvasWidth - 8 - (dataPoints - 1) * gap)/dataPoints;
     double unitHeight;
     double maxValue = 0.0;
     double maxAxisValue;
 
     //get max value to adjust the scale
-    for (uint i=0; i< data.size(); i++)
+    for (uint i=0; i< dataSets.size(); i++)
     {
-        double max = *max_element(data[i].getData().begin(), data[i].getData().end());
+        vector<double> values = dataSets[i].getData();
+        double max = *max_element(values.begin(), values.end());
         maxValue += max;
     }
     //set max value for axis
-    if (maxValue < 10000) maxAxisValue = ceil(maxValue/100)*100;
-    if (maxValue >9999 && maxValue < 100000) maxAxisValue = ceil(maxValue/1000)*1000;
-    if (maxValue >99999 && maxValue < 10000000) maxAxisValue = ceil(maxValue/100000)*100000;
+    maxAxisValue = calculateMaxAxisValue(maxValue);
 
     clear();
+
     drawXAxis(dataPoints);
     drawYAxis(maxAxisValue);
+
+//    cursorLine->setP2(QPoint(0, canvasHeight - 1));
+    cursorLine = this->addLine(0, 0, 0, canvasHeight-1, QPen(cursorColor));
 
     unitHeight = (canvasHeight - 8)/maxAxisValue;
 
     //Draw stacked bars
     //number of bars
-    for (uint i = 0; i < data[0].getData().size(); i++)
+    for (uint i = 0; i < dataSets[0].getData().size(); i++)
     {
         double currentY = 0.0;
         //number of datasets
-        for (uint j = 0; j < data.size(); j++)
+        for (uint j = 0; j < dataSets.size(); j++)
         {
-            drawBar(8 + i*(barWidth + gap), currentY, data[j].getData().at(i)*unitHeight, barWidth, colors.at(j));
-            currentY += data[j].getData().at(i)*unitHeight;
+            drawBar(8 + i*(barWidth + gap), currentY, dataSets[j].getData().at(i)*unitHeight, barWidth, colors.at(j));
+            currentY += dataSets[j].getData().at(i)*unitHeight;
         }
     }
 }
@@ -109,7 +117,7 @@ void LSBarChart::drawXAxis(int max)
             y = canvasHeight;
             break;
     }
-    this->addLine(6, y, xAxis.length, y, QPen(Qt::black));
+    this->addLine(leftMargin, y, xAxis.length, y, QPen(Qt::black));
     this->addLine(xAxis.length/2, yAxis.length, xAxis.length/2, yAxis.length + 8, QPen(Qt::black));
     this->addLine(xAxis.length, yAxis.length, xAxis.length, yAxis.length + 8, QPen(Qt::black));
     this->addText(QString("%1 years").arg(max))->setPos(xAxis.length, yAxis.length);
@@ -174,4 +182,71 @@ void LSBarChart::drawSummaryBox(double savings, double interest, double total, i
                           ).arg(savings,0,'f',0).arg(interest, 0, 'f', 0).arg(total, 0, 'f', 0).arg(years))
                           ->setPos(x+3, y+3);
 }
+double LSBarChart::calculateMaxAxisValue(double value)
+{
+    double maxValue = 0.0;
+    if(value < 100)
+    {
+        maxValue = ceil(value + 10)/10;
+        maxValue = (int) maxValue * 10;
+    }
+    if(value >= 100 && value < 1000)
+    {
+        maxValue = ceil(value + 10)/10;
+        maxValue = (int) maxValue * 10;
+    }
+    if(value >= 1000 && value < 10000)
+    {
+        maxValue = ceil(value + 100)/100;
+        maxValue = (int) maxValue * 100;
+    }
+    if(value >= 10000 && value < 100000)
+    {
+        maxValue = ceil(value+1000)/1000;
+        maxValue = (int) maxValue * 1000;
+    }
+    if(value >= 100000 && value < 1000000)
+    {
+        maxValue = ceil(value+10000)/10000;
+        maxValue = (int) maxValue * 10000;
+    }
+    if(value >= 1000000 && value < 10000000)
+    {
+        maxValue = ceil(value+100000)/100000;
+        maxValue = (int) maxValue * 100000;
+    }
+    if(value >= 10000000 && value < 100000000)
+    {
+        maxValue = ceil((value*1.1/1000000)*1000000);maxValue = (int) maxValue * 10;
+    }
+    if(value >= 100000000)
+    {
+        maxValue = ceil((value*1.1/10000000)*10000000);maxValue = (int) maxValue * 10;
+    }
 
+    return maxValue;
+}
+void LSBarChart::drawCursorLine(double x)
+{
+   double dx = x - cursorLine->line().x1();
+//   cursorLine->line().setP1(QPoint(x, 0));
+//   cursorLine->line().setP2(QPoint(x, canvasHeight-1));
+   cursorLine->setPos(x, 0);
+//   cursorLine->moveBy(dx, 0);
+}
+
+void LSBarChart::mouseMoveEvent(QGraphicsSceneMouseEvent * e)//(QGraphicsSceneHoverEvent *e)
+{
+    qDebug() << QString("x: %1, y: %2").arg(e->scenePos().x()).arg(e->scenePos().y());
+    int x = 0;
+    if (e->scenePos().x() > 6 && e->scenePos().x() < canvasWidth + leftMargin)
+    {
+        x =  (int)(((e->scenePos().x() - leftMargin))/(barWidth + gap));
+        if (x < 0) x = 0;
+        if (x < (int)dataSets[0].getData().size())
+        {
+            drawCursorLine(e->scenePos().x());
+            drawSummaryBox(dataSets[0].getData().at(x), dataSets[1].getData().at(x), dataSets[2].getData().at(x), x + 1);
+        }
+    }
+}
