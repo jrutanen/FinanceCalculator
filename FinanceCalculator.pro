@@ -18,11 +18,15 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     investment.cpp \
     lsbarchart.cpp \
-    test/testinterestcalc.cpp
+    test/testinterestcalc.cpp \
+    mortage.cpp \
+    dataset.cpp
 
 HEADERS  += mainwindow.h \
     investment.h \
     lsbarchart.h \
-    test/testinterestcalc.h
+    test/testinterestcalc.h \
+    mortage.h \
+    dataset.h
 
 FORMS    += mainwindow.ui

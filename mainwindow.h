@@ -6,6 +6,15 @@
 #include <QGraphicsScene>
 #include <vector>
 #include "lsbarchart.h"
+#include "dataset.h"
+#include "ui_mainwindow.h"
+#include "investment.h"
+#include "mortage.h"
+#include "dataset.h"
+#include <QDebug>
+#include <QtGui>
+#include <QGraphicsRectItem>
+#include <algorithm>
 
 using namespace std;
 
@@ -25,11 +34,13 @@ private slots:
     void handleCalculateInvestment();
     void on_pbCalculateInvestmentValue_clicked();
 
+    void on_pbCalculateMortagePayment_clicked();
+
 private:
     Ui::MainWindow *ui;
     QPushButton *pbCalculateInvestmentValue;
     LSBarChart *scene;
-    void drawGraph(vector < vector<double> >);
+    void drawGraph(QGraphicsView*, vector<DataSet>);
     void skipUserInput();
 };
 

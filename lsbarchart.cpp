@@ -1,9 +1,10 @@
 #include "lsbarchart.h"
-#include <QDebug>
 
-const QColor cInterest = QColor(Qt::green);
-const QColor cContribution = QColor(Qt::cyan);
-const QColor cSavings = QColor(Qt::blue);
+const QColor colorOne = QColor(Qt::green);
+const QColor colorTwo = QColor(Qt::cyan);
+const QColor colorThree = QColor(Qt::blue);
+const QColor colorFour = QColor(Qt::red);
+std::vector<QColor> colors;
 
 LSBarChart::LSBarChart() : QGraphicsScene()
 {
@@ -24,31 +25,48 @@ LSBarChart::LSBarChart(double width, double height) : QGraphicsScene()
     yAxis.length = canvasHeight;
     xAxis.label.append("Years");
     yAxis.label.append("Value");
-
+    colors.push_back(colorOne);
+    colors.push_back(colorThree);
+    colors.push_back(colorTwo);
+    colors.push_back(colorFour);
 }
 LSBarChart::~LSBarChart(void)
 {
 
 }
 
-void LSBarChart::drawChart(std::vector<std::vector<double> > data)
+void LSBarChart::addSummary( std::vector<DataSet> data)
 {
-    int dataPoints = data[0].size();
-    double gap;
-    if ( dataPoints < 15 ) gap = 3.0;
+    std::vector<double> values;
+
+    for ( int i = 0; i < data.size(); i++)
+    {
+        values.push_back((std::accumulate(data[i].getData().begin(), data[i].getData().end(), 0)));
+    }
+
+    drawSummaryBox(values.at(0), values.at(1), values.at(0)+values.at(1), data[0].getData().size());
+}
+
+void LSBarChart::drawChart(std::vector<DataSet> data)
+{
+    int dataPoints = data[0].getData().size();
+    double gap = 72/dataPoints;
+    if (gap < 1) gap = 0.0;
     if ( dataPoints >= 15 && dataPoints <= 36 ) gap = 2.0;
+    if ( dataPoints < 15 ) gap = 3.0;
     if ( dataPoints > 36) gap = 0.0;
     double barWidth = (canvasWidth - 8 - (dataPoints - 1) * gap)/dataPoints;
     double unitHeight;
     double maxValue = 0.0;
     double maxAxisValue;
 
+    //get max value to adjust the scale
     for (uint i=0; i< data.size(); i++)
     {
-        double max = *max_element(data[i].begin(), data[i].end());
+        double max = *max_element(data[i].getData().begin(), data[i].getData().end());
         maxValue += max;
     }
-
+    //set max value for axis
     if (maxValue < 10000) maxAxisValue = ceil(maxValue/100)*100;
     if (maxValue >9999 && maxValue < 100000) maxAxisValue = ceil(maxValue/1000)*1000;
     if (maxValue >99999 && maxValue < 10000000) maxAxisValue = ceil(maxValue/100000)*100000;
@@ -56,18 +74,20 @@ void LSBarChart::drawChart(std::vector<std::vector<double> > data)
     clear();
     drawXAxis(dataPoints);
     drawYAxis(maxAxisValue);
-    drawSummaryBox(*max_element(data[0].begin(), data[0].end()),
-                   *max_element(data[1].begin(), data[1].end()),
-                   *max_element(data[2].begin(), data[2].end()),
-                   data[0].size());
 
     unitHeight = (canvasHeight - 8)/maxAxisValue;
 
-    for (uint i = 0; i < data[0].size(); i++)
+    //Draw stacked bars
+    //number of bars
+    for (uint i = 0; i < data[0].getData().size(); i++)
     {
-        drawBar(8 + i*(barWidth + gap), 0.0, data[0][i]*unitHeight, barWidth, cContribution);
-        drawBar(8 + i*(barWidth + gap), data[0][i]*unitHeight, data[2][i]*unitHeight, barWidth, cSavings);
-        drawBar(8 + i*(barWidth + gap), data[0][i]*unitHeight + data[2][i]*unitHeight, data[1][i]*unitHeight, barWidth, cInterest);
+        double currentY = 0.0;
+        //number of datasets
+        for (uint j = 0; j < data.size(); j++)
+        {
+            drawBar(8 + i*(barWidth + gap), currentY, data[j].getData().at(i)*unitHeight, barWidth, colors.at(j));
+            currentY += data[j].getData().at(i)*unitHeight;
+        }
     }
 }
 

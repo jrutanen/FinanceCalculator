@@ -42,7 +42,7 @@ vector< vector<double> > Investment :: CalculateValue (double rate, double balan
 
     std::vector< std::vector<double> > value;
     value.push_back(moneyPaid);
-    value.push_back(interestReceived);
     value.push_back(savings);
+    value.push_back(interestReceived);
     return value;
 }

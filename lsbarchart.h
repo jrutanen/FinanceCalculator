@@ -12,6 +12,9 @@
 #include <math.h>
 #include <QLocale>
 #include <QPainter>
+#include <numeric>
+#include <QDebug>
+#include "dataset.h"
 
 #define LEFT 0
 #define RIGHT 1
@@ -28,7 +31,8 @@ public:
     LSBarChart();
     LSBarChart(double, double);
     ~ LSBarChart(void);
-    void drawChart(std::vector< std::vector<double> >);
+    void drawChart(std::vector<DataSet>);
+    void addSummary(std::vector<DataSet>);
 
 private:
     void drawXAxis(int);

@@ -30,7 +30,7 @@
      <locale language="English" country="UnitedStates"/>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab_invest">
      <property name="locale">
@@ -155,12 +155,12 @@
      <attribute name="title">
       <string>Mortage</string>
      </attribute>
-     <widget class="QGraphicsView" name="gvInvestments_2">
+     <widget class="QGraphicsView" name="gvMortage">
       <property name="geometry">
        <rect>
-        <x>160</x>
+        <x>180</x>
         <y>10</y>
-        <width>531</width>
+        <width>511</width>
         <height>401</height>
        </rect>
       </property>
@@ -179,7 +179,7 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>141</width>
+        <width>157</width>
         <height>331</height>
        </rect>
       </property>
@@ -187,12 +187,12 @@
        <item>
         <widget class="QLabel" name="label_13">
          <property name="text">
-          <string>Balance</string>
+          <string>Top Loan</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="leStartBalance_3">
+        <widget class="QLineEdit" name="leTopLoan">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -204,54 +204,67 @@
        <item>
         <widget class="QLabel" name="label_14">
          <property name="text">
+          <string>Top Loan Interest (%)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="leTopLoanInterest"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_15">
+         <property name="text">
+          <string>Bottom Loan</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="leBottomLoan"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_16">
+         <property name="text">
+          <string>Bottom Loan Interest (%)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="leBottomLoanInterest"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>Years to Pay</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="leMortageYears"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_17">
+         <property name="text">
           <string>Monthly Payment</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="leMonthlyPayment_3"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_15">
-         <property name="text">
-          <string>Nbr of Payments</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lePayments_3"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_16">
-         <property name="text">
-          <string>Saving Time (Years)</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="leSavingsTime_3"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_17">
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Annual Rate (%)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="leRate_3"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_18">
-         <property name="text">
-          <string>End Balance</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="leTotal_3"/>
+        <widget class="QLineEdit" name="leMonthlyMortagePayment"/>
        </item>
       </layout>
+     </widget>
+     <widget class="QPushButton" name="pbCalculateMortagePayment">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>360</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Calculate</string>
+      </property>
      </widget>
     </widget>
    </widget>
