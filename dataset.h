@@ -10,6 +10,7 @@ public:
     DataSet();
     DataSet( std::vector <double>, QString, QString );
     std::vector<double> getData();
+    QString getName();
 private:
     std::vector<double> data;
     QString name;

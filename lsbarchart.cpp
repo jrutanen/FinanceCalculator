@@ -253,11 +253,14 @@ void LSBarChart::mouseMoveEvent(QGraphicsSceneMouseEvent * e)//(QGraphicsSceneHo
                       * unitHeight;
             drawCursorLine(e->scenePos().x(), y);
 //            qDebug() << QString("x: %1, y: %2, height: %3").arg(e->scenePos().x()).arg(e->scenePos().y()).arg(y);
-            addInfoText(QString("Contribution: %1\n"
-                                "Savings: %2\n"
-                                "Interest: %3")
+            addInfoText(QString("%1: %2\n"
+                                "%3: %4\n"
+                                "%5: %6")
+                                .arg(dataSets[0].getName())
                                 .arg(dataSets[0].getData().at(x))
+                                .arg(dataSets[1].getName())
                                 .arg(dataSets[1].getData().at(x))
+                                .arg(dataSets[2].getName())
                                 .arg(dataSets[2].getData().at(x)));
         }
     }

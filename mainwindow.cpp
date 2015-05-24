@@ -44,7 +44,7 @@ void MainWindow::on_pbCalculateInvestmentValue_clicked()
 
     ui->leTotal->setText(QString("%1").arg(values[0].back()+values[1].back()+values[2].back(), 0, 'f', 0));
 
-    for (uint i = 0; i< values.size(); i++)
+    for (uint i = 0; i < values.size(); i++)
     {
         switch ( i )
         {
@@ -54,7 +54,7 @@ void MainWindow::on_pbCalculateInvestmentValue_clicked()
             case 1:
                 name = "Savings";
                 break;
-            case 3:
+            case 2:
                 name = "Interest";
                 break;
             default:
@@ -98,7 +98,7 @@ void MainWindow::on_pbCalculateMortagePayment_clicked()
                 ui->leTopLoan->text().toDouble()+ui->leBottomLoan->text().toDouble(),
                 ui->leMortageYears->text().toDouble());
 
-    for (uint i = 0; i< values.size(); i++)
+    for (uint i = 0; i < values.size(); i++)
     {
         switch ( i )
         {
@@ -106,10 +106,10 @@ void MainWindow::on_pbCalculateMortagePayment_clicked()
                 name = "Payment";
                 break;
             case 1:
-                name = "Savings";
-                break;
-            case 3:
                 name = "Interest";
+                break;
+            case 2:
+                name = "Principal";
                 break;
             default:
                 name = "N/A";

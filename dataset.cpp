@@ -16,3 +16,8 @@ std::vector<double> DataSet::getData()
     return data;
 }
 
+QString DataSet::getName()
+{
+    return name;
+}
+
