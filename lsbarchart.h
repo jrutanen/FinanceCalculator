@@ -14,7 +14,9 @@
 #include <QPainter>
 #include <numeric>
 #include <QDebug>
+#include <QGraphicsSceneHoverEvent>
 #include "dataset.h"
+#include "infobox.h"
 
 #define LEFT 0
 #define RIGHT 1
@@ -41,14 +43,15 @@ private:
     void drawBar(double, double, double, double, QColor);
     void drawBarWithColor(double, double, double, QColor);
     void drawStackedBarWithColor(double, double, double, QColor);
-    void drawSummaryBox(double, double, double, int);
+    void addInfoText(QString text);
     double calculateMaxAxisValue(double);
     std::vector<DataSet> dataSets;
-    void drawCursorLine(double);
+    void drawCursorLine(double x, double y);
     QGraphicsLineItem *cursorLine;
-    QGraphicsRectItem *infoBox;
+    QGraphicsTextItem *infoText;
+    InfoBox *infoBox;
+    double unitHeight;
 //    QLineF cursorLine;
-
 protected:
     bool animation;
     double width;

@@ -1,11 +1,12 @@
 #include "lsbarchart.h"
-#include <QGraphicsSceneHoverEvent>
 
 const QColor colorOne = QColor(Qt::green);
 const QColor colorTwo = QColor(Qt::cyan);
 const QColor colorThree = QColor(Qt::blue);
 const QColor colorFour = QColor(Qt::red);
-const QColor cursorColor = QColor(238, 224, 229);
+const QColor cursorColor = QColor(219, 219, 219);
+//const QColor cursorColor = QColor(205, 193, 197);
+
 std::vector<QColor> colors;
 //QLineF *cursorLine = new QLineF(0, 0, 0, 50);;
 
@@ -47,8 +48,6 @@ void LSBarChart::addSummary( std::vector<DataSet> data)
     {
         values.push_back((std::accumulate(data[i].getData().begin(), data[i].getData().end(), 0)));
     }
-
-    drawSummaryBox(values.at(0), values.at(1), values.at(0)+values.at(1), data[0].getData().size());
 }
 
 void LSBarChart::drawChart(std::vector<DataSet> data)
@@ -61,7 +60,6 @@ void LSBarChart::drawChart(std::vector<DataSet> data)
     if ( dataPoints < 15 ) gap = 3.0;
     if ( dataPoints > 36) gap = 0.0;
     barWidth = (canvasWidth - 8 - (dataPoints - 1) * gap)/dataPoints;
-    double unitHeight;
     double maxValue = 0.0;
     double maxAxisValue;
 
@@ -80,8 +78,17 @@ void LSBarChart::drawChart(std::vector<DataSet> data)
     drawXAxis(dataPoints);
     drawYAxis(maxAxisValue);
 
-//    cursorLine->setP2(QPoint(0, canvasHeight - 1));
-    cursorLine = this->addLine(0, 0, 0, canvasHeight-1, QPen(cursorColor));
+    cursorLine = this->addLine(0, canvasHeight-2, 0, canvasHeight-1, QPen(cursorColor));
+    cursorLine->setZValue(1);
+    //cursorLine->setTransformOriginPoint(0,canvasHeight-1);
+    infoBox = new InfoBox();
+    this->addItem(infoBox);
+    infoBox->setVisible(false);
+
+    infoText = new QGraphicsTextItem();
+    infoText->setZValue(infoBox->zValue() + 1);
+    infoText->setPos(QPoint(infoBox->pos().x() + 20, infoBox->pos().y() + 2));
+    this->addItem(infoText);
 
     unitHeight = (canvasHeight - 8)/maxAxisValue;
 
@@ -162,25 +169,13 @@ void LSBarChart::drawBarWithColor(double position, double height, double width, 
 void LSBarChart::drawStackedBarWithColor(double position, double height, double width, QColor color)
 {
     this->addRect(position, canvasHeight-height, width, height, Qt::NoPen, QBrush(color) );
-//    const QPen & pen = QPen(), const QBrush & brush = QBrush()
+    //    const QPen & pen = QPen(), const QBrush & brush = QBrush()
 }
-void LSBarChart::drawSummaryBox(double savings, double interest, double total, int years)
+
+void LSBarChart::addInfoText(QString text)
 {
-    int x = 8;
-    int y = 8;
-    int width = 160;
-    int height = 80;
-    QRect *bg = new QRect(x, y, width, height);
-    QPainter *painter = new QPainter();
-    painter->drawRoundedRect(*bg, 40, 40);
-   // this->addItem(*bg);
-    this->addRect(*bg, Qt::NoPen, QBrush(Qt::cyan));
-    this->addText(QString("Total Invested %1\n"
-                          "Total Interest %2\n"
-                          "Total Value  %3\n"
-                          "After %4 years."
-                          ).arg(savings,0,'f',0).arg(interest, 0, 'f', 0).arg(total, 0, 'f', 0).arg(years))
-                          ->setPos(x+3, y+3);
+    infoText->setPlainText(text);
+    infoText->setPos(QPoint(infoBox->pos().x() + 20, infoBox->pos().y() + 2));
 }
 double LSBarChart::calculateMaxAxisValue(double value)
 {
@@ -226,18 +221,25 @@ double LSBarChart::calculateMaxAxisValue(double value)
 
     return maxValue;
 }
-void LSBarChart::drawCursorLine(double x)
+
+
+void LSBarChart::drawCursorLine(double x, double y)
 {
-   double dx = x - cursorLine->line().x1();
-//   cursorLine->line().setP1(QPoint(x, 0));
-//   cursorLine->line().setP2(QPoint(x, canvasHeight-1));
-   cursorLine->setPos(x, 0);
-//   cursorLine->moveBy(dx, 0);
+   double cX = x;
+   double cY = canvasHeight - y;
+   QPoint *p = new QPoint((int)cX,(int)cY);// - 50);
+//   p->setX((int)x);
+//   p->setY((int)y);
+//   cursorLine->setPos(x, 0);
+   cursorLine->setLine(x, canvasHeight - 1 - y - 20, x, canvasHeight-1);
+   infoBox->moveToPoint(p);
+   infoBox->setVisible(true);
+           //setPos(x-150, canvasHeight - y - 50);
+
 }
 
 void LSBarChart::mouseMoveEvent(QGraphicsSceneMouseEvent * e)//(QGraphicsSceneHoverEvent *e)
 {
-    qDebug() << QString("x: %1, y: %2").arg(e->scenePos().x()).arg(e->scenePos().y());
     int x = 0;
     if (e->scenePos().x() > 6 && e->scenePos().x() < canvasWidth + leftMargin)
     {
@@ -245,8 +247,18 @@ void LSBarChart::mouseMoveEvent(QGraphicsSceneMouseEvent * e)//(QGraphicsSceneHo
         if (x < 0) x = 0;
         if (x < (int)dataSets[0].getData().size())
         {
-            drawCursorLine(e->scenePos().x());
-            drawSummaryBox(dataSets[0].getData().at(x), dataSets[1].getData().at(x), dataSets[2].getData().at(x), x + 1);
+            double y = (dataSets[0].getData().at(x)
+                      + dataSets[1].getData().at(x)
+                      + dataSets[2].getData().at(x))
+                      * unitHeight;
+            drawCursorLine(e->scenePos().x(), y);
+//            qDebug() << QString("x: %1, y: %2, height: %3").arg(e->scenePos().x()).arg(e->scenePos().y()).arg(y);
+            addInfoText(QString("Contribution: %1\n"
+                                "Savings: %2\n"
+                                "Interest: %3")
+                                .arg(dataSets[0].getData().at(x))
+                                .arg(dataSets[1].getData().at(x))
+                                .arg(dataSets[2].getData().at(x)));
         }
     }
 }
