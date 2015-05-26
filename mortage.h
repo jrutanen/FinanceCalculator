@@ -10,8 +10,10 @@ public:
     Mortage();
     double MonthlyPayment();
     double MonthlyPayment(double, double, int);
-    std::vector < std::vector<double> > GetPayments(double, double, int);
+    std::vector < std::vector<double> > GetPayments(double, double, int, int);
 private:
+    std::vector < std::vector<double> > GetPayments(double, double, int);
+    std::vector < std::vector<double> > GetFixedAmortizationPayments(double, double, int);
     double CalculateMonthlyPayment(double, double, int);
 };
 

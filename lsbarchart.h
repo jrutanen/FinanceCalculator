@@ -15,6 +15,7 @@
 #include <numeric>
 #include <QDebug>
 #include <QGraphicsSceneHoverEvent>
+#include <iterator>
 #include "dataset.h"
 #include "infobox.h"
 
@@ -51,6 +52,7 @@ private:
     QGraphicsTextItem *infoText;
     InfoBox *infoBox;
     double unitHeight;
+    double calculateMaxDataValue(std::vector<DataSet>);
 //    QLineF cursorLine;
 protected:
     bool animation;

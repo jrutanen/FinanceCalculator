@@ -96,7 +96,7 @@ void MainWindow::on_pbCalculateMortagePayment_clicked()
 
     values = m->GetPayments(ui->leTopLoanInterest->text().toDouble(),
                 ui->leTopLoan->text().toDouble()+ui->leBottomLoan->text().toDouble(),
-                ui->leMortageYears->text().toDouble());
+                ui->leMortageYears->text().toDouble(), ui->cbPaymentPlan->currentIndex());
 
     for (uint i = 0; i < values.size(); i++)
     {

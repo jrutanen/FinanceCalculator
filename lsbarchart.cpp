@@ -53,25 +53,17 @@ void LSBarChart::addSummary( std::vector<DataSet> data)
 void LSBarChart::drawChart(std::vector<DataSet> data)
 {
     dataSets = data;
-    int dataPoints = dataSets[0].getData().size();
+    unsigned long int dataPoints = dataSets[0].getData().size();
     gap = 72/dataPoints;
     if (gap < 1) gap = 0.0;
     if ( dataPoints >= 15 && dataPoints <= 36 ) gap = 2.0;
     if ( dataPoints < 15 ) gap = 3.0;
     if ( dataPoints > 36) gap = 0.0;
     barWidth = (canvasWidth - 8 - (dataPoints - 1) * gap)/dataPoints;
-    double maxValue = 0.0;
     double maxAxisValue;
 
-    //get max value to adjust the scale
-    for (uint i=0; i< dataSets.size(); i++)
-    {
-        vector<double> values = dataSets[i].getData();
-        double max = *max_element(values.begin(), values.end());
-        maxValue += max;
-    }
     //set max value for axis
-    maxAxisValue = calculateMaxAxisValue(maxValue);
+    maxAxisValue = calculateMaxAxisValue(calculateMaxDataValue(data));
 
     clear();
 
@@ -80,7 +72,6 @@ void LSBarChart::drawChart(std::vector<DataSet> data)
 
     cursorLine = this->addLine(0, canvasHeight-2, 0, canvasHeight-1, QPen(cursorColor));
     cursorLine->setZValue(1);
-    //cursorLine->setTransformOriginPoint(0,canvasHeight-1);
     infoBox = new InfoBox();
     this->addItem(infoBox);
     infoBox->setVisible(false);
@@ -94,7 +85,7 @@ void LSBarChart::drawChart(std::vector<DataSet> data)
 
     //Draw stacked bars
     //number of bars
-    for (uint i = 0; i < dataSets[0].getData().size(); i++)
+    for (unsigned long int i = 0; i < dataSets[0].getData().size(); i++)
     {
         double currentY = 0.0;
         //number of datasets
@@ -198,25 +189,27 @@ double LSBarChart::calculateMaxAxisValue(double value)
     if(value >= 10000 && value < 100000)
     {
         maxValue = ceil(value+1000)/1000;
-        maxValue = (int) maxValue * 1000;
+        maxValue = (unsigned long int ) maxValue * 1000;
     }
     if(value >= 100000 && value < 1000000)
     {
         maxValue = ceil(value+10000)/10000;
-        maxValue = (int) maxValue * 10000;
+        maxValue = (unsigned long int ) maxValue * 10000;
     }
     if(value >= 1000000 && value < 10000000)
     {
         maxValue = ceil(value+100000)/100000;
-        maxValue = (int) maxValue * 100000;
+        maxValue = (unsigned long int ) maxValue * 100000;
     }
     if(value >= 10000000 && value < 100000000)
     {
-        maxValue = ceil((value*1.1/1000000)*1000000);maxValue = (int) maxValue * 10;
+        maxValue = ceil(value+1000000)/1000000;
+        maxValue = (unsigned long int ) maxValue * 1000000;
     }
     if(value >= 100000000)
     {
-        maxValue = ceil((value*1.1/10000000)*10000000);maxValue = (int) maxValue * 10;
+        maxValue = ceil(value+10000000)/10000000;
+        maxValue = (unsigned long int ) maxValue * 10000000;
     }
 
     return maxValue;
@@ -227,15 +220,41 @@ void LSBarChart::drawCursorLine(double x, double y)
 {
    double cX = x;
    double cY = canvasHeight - y;
-   QPoint *p = new QPoint((int)cX,(int)cY);// - 50);
-//   p->setX((int)x);
-//   p->setY((int)y);
-//   cursorLine->setPos(x, 0);
-   cursorLine->setLine(x, canvasHeight - 1 - y - 20, x, canvasHeight-1);
+   QPoint *p = new QPoint((int)cX,(int)cY);
+   if (canvasHeight - 1 - y - 20 > 0)
+   {
+       cursorLine->setLine(x, canvasHeight - 1 - y - 20, x, canvasHeight-1);
+   }
+   else
+   {
+       cursorLine->setLine(x, 0, x, canvasHeight-1);
+   }
    infoBox->moveToPoint(p);
    infoBox->setVisible(true);
-           //setPos(x-150, canvasHeight - y - 50);
+}
 
+double LSBarChart::calculateMaxDataValue(std::vector<DataSet> data)
+{
+    double maxValue = 0.0;
+    vector<int> posMaxValue;
+    //get max value to adjust the scale
+    for (uint i=0; i< data.size(); i++)
+    {
+        vector<double> values = data[i].getData();
+        int mPos = distance(values.begin(), max_element(values.begin(), values.end()));
+        posMaxValue.push_back(mPos);
+    }
+    for (uint i = 0; i< posMaxValue.size(); i++)
+    {
+        double maxTest = 0.0;
+        for (uint j=0; j< data.size(); j++)
+        {
+            vector<double> values = data[j].getData();
+            maxTest += values.at(posMaxValue.at(i));
+        }
+        if(maxTest > maxValue) maxValue = maxTest;
+    }
+    return maxValue;
 }
 
 void LSBarChart::mouseMoveEvent(QGraphicsSceneMouseEvent * e)//(QGraphicsSceneHoverEvent *e)
@@ -257,11 +276,11 @@ void LSBarChart::mouseMoveEvent(QGraphicsSceneMouseEvent * e)//(QGraphicsSceneHo
                                 "%3: %4\n"
                                 "%5: %6")
                                 .arg(dataSets[0].getName())
-                                .arg(dataSets[0].getData().at(x))
+                                .arg(dataSets[0].getData().at(x), 0, 'f', 0)
                                 .arg(dataSets[1].getName())
-                                .arg(dataSets[1].getData().at(x))
+                                .arg(dataSets[1].getData().at(x), 0, 'f', 0)
                                 .arg(dataSets[2].getName())
-                                .arg(dataSets[2].getData().at(x)));
+                                .arg(dataSets[2].getData().at(x), 0, 'f', 0));
         }
     }
 }

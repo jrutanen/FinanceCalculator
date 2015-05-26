@@ -3,7 +3,7 @@
 InfoBox::InfoBox()
 {
     cornerRadius = 20.0;
-    boxWidth = 150;
+    boxWidth = 160;
     boxHeight = 100;
     this->setZValue(5);
     leftPoint = false;
