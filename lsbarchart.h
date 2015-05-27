@@ -41,6 +41,7 @@ public:
 private:
     void drawXAxis(int);
     void drawYAxis(double);
+    void drawLegend();
     void drawBar(double, double, double, double, QColor);
     void drawBarWithColor(double, double, double, QColor);
     void drawStackedBarWithColor(double, double, double, QColor);

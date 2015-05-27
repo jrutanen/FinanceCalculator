@@ -5,8 +5,8 @@
 //const QColor colorThree = QColor(Qt::blue);
 //const QColor colorFour = QColor(Qt::red);
 const QColor colorOne = QColor(238, 64, 0);
-const QColor colorThree = QColor(255, 130, 71);
-const QColor colorTwo = QColor(244, 164, 96);
+const QColor colorTwo = QColor(255, 130, 71);
+const QColor colorThree = QColor(244, 164, 96);
 const QColor colorFour = QColor(227, 168, 105);
 const QColor cursorColor = QColor(209, 209, 209);
 
@@ -34,8 +34,8 @@ LSBarChart::LSBarChart(double width, double height) : QGraphicsScene()
     xAxis.label.append("Years");
     yAxis.label.append("Value");
     colors.push_back(colorOne);
-    colors.push_back(colorThree);
     colors.push_back(colorTwo);
+    colors.push_back(colorThree);
     colors.push_back(colorFour);
 }
 LSBarChart::~LSBarChart(void)
@@ -72,6 +72,7 @@ void LSBarChart::drawChart(std::vector<DataSet> data)
 
     drawXAxis(dataPoints);
     drawYAxis(maxAxisValue);
+    drawLegend();
 
     cursorLine = this->addLine(0, canvasHeight-2, 0, canvasHeight-1, QPen(cursorColor));
     cursorLine->setZValue(1);
@@ -151,6 +152,25 @@ void LSBarChart::drawYAxis(double max)
     this->addText(QString("%1").arg(max/2, 0, 'f', 0))->setPos(canvasWidth, (canvasHeight-8)/2);
 }
 
+void LSBarChart::drawLegend()
+{
+    int rectSize = 10;
+    int y = canvasHeight + 25;
+    int x = 30;
+    QGraphicsTextItem *text;
+    for ( uint i = 0; i < dataSets.size(); i++ )
+    {
+        this->addRect(x, y, rectSize, rectSize, QPen(Qt::black), QBrush(colors.at(i)) );
+        x += rectSize +3;
+        y -= rectSize-3;
+        text = this->addText(QString("%1").arg(dataSets[i].getName()));
+        text->setPos(x, y);
+        x += text->boundingRect().width() + 5;
+        y += rectSize-3;
+
+    }
+}
+
 void LSBarChart::drawBar(double x, double y, double height, double width, QColor color)
 {
     this->addRect(x, canvasHeight-y - height, width, height, Qt::NoPen, QBrush(color));
@@ -158,12 +178,10 @@ void LSBarChart::drawBar(double x, double y, double height, double width, QColor
 void LSBarChart::drawBarWithColor(double position, double height, double width, QColor color)
 {
     this->addRect(position, canvasHeight-height, width, height, Qt::NoPen, QBrush(color) );
-//    const QPen & pen = QPen(), const QBrush & brush = QBrush()
 }
 void LSBarChart::drawStackedBarWithColor(double position, double height, double width, QColor color)
 {
     this->addRect(position, canvasHeight-height, width, height, Qt::NoPen, QBrush(color) );
-    //    const QPen & pen = QPen(), const QBrush & brush = QBrush()
 }
 
 void LSBarChart::addInfoText(QString text)
