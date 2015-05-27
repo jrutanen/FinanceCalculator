@@ -36,6 +36,8 @@ private slots:
 
     void on_pbCalculateMortagePayment_clicked();
 
+    void on_cbInvestmentType_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
     QPushButton *pbCalculateInvestmentValue;

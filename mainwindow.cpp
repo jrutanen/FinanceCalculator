@@ -121,3 +121,55 @@ void MainWindow::on_pbCalculateMortagePayment_clicked()
     }
     drawGraph(ui->gvMortage, *dataset);
 }
+
+void MainWindow::on_cbInvestmentType_currentIndexChanged(int index)
+{
+    //Geometric rate of return
+    double rate = 0.0;
+    switch (index)
+    {
+        //own choice, do nothing
+        case 0:
+            rate = 0.0;
+            break;
+         //S&P 500 1925-2014
+        case 1:
+            rate = 9.60;
+            break;
+        //S&P 500 1965-2014
+        case 2:
+            rate = 9.84;
+            break;
+        //S&P 500 2005-2014
+        case 3:
+            rate = 7.60;
+            break;
+        //US T.Bill 3 Months 1925-2014
+        case 4:
+            rate = 3.49;
+            break;
+        //US T.Bill 3 Months 1965-2014
+        case 5:
+            rate = 4.99;
+            break;
+        //US T.Bill 3 Months 2005-2014
+        case 6:
+            rate = 1.42;
+            break;
+        //US T.Bond 10 Years 1925-2014
+        case 7:
+            rate = 5.00;
+            break;
+        //US T.Bond 10 Years 1965-2014
+        case 8:
+            rate = 6.70;
+            break;
+        //US T.Bond 10 Years 2005-2014
+        case 9:
+            rate = 4.88;
+            break;
+        default:
+            break;
+    }
+    ui->leRate->setText(QString("%1").arg(rate));
+}

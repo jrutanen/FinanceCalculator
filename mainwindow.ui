@@ -45,9 +45,9 @@
      <widget class="QGraphicsView" name="gvInvestments">
       <property name="geometry">
        <rect>
-        <x>160</x>
+        <x>180</x>
         <y>10</y>
-        <width>531</width>
+        <width>511</width>
         <height>401</height>
        </rect>
       </property>
@@ -69,8 +69,8 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>141</width>
-        <height>331</height>
+        <width>161</width>
+        <height>352</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -126,6 +126,68 @@
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Annual Rate (%)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="cbInvestmentType">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <item>
+          <property name="text">
+           <string>Own Value</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>S&amp;P 500 1928-2014</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>S&amp;P 500 1965-2014</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>S&amp;P 500 2005-2014</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>3 Month T-Bill 1928-2014</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>3 Month T-Bill 1965-2014</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>3 Month T-Bill 2005-2014</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>10 Year T-Bond 1928-2014</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>10 Year T-Bond 1965-2014</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>10 Year T-Bond 2005-2014</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string/>
+          </property>
+         </item>
         </widget>
        </item>
        <item>
@@ -188,7 +250,7 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>167</width>
+        <width>175</width>
         <height>411</height>
        </rect>
       </property>
