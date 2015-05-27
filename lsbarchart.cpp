@@ -1,11 +1,14 @@
 #include "lsbarchart.h"
 
-const QColor colorOne = QColor(Qt::green);
-const QColor colorTwo = QColor(Qt::cyan);
-const QColor colorThree = QColor(Qt::blue);
-const QColor colorFour = QColor(Qt::red);
-const QColor cursorColor = QColor(219, 219, 219);
-//const QColor cursorColor = QColor(205, 193, 197);
+//const QColor colorOne = QColor(Qt::green);
+//const QColor colorTwo = QColor(Qt::cyan);
+//const QColor colorThree = QColor(Qt::blue);
+//const QColor colorFour = QColor(Qt::red);
+const QColor colorOne = QColor(238, 64, 0);
+const QColor colorThree = QColor(255, 130, 71);
+const QColor colorTwo = QColor(244, 164, 96);
+const QColor colorFour = QColor(227, 168, 105);
+const QColor cursorColor = QColor(209, 209, 209);
 
 std::vector<QColor> colors;
 //QLineF *cursorLine = new QLineF(0, 0, 0, 50);;
