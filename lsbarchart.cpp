@@ -1,9 +1,5 @@
 #include "lsbarchart.h"
 
-//const QColor colorOne = QColor(Qt::green);
-//const QColor colorTwo = QColor(Qt::cyan);
-//const QColor colorThree = QColor(Qt::blue);
-//const QColor colorFour = QColor(Qt::red);
 const QColor colorOne = QColor(238, 64, 0);
 const QColor colorTwo = QColor(255, 130, 71);
 const QColor colorThree = QColor(244, 164, 96);
@@ -11,7 +7,6 @@ const QColor colorFour = QColor(227, 168, 105);
 const QColor cursorColor = QColor(209, 209, 209);
 
 std::vector<QColor> colors;
-//QLineF *cursorLine = new QLineF(0, 0, 0, 50);;
 
 LSBarChart::LSBarChart() : QGraphicsScene()
 {
@@ -278,7 +273,7 @@ double LSBarChart::calculateMaxDataValue(std::vector<DataSet> data)
     return maxValue;
 }
 
-void LSBarChart::mouseMoveEvent(QGraphicsSceneMouseEvent * e)//(QGraphicsSceneHoverEvent *e)
+void LSBarChart::mouseMoveEvent(QGraphicsSceneMouseEvent * e)
 {
     int x = 0;
     if (e->scenePos().x() > 6 && e->scenePos().x() < canvasWidth + leftMargin)

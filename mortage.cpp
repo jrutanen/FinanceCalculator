@@ -29,6 +29,7 @@ std::vector < std::vector<double> > Mortage::GetPayments(double yRate, double pr
 
     double eRate = yRate/100/12;
     int months = years * 12;
+    int j = 0;
 
     double payment = MonthlyPayment(yRate, principal, years);
     double paymentTowardsPrincipal = 0.0;
@@ -38,7 +39,7 @@ std::vector < std::vector<double> > Mortage::GetPayments(double yRate, double pr
         interest = principal * eRate;
         paymentTowardsPrincipal = payment - interest;
 
-        if ( i > 0)
+        if ( i > 0 )
         {
             mInterest.push_back(interest + mInterest.at(i-1));
             mPayment.push_back(paymentTowardsPrincipal + mPayment.at(i-1));
@@ -103,6 +104,31 @@ std::vector<std::vector<double> > Mortage::GetFixedAmortizationPayments(double y
     return mPayments;
 }
 
+std::vector<std::vector<double> > Mortage::yearlyPayments(std::vector<std::vector<double> > monthlyData)
+{
+    std::vector<std::vector<double> > yearlyData;
+
+    for (uint i = 0; i < monthlyData.size(); i++)
+    {
+        std::vector <double> data;
+        for (uint j = 0; j < monthlyData.at(i).size(); j++)
+        {
+            if ( j == monthlyData.at(i).size() - 1 )
+            {
+                data.push_back(monthlyData.at(i).at(j));
+            }
+            else if ((j + 1) % 12 == 0 && j > 0)
+            {
+                data.push_back(monthlyData.at(i).at(j));
+            }
+        }
+        yearlyData.push_back(data);
+    }
+
+    return yearlyData;
+
+}
+
 std::vector < std::vector<double> > Mortage::GetPayments(double yRate, double principal, int years, int loanType)
 {
     std::vector< std::vector <double> > mPayments;
@@ -119,7 +145,7 @@ std::vector < std::vector<double> > Mortage::GetPayments(double yRate, double pr
             break;
     }
 
-    return mPayments;
+    return yearlyPayments(mPayments);//mPayments;
 }
 double Mortage::CalculateMonthlyPayment(double eRate, double principal, int months)
 {

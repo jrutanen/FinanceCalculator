@@ -14,6 +14,7 @@ public:
 private:
     std::vector < std::vector<double> > GetPayments(double, double, int);
     std::vector < std::vector<double> > GetFixedAmortizationPayments(double, double, int);
+    std::vector< std::vector <double> > yearlyPayments( std::vector< std::vector <double> > );
     double CalculateMonthlyPayment(double, double, int);
 };
 

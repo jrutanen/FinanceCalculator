@@ -103,7 +103,7 @@ void MainWindow::on_pbCalculateMortagePayment_clicked()
         switch ( i )
         {
             case 0:
-                name = "Payment";
+                name = "Paid";
                 break;
             case 1:
                 name = "Interest";
