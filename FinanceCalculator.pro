@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     test/testinterestcalc.cpp \
     mortage.cpp \
     dataset.cpp \
-    infobox.cpp
+    infobox.cpp \
+    chartview.cpp
 
 HEADERS  += mainwindow.h \
     investment.h \
@@ -29,6 +30,7 @@ HEADERS  += mainwindow.h \
     test/testinterestcalc.h \
     mortage.h \
     dataset.h \
-    infobox.h
+    infobox.h \
+    chartview.h
 
 FORMS    += mainwindow.ui

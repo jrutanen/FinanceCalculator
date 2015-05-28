@@ -300,3 +300,4 @@ void LSBarChart::mouseMoveEvent(QGraphicsSceneMouseEvent * e)
         }
     }
 }
+

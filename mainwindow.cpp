@@ -73,9 +73,8 @@ void MainWindow::drawGraph( QGraphicsView *view, vector<DataSet> data)
                            view->size().height()-2);
 
     scene->setBackgroundBrush(Qt::white);
-
     view->setScene( scene );
-
+    view->matrix().reset();
     scene->drawChart(data);
 }
 

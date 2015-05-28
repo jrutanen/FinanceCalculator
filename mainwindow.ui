@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>718</width>
-    <height>512</height>
+    <height>547</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -200,7 +200,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QGraphicsView" name="gvInvestments">
+         <widget class="ChartView" name="gvInvestments">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -350,7 +350,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QGraphicsView" name="gvMortage">
+         <widget class="ChartView" name="gvMortage">
           <property name="frameShadow">
            <enum>QFrame::Plain</enum>
           </property>
@@ -427,6 +427,13 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ChartView</class>
+   <extends>QGraphicsView</extends>
+   <header location="global">chartview.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>leMonthlyPayment</tabstop>
   <tabstop>lePayments</tabstop>

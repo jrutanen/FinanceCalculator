@@ -29,7 +29,6 @@ std::vector < std::vector<double> > Mortage::GetPayments(double yRate, double pr
 
     double eRate = yRate/100/12;
     int months = years * 12;
-    int j = 0;
 
     double payment = MonthlyPayment(yRate, principal, years);
     double paymentTowardsPrincipal = 0.0;
