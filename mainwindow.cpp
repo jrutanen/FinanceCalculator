@@ -29,6 +29,7 @@ void MainWindow::on_pbCalculateInvestmentValue_clicked()
     vector<DataSet> *dataset = new vector<DataSet>;
     QString name;
     QString unit = "SEK";
+    ui->gvInvestments->resetTransform();
     //rate, balance, monthlyPayment, paymentTime, savingsTime
     Investment inv( ui->leRate->text().toDouble(),
                     ui->leStartBalance->text().toDouble(),
@@ -84,6 +85,7 @@ void MainWindow::on_pbCalculateMortagePayment_clicked()
     QString name;
     QString unit = "SEK";
     vector< vector<double> > values;
+    ui->gvInvestments->resetTransform();
     double payment = 0.0;
     //rate, balance, monthlyPayment, paymentTime, savingsTime
     Mortage *m = new Mortage();
