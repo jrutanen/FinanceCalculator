@@ -50,7 +50,7 @@ std::vector < std::vector<double> > Mortage::GetPayments(double yRate, double pr
         }
 
         principal -= paymentTowardsPrincipal;
-//        if (principal < 0 ) principal = 0;
+        if (principal < 0 ) principal = 0;
         mPrincipal.push_back(principal);
     }
 
