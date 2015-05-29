@@ -115,10 +115,12 @@ void LSBarChart::drawXAxis(int max)
             break;
     }
     this->addLine(leftMargin, y, xAxis.length, y, QPen(Qt::black));
-    this->addLine(xAxis.length/2, yAxis.length, xAxis.length/2, yAxis.length + 8, QPen(Qt::black));
-    this->addLine(xAxis.length, yAxis.length, xAxis.length, yAxis.length + 8, QPen(Qt::black));
-    this->addText(QString("%1 years").arg(max))->setPos(xAxis.length, yAxis.length);
-    this->addText(QString("%1 years").arg(floor(max/2)))->setPos(xAxis.length/2, yAxis.length);
+    double endPos = xAxis.length-((xAxis.length)/max/2);
+    this->addLine(endPos, yAxis.length, endPos, yAxis.length + 8, QPen(Qt::black));
+    this->addText(QString("%1 years").arg(max))->setPos(endPos, yAxis.length);
+    double midPos = (max/2)*((xAxis.length+gap)/max)+gap-((xAxis.length)/max/2);
+    this->addLine(midPos, yAxis.length, midPos, yAxis.length + 8, QPen(Qt::black));
+    this->addText(QString("%1 years").arg((max/2)))->setPos(midPos, yAxis.length);
     this->addText(xAxis.label)->setPos(0, y);
 }
 
