@@ -33,6 +33,7 @@
 #include <QDebug>
 #include <QtGui>
 #include <QGraphicsRectItem>
+#include <QTreeWidgetItem>
 #include <algorithm>
 
 using namespace std;
@@ -48,7 +49,11 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void addRoot(QString name, double amount);
+    void addChild(QTreeWidgetItem *parent, QString name, double amount);
 
+protected:
+    void updateAmount(QTreeWidgetItem *item, int column);
 private slots:
     void handleCalculateInvestment();
     void on_pbCalculateInvestmentValue_clicked();
@@ -56,6 +61,10 @@ private slots:
     void on_pbCalculateMortagePayment_clicked();
 
     void on_cbInvestmentType_currentIndexChanged(int index);
+
+    void on_tw_cost_itemChanged(QTreeWidgetItem *item, int column);
+
+    void on_tw_income_itemChanged(QTreeWidgetItem *item, int column);
 
 private:
     Ui::MainWindow *ui;

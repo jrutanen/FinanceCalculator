@@ -27,6 +27,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //mouse tracking turned on for the gprahics view
     ui->gvInvestments->setMouseTracking(true);
+    ui->tw_cost->setColumnCount(2);
+    ui->tw_income->setColumnCount(2);
+
+    addRoot("Monthly Expences", 0.0);
 
 #ifdef NO_USER_INPUT
     skipUserInput();
@@ -40,6 +44,40 @@ void MainWindow::handleCalculateInvestment() {
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::addRoot(QString name, double amount)
+{
+    QTreeWidgetItem *item = new QTreeWidgetItem(ui->tw_cost);
+    item->setText(0, name);
+    item->setText(1, QString::number(amount));
+    ui->tw_cost->addTopLevelItem(item);
+    ui->tw_cost->setHeaderLabels(QStringList() << "Expense Name" << "Amount");
+
+    addChild(item, "Food", 0.0);
+    addChild(item, "Utilities", 0.0);
+    addChild(item, "Rent", 0.0);
+
+    QTreeWidgetItem *itemIncome = new QTreeWidgetItem(ui->tw_income);
+    itemIncome->setText(0, name);
+    itemIncome->setText(1, QString::number(amount));
+    ui->tw_income->addTopLevelItem(itemIncome);
+    ui->tw_income->setHeaderLabels(QStringList() << "income" << "Amount");
+
+    addChild(itemIncome, "Salary", 0.0);
+    addChild(itemIncome, "Child Support", 0.0);
+    addChild(itemIncome, "Investments", 0.0);
+    addChild(itemIncome, "Bonus", 0.0);
+
+}
+
+void MainWindow::addChild(QTreeWidgetItem *parent, QString name, double amount)
+{
+    QTreeWidgetItem *item = new QTreeWidgetItem();
+    item->setText(0, name);
+    item->setText(1, QString::number(amount));
+    parent->addChild(item);
+    item->setFlags(item->flags() | Qt::ItemIsEditable);
 }
 
 void MainWindow::on_pbCalculateInvestmentValue_clicked()
@@ -193,3 +231,33 @@ void MainWindow::on_cbInvestmentType_currentIndexChanged(int index)
     }
     ui->leRate->setText(QString("%1").arg(rate));
 }
+
+void MainWindow::on_tw_cost_itemChanged(QTreeWidgetItem *item, int column)
+{
+    updateAmount(item, column);
+}
+
+void MainWindow::on_tw_income_itemChanged(QTreeWidgetItem *item, int column)
+{
+    updateAmount(item, column);
+}
+
+void MainWindow::updateAmount(QTreeWidgetItem *item, int column)
+{
+    double totalCost = 0.0;
+    if (column == 1)
+    {
+        if (item->parent())
+        {
+            for (int i = 0; i < item->parent()->childCount(); i++)
+            {
+//                qDebug() << QString("I'm child nbr %1").arg(i);
+                totalCost += item->parent()->child(i)->text(1).toDouble();
+            }
+            item->parent()->setText(1, QString::number(totalCost));
+        }
+    }
+}
+
+
+
