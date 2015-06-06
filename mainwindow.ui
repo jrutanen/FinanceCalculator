@@ -367,6 +367,11 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tab_budget">
+       <attribute name="title">
+        <string>Budget</string>
+       </attribute>
+      </widget>
      </widget>
     </item>
    </layout>
