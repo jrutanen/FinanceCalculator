@@ -1,9 +1,9 @@
 # FinanceCalculator
 ##About this program
 This is a program that gives user the possibility to 
-a) Investigate different investment strategies
-b) Calculate mortage costs
-c) Create monthly budget
+* Investigate different investment strategies
+* Calculate mortage costs
+* Create monthly budget
 
 Program performs basic financial calculations for investments (compound interest) and for mortages and draws a graph to visualize the yearly change in investments. Program calculates the monthly payment for annuity mortage, but you can also select fixed amortization to see how much that impacts the total cost for the mortage.
 
