@@ -22,17 +22,18 @@
 DBManager::DBManager()
 {
     bool works = false;
-    works = openDB();
-    if (works)
+    if(openDB())
     {
-        qDebug() << QString("Works? %1").arg(works);
+        qDebug() << QString("Create DB tables?");
+        works = createTables();
     }
 }
 
-QStringList DBManager::getBudgetedExpenses(int month)
+std::vector<QStringList> DBManager::getBudgetedExpenses(int month)
 {
-    QStringList *temp = new QStringList();
-    return *temp;
+    std::vector<QStringList> temp;
+    temp = getData("expense_budget", month);
+    return temp;
 }
 
 QStringList DBManager::getActualExpenses(int month)
@@ -41,27 +42,40 @@ QStringList DBManager::getActualExpenses(int month)
     return *temp;
 }
 
-QStringList DBManager::getIncome(int month)
+std::vector<QStringList>  DBManager::getIncome(int month)
 {
-    QStringList *temp = new QStringList();
-    return *temp;
+    std::vector<QStringList> temp;
+    temp = getData("income_budget", month);
+    return temp;
 }
 
-QStringList DBManager::getLoan(int month)
+std::vector<QStringList> DBManager::getLoan(int month)
 {
-    QStringList *temp = new QStringList();
-    return *temp;
+    std::vector<QStringList> temp;
+    temp = getData("loans", month);
+    return temp;
 }
 
-QStringList DBManager::getSavings(int month)
+std::vector<QStringList> DBManager::getSavings(int month)
 {
-    QStringList *temp = new QStringList();
-    return *temp;
+    std::vector<QStringList> temp;
+    temp = getData("savings", month);
+    return temp;
 }
 
 bool DBManager::addBudgetedExpense(QStringList *list, int month)
 {
-    return addData(QString("expense_budget"), list, month);
+    qDebug() << QString("addBudgetedExpense");
+    bool dbUpdated = false;
+    if (list->at(2).isEmpty())
+    {
+        dbUpdated =  addData(QString("expense_budget"), list, month);
+    }
+    else
+    {
+        dbUpdated =  updateData(QString("expense_budget"), list, month);
+    }
+    return dbUpdated;
 }
 
 bool DBManager::addActualExpense(QStringList *list, int month)
@@ -101,14 +115,13 @@ bool DBManager::openDB()
     }
 
     dbPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString(), QStandardPaths::LocateDirectory);
-    dbPath.append("FinanceCalculator/financeCalulatorDB.sqlite");
+    dbPath.append("financeCalulatorDB.sqlite");
 //    qDebug() << dbPath;
     db.setDatabaseName(dbPath);
 
     if (!db.open()) {
         return false;
     }
-
     return true;
 }
 
@@ -131,42 +144,42 @@ bool DBManager::createTables()
             //budgeted expenses
             queryOk = query.exec("CREATE TABLE IF NOT EXISTS expense_budget("
                       "id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                      "cost_type VARCHAR(255) NOT NULL, "
-                      "cost_amount REAL, "
-                      "cost_budget_date VARCHAR(10)"
+                      "type VARCHAR(255) NOT NULL, "
+                      "amount REAL, "
+                      "date VARCHAR(10)"
                       ")");
 
             //actual expenses
             queryOk = queryOk && query.exec("CREATE TABLE IF NOT EXISTS expense_actual("
                       "id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                      "actual_cost_type VARCHAR(255) NOT NULL, "
-                      "actual_cost_amount REAL, "
-                      "actual_cost_date VARCHAR(10)"
+                      "type VARCHAR(255) NOT NULL, "
+                      "amount REAL, "
+                      "date VARCHAR(10)"
                       ")");
 
             //budgeted income
             queryOk = queryOk && query.exec("CREATE TABLE IF NOT EXISTS income_budget("
                       "id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                      "income_type VARCHAR(255) NOT NULL, "
-                      "income_amount REAL, "
-                      "income_budget_date VARCHAR(10)"
+                      "type VARCHAR(255) NOT NULL, "
+                      "amount REAL, "
+                      "date VARCHAR(10)"
                       ")");
 
             //loans
             queryOk = queryOk && query.exec("CREATE TABLE IF NOT EXISTS loans("
                       "id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                      "creditor VARCHAR(255) NOT NULL, "
-                      "loan_amount REAL, "
-                      "loan_yearly_interest REAL, "
-                      "loan_budget_date VARCHAR(10)"
+                      "type VARCHAR(255) NOT NULL, "
+                      "amount REAL, "
+                      "interest REAL, "
+                      "date VARCHAR(10)"
                       ")");
 
             //savings
             queryOk = queryOk && query.exec("CREATE TABLE IF NOT EXISTS savings("
                       "id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                      "savings_type VARCHAR(255) NOT NULL, "
-                      "savings_amount REAL, "
-                      "savings_date VARCHAR(10)"
+                      "type VARCHAR(255) NOT NULL, "
+                      "amount REAL, "
+                      "date VARCHAR(10)"
                       ")");
 
 
@@ -185,34 +198,164 @@ bool DBManager::createTables()
 bool DBManager::addData(QString tableName, QStringList *data, int month)
 {
     bool queryOk = false;
+    qDebug() << QString("addData");
+    if (!db.isOpen())
+    {
+        qDebug() << QString("db closed");
+    }
     if (db.isOpen())
     {
-//        QString dateOne = QDateTime::currentDateTime();
-        QString date = QDateTime::currentDateTime().toString("YYYY") + "-" + month + "-01";
+        //all dates are first day of the month (this is monthly bydget)
+        QString date = QString("%1-%2-01")
+                       .arg(QDateTime::currentDateTime().toString("yyyy"))
+                       .arg(intToDateMonth(month));
+
         QString queryString = "";
+
         QSqlQuery query(db);
 
-        queryString.append("INSERT INTO %1 VALUES").arg(tableName);
+        queryString.append(QString("INSERT INTO %1 (type, amount, date) "
+                                   "VALUES ('%2', '%3', '%4')")
+                                   .arg(tableName)
+                                   .arg(data->at(0))
+                                   .arg(data->at(1))
+                                   .arg(date)
+                                   );
 
         qDebug() << queryString;
 
-        for (int i = 0; i < data->size(); i++)
-        {
-            queryString.append(data->at(i));
-            if (i < data->size() - 1) queryString.append(",");
-        }
-
-        qDebug() << queryString;
-        /*
-        queryOk = query.exec("INSERT INTO "
-                             + tableName
-                             + "VALUES "
-                             + data->at(0) + ","
-                             + data->at(1) + ","
-                             + month + ","
-                            ")");
-        */
+        queryOk = query.exec(queryString);
     }
 
     return queryOk;
+}
+
+bool DBManager::updateData(QString tableName, QStringList *data, int month)
+{
+    bool queryOk = false;
+    qDebug() << QString("updateData");
+    if (!db.isOpen())
+    {
+        qDebug() << QString("db closed");
+    }
+    if (db.isOpen())
+    {
+        //all dates are first day of the month (this is monthly bydget)
+        QString date = QString("%1-%2-01")
+                       .arg(QDateTime::currentDateTime().toString("yyyy"))
+                       .arg(intToDateMonth(month));
+
+        QString queryString = "";
+
+        QSqlQuery query(db);
+
+        queryString.append(QString("UPDATE %1 "
+                                   "SET type='%2', amount='%3', date='%4' "
+                                   "WHERE id='%5'")
+                                   .arg(tableName)
+                                   .arg(data->at(0))
+                                   .arg(data->at(1))
+                                   .arg(date)
+                                   .arg(data->at(2))
+                                   );
+
+        qDebug() << queryString;
+
+        queryOk = query.exec(queryString);
+    }
+
+    return queryOk;
+}
+
+bool DBManager::newData(QString tableName, QStringList *data, int month)
+{
+    bool isNew = false;
+    if (db.isOpen())
+    {
+        QString date = QString("%1-%2-01")
+                       .arg(QDateTime::currentDateTime().toString("yyyy"))
+                       .arg(intToDateMonth(month));
+        qDebug() << date;
+        QString queryString = "";
+        QSqlQuery query(db);
+
+        queryString.append(QString("SELECT * FROM %1 WHERE date='%2'")
+                           .arg(tableName)
+                           .arg(date));
+
+        qDebug() << queryString;
+
+        query.exec(queryString);
+
+        while (query.next()) {
+            qDebug() << QString("%1, %2, %3")
+                        .arg(query.value(0).toString())
+                        .arg(query.value(1).toString())
+                        .arg(query.value(2).toString());
+        }
+    }
+    else
+    {
+        qDebug() << QString("DB is Closed!");
+    }
+    return isNew;
+
+}
+
+std::vector<QStringList> DBManager::getData(QString tableName, int month)
+{
+    std::vector<QStringList> queryResult;// = new std::vector<QStringList>;
+    if (db.isOpen())
+    {
+        QString date = QDateTime::currentDateTime().toString("yyyy")
+                        + "-" + intToDateMonth(month) + "-01";
+        qDebug() << date;
+        QString queryString = "";
+        QSqlQuery query(db);
+
+        queryString.append(QString("SELECT * FROM %1 WHERE date='%2'")
+                           .arg(tableName)
+                           .arg(date));
+
+        qDebug() << queryString;
+
+        query.exec(queryString);
+
+        while (query.next()) {
+            QStringList list;
+            list << query.value(0).toString()
+                 << query.value(1).toString()
+                 << query.value(2).toString()
+                 << query.value(3).toString();
+
+            qDebug() << QString("%1, %2, %3, %4")
+                        .arg(query.value(0).toString())
+                        .arg(query.value(1).toString())
+                        .arg(query.value(2).toString())
+                        .arg(query.value(3).toString());
+            queryResult.push_back(list);
+        }
+    }
+    else
+    {
+        qDebug() << QString("DB is Closed!");
+    }
+
+    return queryResult;
+}
+
+QString DBManager::intToDateMonth(int month)
+{
+    QString dateMonth = "";
+
+    if (month < 10)
+    {
+        dateMonth.append(QString("0%1")
+                         .arg(month));
+    }
+    else
+    {
+        dateMonth.append(QString::number(month));
+    }
+    return dateMonth;
 }

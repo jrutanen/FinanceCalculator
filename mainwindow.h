@@ -36,6 +36,8 @@
 #include <QGraphicsRectItem>
 #include <QTreeWidgetItem>
 #include <algorithm>
+#include <QTreeWidgetItemIterator>
+#include <QDateTime>
 
 using namespace std;
 
@@ -52,6 +54,7 @@ public:
     ~MainWindow();
     void addRoot(QTreeWidget *widget, QString name, double amount);
     void addChild(QTreeWidgetItem *parent, QString name, double amount);
+    void addChildFromDB(QTreeWidgetItem *parent, QString name, QString amount, QString id);
     DBManager* dbManager;
 
 protected:
@@ -59,32 +62,20 @@ protected:
 private slots:
     void handleCalculateInvestment();
     void on_pbCalculateInvestmentValue_clicked();
-
     void on_pbCalculateMortagePayment_clicked();
-
     void on_cbInvestmentType_currentIndexChanged(int index);
-
-    void on_tw_cost_itemChanged(QTreeWidgetItem *item, int column);
-
-    void on_tw_income_itemChanged(QTreeWidgetItem *item, int column);
-
-    void on_b_addCost_clicked();
-
-    void on_b_removeCost_clicked();
-
-    void on_b_addIncome_clicked();
-
-    void on_b_removeIncome_clicked();
-
-    void on_b_addLoan_clicked();
-
-    void on_b_removeLoan_clicked();
-
-    void on_b_addSavings_clicked();
-
-    void on_b_removeSavings_clicked();
-
-    void on_b_save_clicked();
+    void on_twCost_itemChanged(QTreeWidgetItem *item, int column);
+    void on_twIncome_itemChanged(QTreeWidgetItem *item, int column);
+    void on_pbAddCost_clicked();
+    void on_pbRemoveCost_clicked();
+    void on_pbAddIncome_clicked();
+    void on_pbRemoveIncome_clicked();
+    void on_pbAddLoan_clicked();
+    void on_pbRemoveLoan_clicked();
+    void on_pbAddSavings_clicked();
+    void on_pbRemoveSavings_clicked();
+    void on_pbSave_clicked();
+    void on_tabWidget_currentChanged(int index);
 
 private:
     Ui::MainWindow *ui;
@@ -93,6 +84,8 @@ private:
     void drawGraph(QGraphicsView*, vector<DataSet>);
     void skipUserInput();
     void removeTreeItem(QList<QTreeWidgetItem *> itemList);
+    void updateBudgetItems();
+    void setComboToCurrentMonth();
 };
 
 #endif // MAINWINDOW_H
