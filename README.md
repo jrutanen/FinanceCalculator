@@ -9,6 +9,7 @@ This is a program that gives user the possibility to
 Program performs basic financial calculations for investments (compound interest) and for mortages and draws a graph to visualize the yearly change in investments. Program calculates the monthly payment for annuity mortage, but you can also select fixed amortization to see how much that impacts the total cost for the mortage.
 
 It's also possible to create a monthly budget with diffent expense and income types. User can create a monthly budget where all income is allocated to a expense. User can then lock the budget and follow-up the spenditure in another tab. To get best use of the tool following sequence should be performed before beginning of each month.
+
 1. Create budget for the whole month based on your income (allocate all money you get in)
 2. Lock the budget
 3. Add expenses to the budget tool and see how well you keep the budget.
