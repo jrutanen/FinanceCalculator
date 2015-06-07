@@ -30,6 +30,7 @@
 #include "investment.h"
 #include "mortage.h"
 #include "dataset.h"
+#include "dbmanager.h"
 #include <QDebug>
 #include <QtGui>
 #include <QGraphicsRectItem>

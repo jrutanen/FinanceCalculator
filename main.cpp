@@ -23,8 +23,11 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.setApplicationName("Finance Calculator");
     MainWindow w;
     w.show();
+
+    DBManager *dbManager = new DBManager();
 
     return a.exec();
 }

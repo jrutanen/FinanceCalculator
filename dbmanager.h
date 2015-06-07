@@ -17,9 +17,24 @@
  * along with Financial Calculator.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "budgettreeview.h"
+#ifndef DBMANAGER_H
+#define DBMANAGER_H
 
-BudgetTreeView::BudgetTreeView() : QTreeView()
+#include <QObject>
+#include <QtSql/QSql>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QDebug>
+#include <QStandardPaths>
+
+class DBManager
 {
+public:
+    DBManager();
+private:
+    QSqlDatabase db;
+    bool openDB();
+    QString dbPath;
+};
 
-}
+#endif // DBMANAGER_H

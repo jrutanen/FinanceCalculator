@@ -6,6 +6,7 @@
 
 QT       += core gui
 QT       += testlib
+QT       += sql
 QMAKE_LIBDIR += "glu32_location"
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -23,7 +24,8 @@ SOURCES += main.cpp\
     dataset.cpp \
     infobox.cpp \
     chartview.cpp \
-    budgettreeview.cpp
+    budgettreeview.cpp \
+    dbmanager.cpp
 
 HEADERS  += mainwindow.h \
     investment.h \
@@ -33,6 +35,7 @@ HEADERS  += mainwindow.h \
     dataset.h \
     infobox.h \
     chartview.h \
-    budgettreeview.h
+    budgettreeview.h \
+    dbmanager.h
 
 FORMS    += mainwindow.ui

@@ -17,6 +17,9 @@
  * along with Financial Calculator.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QWidget>
+#include <QTreeView>
+
 #ifndef BUDGETTREEVIEW_H
 #define BUDGETTREEVIEW_H
 
