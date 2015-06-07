@@ -52,6 +52,7 @@ public:
     ~MainWindow();
     void addRoot(QTreeWidget *widget, QString name, double amount);
     void addChild(QTreeWidgetItem *parent, QString name, double amount);
+    DBManager* dbManager;
 
 protected:
     void updateAmount(QTreeWidgetItem *item, int column);
@@ -82,6 +83,8 @@ private slots:
     void on_b_addSavings_clicked();
 
     void on_b_removeSavings_clicked();
+
+    void on_b_save_clicked();
 
 private:
     Ui::MainWindow *ui;

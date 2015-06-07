@@ -23,19 +23,20 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    dbManager = new DBManager();
     ui->setupUi(this);
 
     //mouse tracking turned on for the gprahics view
     ui->gvInvestments->setMouseTracking(true);
-    ui->tw_cost->setColumnCount(2);
-    ui->tw_income->setColumnCount(2);
-    ui->tw_loan->setColumnCount(2);
-    ui->tw_savings->setColumnCount(2);
+    ui->twCost->setColumnCount(2);
+    ui->twIncome->setColumnCount(2);
+    ui->twLoan->setColumnCount(2);
+    ui->twSavings->setColumnCount(2);
 
-    addRoot(ui->tw_cost, "Expences", 0.0);
-    addRoot(ui->tw_income, "Income Source", 0.0);
-    addRoot(ui->tw_loan, "Creditor", 0.0);
-    addRoot(ui->tw_savings, "Investment", 0.0);
+    addRoot(ui->twCost, "Expences", 0.0);
+    addRoot(ui->twIncome, "Income Source", 0.0);
+    addRoot(ui->twLoan, "Creditor", 0.0);
+    addRoot(ui->twSavings, "Investment", 0.0);
 
 #ifdef NO_USER_INPUT
     skipUserInput();
@@ -261,12 +262,12 @@ void MainWindow::updateAmount(QTreeWidgetItem *item, int column)
 
 void MainWindow::on_b_addCost_clicked()
 {
-    addChild(ui->tw_cost->topLevelItem(0), "Cost Type", 0.0);
+    addChild(ui->twCost->topLevelItem(0), "Cost Type", 0.0);
 }
 
 void MainWindow::on_b_removeCost_clicked()
 {
-    QList<QTreeWidgetItem *> itemList = ui->tw_cost->selectedItems();
+    QList<QTreeWidgetItem *> itemList = ui->twCost->selectedItems();
     for (int i = 0; i < itemList.size(); i++)
     {
         itemList.at(i)->~QTreeWidgetItem();
@@ -276,12 +277,12 @@ void MainWindow::on_b_removeCost_clicked()
 
 void MainWindow::on_b_addIncome_clicked()
 {
-    addChild(ui->tw_income->topLevelItem(0), "Income Type", 0.0);
+    addChild(ui->twIncome->topLevelItem(0), "Income Type", 0.0);
 }
 
 void MainWindow::on_b_removeIncome_clicked()
 {
-    QList<QTreeWidgetItem *> itemList = ui->tw_income->selectedItems();
+    QList<QTreeWidgetItem *> itemList = ui->twIncome->selectedItems();
     for (int i = 0; i < itemList.size(); i++)
     {
         itemList.at(i)->~QTreeWidgetItem();
@@ -299,12 +300,12 @@ void removeTreeItem(QList<QTreeWidgetItem *> itemList)
 
 void MainWindow::on_b_addLoan_clicked()
 {
-    addChild(ui->tw_loan->topLevelItem(0), "Creditor", 0.0);
+    addChild(ui->twLoan->topLevelItem(0), "Creditor", 0.0);
 }
 
 void MainWindow::on_b_removeLoan_clicked()
 {
-    QList<QTreeWidgetItem *> itemList = ui->tw_loan->selectedItems();
+    QList<QTreeWidgetItem *> itemList = ui->twLoan->selectedItems();
     for (int i = 0; i < itemList.size(); i++)
     {
         itemList.at(i)->~QTreeWidgetItem();
@@ -313,14 +314,32 @@ void MainWindow::on_b_removeLoan_clicked()
 
 void MainWindow::on_b_addSavings_clicked()
 {
-    addChild(ui->tw_savings->topLevelItem(0), "Investment", 0.0);
+    addChild(ui->twSavings->topLevelItem(0), "Investment", 0.0);
 }
 
 void MainWindow::on_b_removeSavings_clicked()
 {
-    QList<QTreeWidgetItem *> itemList = ui->tw_savings->selectedItems();
+    QList<QTreeWidgetItem *> itemList = ui->twSavings->selectedItems();
     for (int i = 0; i < itemList.size(); i++)
     {
         itemList.at(i)->~QTreeWidgetItem();
     }
+}
+
+void MainWindow::on_b_save_clicked()
+{
+    //add expences to the database
+    for (int i = 0; i < ui->twCost->topLevelItem(0)->childCount(); i++)
+    {
+        QStringList *list = new QStringList;
+        list->append(ui->twCost->topLevelItem(0)->child(i)->text(0));
+        list->append(ui->twCost->topLevelItem(0)->child(i)->text(1));
+        dbManager->addBudgetedExpense(list, ui->cbMonth->currentIndex() + 1);
+    }
+    //add income to the database
+
+    //add loans to the database
+
+    //add savings to the database
+
 }

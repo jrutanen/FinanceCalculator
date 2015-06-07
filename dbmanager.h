@@ -26,15 +26,29 @@
 #include <QSqlQuery>
 #include <QDebug>
 #include <QStandardPaths>
+#include <QDateTime>
 
 class DBManager
 {
 public:
     DBManager();
+    QStringList getBudgetedExpenses(int month);
+    QStringList getActualExpenses(int month);
+    QStringList getIncome(int month);
+    QStringList getLoan(int month);
+    QStringList getSavings(int month);
+    bool addBudgetedExpense(QStringList *list, int month);
+    bool addActualExpense(QStringList *list, int month);
+    bool addIncome(QStringList *list, int month);
+    bool addLoan(QStringList *list, int month);
+    bool addSavings(QStringList *list, int month);
+
 private:
     QSqlDatabase db;
     bool openDB();
+    bool createTables();
     QString dbPath;
+    bool addData(QString tableName, QStringList *data, int month);
 };
 
 #endif // DBMANAGER_H

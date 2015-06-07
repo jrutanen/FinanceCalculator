@@ -397,7 +397,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox_Month">
+            <widget class="QComboBox" name="cbMonth">
              <property name="maximumSize">
               <size>
                <width>300</width>
@@ -500,7 +500,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QTreeWidget" name="tw_cost">
+              <widget class="QTreeWidget" name="twCost">
                <property name="tabKeyNavigation">
                 <bool>true</bool>
                </property>
@@ -517,14 +517,14 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_4">
                <item>
-                <widget class="QPushButton" name="b_addCost">
+                <widget class="QPushButton" name="pbAddCost">
                  <property name="text">
                   <string>Add Expense</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="b_removeCost">
+                <widget class="QPushButton" name="pbRemoveCost">
                  <property name="text">
                   <string>Remove Expense</string>
                  </property>
@@ -537,14 +537,14 @@
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_2">
              <item>
-              <widget class="QLabel" name="label_income">
+              <widget class="QLabel" name="labelIncome">
                <property name="text">
                 <string>Monthly Income</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QTreeWidget" name="tw_income">
+              <widget class="QTreeWidget" name="twIncome">
                <column>
                 <property name="text">
                  <string notr="true">1</string>
@@ -555,14 +555,14 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_5">
                <item>
-                <widget class="QPushButton" name="b_addIncome">
+                <widget class="QPushButton" name="pbAddIncome">
                  <property name="text">
                   <string>Add Source</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="b_removeIncome">
+                <widget class="QPushButton" name="pbRemoveIncome">
                  <property name="text">
                   <string>Remove Source</string>
                  </property>
@@ -571,14 +571,14 @@
               </layout>
              </item>
              <item>
-              <widget class="QLabel" name="label_loans">
+              <widget class="QLabel" name="labelLoans">
                <property name="text">
                 <string>Loans</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QTreeWidget" name="tw_loan">
+              <widget class="QTreeWidget" name="twLoan">
                <column>
                 <property name="text">
                  <string notr="true">1</string>
@@ -589,14 +589,14 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_6">
                <item>
-                <widget class="QPushButton" name="b_addLoan">
+                <widget class="QPushButton" name="pbAddLoan">
                  <property name="text">
                   <string>Add Creditor</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="b_removeLoan">
+                <widget class="QPushButton" name="pbRemoveLoan">
                  <property name="text">
                   <string>Remove Creditor</string>
                  </property>
@@ -605,14 +605,14 @@
               </layout>
              </item>
              <item>
-              <widget class="QLabel" name="label_savings">
+              <widget class="QLabel" name="labelSavings">
                <property name="text">
                 <string>Savings</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QTreeWidget" name="tw_savings">
+              <widget class="QTreeWidget" name="twSavings">
                <column>
                 <property name="text">
                  <string notr="true">1</string>
@@ -623,7 +623,7 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_7">
                <item>
-                <widget class="QPushButton" name="b_addSavings">
+                <widget class="QPushButton" name="pbAddSavings">
                  <property name="text">
                   <string>Add Investment</string>
                  </property>
