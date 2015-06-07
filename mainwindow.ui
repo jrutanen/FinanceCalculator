@@ -382,28 +382,82 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QTreeWidget" name="tw_cost">
-           <property name="tabKeyNavigation">
-            <bool>true</bool>
-           </property>
-           <property name="columnCount">
-            <number>1</number>
-           </property>
-           <column>
-            <property name="text">
-             <string notr="true">1</string>
-            </property>
-           </column>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QLabel" name="label_expences">
+             <property name="text">
+              <string>Monthly Expences</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTreeWidget" name="tw_cost">
+             <property name="tabKeyNavigation">
+              <bool>true</bool>
+             </property>
+             <property name="columnCount">
+              <number>1</number>
+             </property>
+             <column>
+              <property name="text">
+               <string notr="true">1</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
-          <widget class="QTreeWidget" name="tw_income">
-           <column>
-            <property name="text">
-             <string notr="true">1</string>
-            </property>
-           </column>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QLabel" name="label_income">
+             <property name="text">
+              <string>Monthly Income</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTreeWidget" name="tw_income">
+             <column>
+              <property name="text">
+               <string notr="true">1</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_loans">
+             <property name="text">
+              <string>Loans</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTreeWidget" name="tw_loan">
+             <column>
+              <property name="text">
+               <string notr="true">1</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_savings">
+             <property name="text">
+              <string>Savings</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTreeWidget" name="tw_savings">
+             <column>
+              <property name="text">
+               <string notr="true">1</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
@@ -476,12 +530,29 @@
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>leStartBalance</tabstop>
   <tabstop>leMonthlyPayment</tabstop>
   <tabstop>lePayments</tabstop>
   <tabstop>leSavingsTime</tabstop>
+  <tabstop>cbInvestmentType</tabstop>
   <tabstop>leRate</tabstop>
+  <tabstop>pbCalculateInvestmentValue</tabstop>
   <tabstop>leTotal</tabstop>
   <tabstop>gvInvestments</tabstop>
+  <tabstop>cbPaymentPlan</tabstop>
+  <tabstop>leTopLoan</tabstop>
+  <tabstop>leTopLoanInterest</tabstop>
+  <tabstop>leBottomLoan</tabstop>
+  <tabstop>leBottomLoanInterest</tabstop>
+  <tabstop>leMortageYears</tabstop>
+  <tabstop>leMonthlyMortagePayment</tabstop>
+  <tabstop>pbCalculateMortagePayment</tabstop>
+  <tabstop>gvMortage</tabstop>
+  <tabstop>tw_cost</tabstop>
+  <tabstop>tw_income</tabstop>
+  <tabstop>tw_loan</tabstop>
+  <tabstop>tw_savings</tabstop>
+  <tabstop>tabWidget</tabstop>
  </tabstops>
  <resources/>
  <connections/>

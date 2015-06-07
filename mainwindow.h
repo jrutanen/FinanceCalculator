@@ -49,7 +49,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void addRoot(QString name, double amount);
+    void addRoot(QTreeWidget *widget, QString name, double amount);
     void addChild(QTreeWidgetItem *parent, QString name, double amount);
 
 protected:

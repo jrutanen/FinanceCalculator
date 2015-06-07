@@ -29,8 +29,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->gvInvestments->setMouseTracking(true);
     ui->tw_cost->setColumnCount(2);
     ui->tw_income->setColumnCount(2);
+    ui->tw_loan->setColumnCount(2);
+    ui->tw_savings->setColumnCount(2);
 
-    addRoot("Monthly Expences", 0.0);
+    addRoot(ui->tw_cost, "Total", 0.0);
+    addRoot(ui->tw_income, "Total", 0.0);
+    addRoot(ui->tw_loan, "Total", 0.0);
+    addRoot(ui->tw_savings, "Total", 0.0);
 
 #ifdef NO_USER_INPUT
     skipUserInput();
@@ -46,29 +51,30 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::addRoot(QString name, double amount)
+void MainWindow::addRoot(QTreeWidget *widget, QString name, double amount)
 {
-    QTreeWidgetItem *item = new QTreeWidgetItem(ui->tw_cost);
+    QTreeWidgetItem *item = new QTreeWidgetItem(widget);
     item->setText(0, name);
     item->setText(1, QString::number(amount));
-    ui->tw_cost->addTopLevelItem(item);
-    ui->tw_cost->setHeaderLabels(QStringList() << "Expense Name" << "Amount");
+    widget->addTopLevelItem(item);
+    widget->setHeaderLabels(QStringList() << "Total" << "Amount");
 
-    addChild(item, "Food", 0.0);
+/*    addChild(item, "Food", 0.0);
     addChild(item, "Utilities", 0.0);
     addChild(item, "Rent", 0.0);
+    ui->tw_cost->expandAll();
 
     QTreeWidgetItem *itemIncome = new QTreeWidgetItem(ui->tw_income);
     itemIncome->setText(0, name);
     itemIncome->setText(1, QString::number(amount));
     ui->tw_income->addTopLevelItem(itemIncome);
-    ui->tw_income->setHeaderLabels(QStringList() << "income" << "Amount");
+    ui->tw_income->setHeaderLabels(QStringList() << "Total" << "Amount");
+    ui->tw_income->expandAll();
 
     addChild(itemIncome, "Salary", 0.0);
-    addChild(itemIncome, "Child Support", 0.0);
-    addChild(itemIncome, "Investments", 0.0);
     addChild(itemIncome, "Bonus", 0.0);
-
+    addChild(itemIncome, "Other", 0.0);
+*/
 }
 
 void MainWindow::addChild(QTreeWidgetItem *parent, QString name, double amount)
