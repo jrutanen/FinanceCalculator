@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>718</width>
-    <height>547</height>
+    <width>719</width>
+    <height>574</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -371,91 +371,274 @@
        <attribute name="title">
         <string>Budget</string>
        </attribute>
-       <widget class="QWidget" name="horizontalLayoutWidget">
+       <widget class="QWidget" name="verticalLayoutWidget_3">
         <property name="geometry">
          <rect>
-          <x>9</x>
-          <y>9</y>
-          <width>671</width>
-          <height>431</height>
+          <x>0</x>
+          <y>0</y>
+          <width>691</width>
+          <height>500</height>
          </rect>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout">
+        <layout class="QVBoxLayout" name="verticalLayout_7">
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_6">
+          <layout class="QHBoxLayout" name="horizontalLayout_10">
            <item>
-            <widget class="QLabel" name="label_expences">
+            <widget class="QLabel" name="label_Month">
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>16777215</height>
+              </size>
+             </property>
              <property name="text">
-              <string>Monthly Expences</string>
+              <string>Month</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QTreeWidget" name="tw_cost">
-             <property name="tabKeyNavigation">
-              <bool>true</bool>
+            <widget class="QComboBox" name="comboBox_Month">
+             <property name="maximumSize">
+              <size>
+               <width>300</width>
+               <height>16777215</height>
+              </size>
              </property>
-             <property name="columnCount">
-              <number>1</number>
-             </property>
-             <column>
+             <item>
               <property name="text">
-               <string notr="true">1</string>
+               <string>January</string>
               </property>
-             </column>
+             </item>
+             <item>
+              <property name="text">
+               <string>February</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>March</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>April</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>May</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>June</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>July</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>August</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Spetember</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>October</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>November</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>December</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="b_save">
+             <property name="text">
+              <string>Save</string>
+             </property>
             </widget>
            </item>
           </layout>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
+          <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
-            <widget class="QLabel" name="label_income">
-             <property name="text">
-              <string>Monthly Income</string>
-             </property>
-            </widget>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <item>
+              <widget class="QLabel" name="label_expenses">
+               <property name="text">
+                <string>Monthly Expenses</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTreeWidget" name="tw_cost">
+               <property name="tabKeyNavigation">
+                <bool>true</bool>
+               </property>
+               <property name="columnCount">
+                <number>1</number>
+               </property>
+               <column>
+                <property name="text">
+                 <string notr="true">1</string>
+                </property>
+               </column>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_4">
+               <item>
+                <widget class="QPushButton" name="b_addCost">
+                 <property name="text">
+                  <string>Add Expense</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="b_removeCost">
+                 <property name="text">
+                  <string>Remove Expense</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
            </item>
            <item>
-            <widget class="QTreeWidget" name="tw_income">
-             <column>
-              <property name="text">
-               <string notr="true">1</string>
-              </property>
-             </column>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_loans">
-             <property name="text">
-              <string>Loans</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QTreeWidget" name="tw_loan">
-             <column>
-              <property name="text">
-               <string notr="true">1</string>
-              </property>
-             </column>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_savings">
-             <property name="text">
-              <string>Savings</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QTreeWidget" name="tw_savings">
-             <column>
-              <property name="text">
-               <string notr="true">1</string>
-              </property>
-             </column>
-            </widget>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <item>
+              <widget class="QLabel" name="label_income">
+               <property name="text">
+                <string>Monthly Income</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTreeWidget" name="tw_income">
+               <column>
+                <property name="text">
+                 <string notr="true">1</string>
+                </property>
+               </column>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <item>
+                <widget class="QPushButton" name="b_addIncome">
+                 <property name="text">
+                  <string>Add Source</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="b_removeIncome">
+                 <property name="text">
+                  <string>Remove Source</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_loans">
+               <property name="text">
+                <string>Loans</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTreeWidget" name="tw_loan">
+               <column>
+                <property name="text">
+                 <string notr="true">1</string>
+                </property>
+               </column>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_6">
+               <item>
+                <widget class="QPushButton" name="b_addLoan">
+                 <property name="text">
+                  <string>Add Creditor</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="b_removeLoan">
+                 <property name="text">
+                  <string>Remove Creditor</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_savings">
+               <property name="text">
+                <string>Savings</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTreeWidget" name="tw_savings">
+               <column>
+                <property name="text">
+                 <string notr="true">1</string>
+                </property>
+               </column>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_7">
+               <item>
+                <widget class="QPushButton" name="b_addSavings">
+                 <property name="text">
+                  <string>Add Investment</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="b_removeSavings">
+                 <property name="text">
+                  <string>Remove Investment</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
            </item>
           </layout>
          </item>
@@ -471,7 +654,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>718</width>
+     <width>719</width>
      <height>22</height>
     </rect>
    </property>
@@ -548,10 +731,6 @@
   <tabstop>leMonthlyMortagePayment</tabstop>
   <tabstop>pbCalculateMortagePayment</tabstop>
   <tabstop>gvMortage</tabstop>
-  <tabstop>tw_cost</tabstop>
-  <tabstop>tw_income</tabstop>
-  <tabstop>tw_loan</tabstop>
-  <tabstop>tw_savings</tabstop>
   <tabstop>tabWidget</tabstop>
  </tabstops>
  <resources/>

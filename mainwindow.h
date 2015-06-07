@@ -66,12 +66,29 @@ private slots:
 
     void on_tw_income_itemChanged(QTreeWidgetItem *item, int column);
 
+    void on_b_addCost_clicked();
+
+    void on_b_removeCost_clicked();
+
+    void on_b_addIncome_clicked();
+
+    void on_b_removeIncome_clicked();
+
+    void on_b_addLoan_clicked();
+
+    void on_b_removeLoan_clicked();
+
+    void on_b_addSavings_clicked();
+
+    void on_b_removeSavings_clicked();
+
 private:
     Ui::MainWindow *ui;
     QPushButton *pbCalculateInvestmentValue;
 //    LSBarChart *scene;
     void drawGraph(QGraphicsView*, vector<DataSet>);
     void skipUserInput();
+    void removeTreeItem(QList<QTreeWidgetItem *> itemList);
 };
 
 #endif // MAINWINDOW_H

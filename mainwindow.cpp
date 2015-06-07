@@ -32,10 +32,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tw_loan->setColumnCount(2);
     ui->tw_savings->setColumnCount(2);
 
-    addRoot(ui->tw_cost, "Total", 0.0);
-    addRoot(ui->tw_income, "Total", 0.0);
-    addRoot(ui->tw_loan, "Total", 0.0);
-    addRoot(ui->tw_savings, "Total", 0.0);
+    addRoot(ui->tw_cost, "Expences", 0.0);
+    addRoot(ui->tw_income, "Income Source", 0.0);
+    addRoot(ui->tw_loan, "Creditor", 0.0);
+    addRoot(ui->tw_savings, "Investment", 0.0);
 
 #ifdef NO_USER_INPUT
     skipUserInput();
@@ -54,27 +54,13 @@ MainWindow::~MainWindow()
 void MainWindow::addRoot(QTreeWidget *widget, QString name, double amount)
 {
     QTreeWidgetItem *item = new QTreeWidgetItem(widget);
-    item->setText(0, name);
+    //Format header
+    widget->setHeaderLabels(QStringList() << name << "Amount");
+    widget->header()->resizeSection(0, 250);
+
+    item->setText(0, "Total");
     item->setText(1, QString::number(amount));
     widget->addTopLevelItem(item);
-    widget->setHeaderLabels(QStringList() << "Total" << "Amount");
-
-/*    addChild(item, "Food", 0.0);
-    addChild(item, "Utilities", 0.0);
-    addChild(item, "Rent", 0.0);
-    ui->tw_cost->expandAll();
-
-    QTreeWidgetItem *itemIncome = new QTreeWidgetItem(ui->tw_income);
-    itemIncome->setText(0, name);
-    itemIncome->setText(1, QString::number(amount));
-    ui->tw_income->addTopLevelItem(itemIncome);
-    ui->tw_income->setHeaderLabels(QStringList() << "Total" << "Amount");
-    ui->tw_income->expandAll();
-
-    addChild(itemIncome, "Salary", 0.0);
-    addChild(itemIncome, "Bonus", 0.0);
-    addChild(itemIncome, "Other", 0.0);
-*/
 }
 
 void MainWindow::addChild(QTreeWidgetItem *parent, QString name, double amount)
@@ -84,6 +70,11 @@ void MainWindow::addChild(QTreeWidgetItem *parent, QString name, double amount)
     item->setText(1, QString::number(amount));
     parent->addChild(item);
     item->setFlags(item->flags() | Qt::ItemIsEditable);
+
+    if(!parent->isExpanded())
+    {
+        parent->setExpanded(true);
+    }
 }
 
 void MainWindow::on_pbCalculateInvestmentValue_clicked()
@@ -267,3 +258,69 @@ void MainWindow::updateAmount(QTreeWidgetItem *item, int column)
 
 
 
+
+void MainWindow::on_b_addCost_clicked()
+{
+    addChild(ui->tw_cost->topLevelItem(0), "Cost Type", 0.0);
+}
+
+void MainWindow::on_b_removeCost_clicked()
+{
+    QList<QTreeWidgetItem *> itemList = ui->tw_cost->selectedItems();
+    for (int i = 0; i < itemList.size(); i++)
+    {
+        itemList.at(i)->~QTreeWidgetItem();
+    }
+//    removeTreeItem(itemList);
+}
+
+void MainWindow::on_b_addIncome_clicked()
+{
+    addChild(ui->tw_income->topLevelItem(0), "Income Type", 0.0);
+}
+
+void MainWindow::on_b_removeIncome_clicked()
+{
+    QList<QTreeWidgetItem *> itemList = ui->tw_income->selectedItems();
+    for (int i = 0; i < itemList.size(); i++)
+    {
+        itemList.at(i)->~QTreeWidgetItem();
+    }
+}
+void removeTreeItem(QList<QTreeWidgetItem *> itemList)
+{
+    /*
+    for (uint i = 0; i < itemList.size(); i++)
+    {
+        itemList.at(i)->~QTreeWidgetItem();
+    }
+    */
+}
+
+void MainWindow::on_b_addLoan_clicked()
+{
+    addChild(ui->tw_loan->topLevelItem(0), "Creditor", 0.0);
+}
+
+void MainWindow::on_b_removeLoan_clicked()
+{
+    QList<QTreeWidgetItem *> itemList = ui->tw_loan->selectedItems();
+    for (int i = 0; i < itemList.size(); i++)
+    {
+        itemList.at(i)->~QTreeWidgetItem();
+    }
+}
+
+void MainWindow::on_b_addSavings_clicked()
+{
+    addChild(ui->tw_savings->topLevelItem(0), "Investment", 0.0);
+}
+
+void MainWindow::on_b_removeSavings_clicked()
+{
+    QList<QTreeWidgetItem *> itemList = ui->tw_savings->selectedItems();
+    for (int i = 0; i < itemList.size(); i++)
+    {
+        itemList.at(i)->~QTreeWidgetItem();
+    }
+}

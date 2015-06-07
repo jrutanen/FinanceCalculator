@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     mortage.cpp \
     dataset.cpp \
     infobox.cpp \
-    chartview.cpp
+    chartview.cpp \
+    budgettreeview.cpp
 
 HEADERS  += mainwindow.h \
     investment.h \
@@ -31,6 +32,7 @@ HEADERS  += mainwindow.h \
     mortage.h \
     dataset.h \
     infobox.h \
-    chartview.h
+    chartview.h \
+    budgettreeview.h
 
 FORMS    += mainwindow.ui
