@@ -85,7 +85,17 @@ bool DBManager::addActualExpense(QStringList *list, int month)
 
 bool DBManager::addIncome(QStringList *list, int month)
 {
-    return addData(QString("income_budget"), list, month);
+    qDebug() << QString("addIncome");
+    bool dbUpdated = false;
+    if (list->at(2).isEmpty())
+    {
+        dbUpdated =  addData(QString("income_budget"), list, month);
+    }
+    else
+    {
+        dbUpdated =  updateData(QString("income_budget"), list, month);
+    }
+    return dbUpdated;
 }
 
 bool DBManager::addLoan(QStringList *list, int month)
@@ -95,7 +105,17 @@ bool DBManager::addLoan(QStringList *list, int month)
 
 bool DBManager::addSavings(QStringList *list, int month)
 {
-    return addData(QString("savings"), list, month);
+    qDebug() << QString("addSavings");
+    bool dbUpdated = false;
+    if (list->at(2).isEmpty())
+    {
+        dbUpdated =  addData(QString("savings"), list, month);
+    }
+    else
+    {
+        dbUpdated =  updateData(QString("savings"), list, month);
+    }
+    return dbUpdated;
 }
 
 /**
