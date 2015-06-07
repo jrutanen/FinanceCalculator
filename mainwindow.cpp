@@ -173,19 +173,19 @@ void MainWindow::updateBudgetItems()
     std::vector<QStringList> income = dbManager->getIncome(ui->cbMonth->currentIndex()  + 1);
     for(int i = 0; i < income.size(); i++)
     {
-        addChildFromDB(ui->twCost->topLevelItem(0),
-                       expenses.at(i).at(1), //type
-                       expenses.at(i).at(2), //amount
-                       expenses.at(i).at(0)); //id
+        addChildFromDB(ui->twIncome->topLevelItem(0),
+                       income.at(i).at(1), //type
+                       income.at(i).at(2), //amount
+                       income.at(i).at(0)); //id
     }
     std::vector<QStringList> loans = dbManager->getLoan(ui->cbMonth->currentIndex()  + 1);
     std::vector<QStringList> savings = dbManager->getSavings(ui->cbMonth->currentIndex()  + 1);
     for(int i = 0; i < savings.size(); i++)
     {
-        addChildFromDB(ui->twCost->topLevelItem(0),
-                       expenses.at(i).at(1), //type
-                       expenses.at(i).at(2), //amount
-                       expenses.at(i).at(0)); //id
+        addChildFromDB(ui->twSavings->topLevelItem(0),
+                       savings.at(i).at(1), //type
+                       savings.at(i).at(2), //amount
+                       savings.at(i).at(0)); //id
     }
 }
 
@@ -404,11 +404,35 @@ void MainWindow::on_pbSave_clicked()
       ++node;
     }
     //add income to the database
-
+    QTreeWidgetItemIterator inode(ui->twIncome);
+    while (*inode) {
+      if ((*inode)->parent())
+      {
+          QStringList *list = new QStringList;
+          list->append((*inode)->text(0));
+          list->append((*inode)->text(1));
+          list->append((*inode)->text(2));
+          qDebug() << list->at(0) << ", " << list->at(1) << "," << list->at(2);
+          dbManager->addIncome(list, ui->cbMonth->currentIndex() + 1);
+      }
+      ++inode;
+    }
     //add loans to the database
 
     //add savings to the database
-
+    QTreeWidgetItemIterator snode(ui->twSavings);
+    while (*snode) {
+      if ((*snode)->parent())
+      {
+          QStringList *list = new QStringList;
+          list->append((*snode)->text(0));
+          list->append((*snode)->text(1));
+          list->append((*snode)->text(2));
+          qDebug() << list->at(0) << ", " << list->at(1) << "," << list->at(2);
+          dbManager->addSavings(list, ui->cbMonth->currentIndex() + 1);
+      }
+      ++snode;
+    }
 }
 
 void MainWindow::on_tabWidget_currentChanged(int index)
