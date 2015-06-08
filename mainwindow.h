@@ -24,13 +24,6 @@
 #include <QPushButton>
 #include <QGraphicsScene>
 #include <vector>
-#include "lsbarchart.h"
-#include "dataset.h"
-#include "ui_mainwindow.h"
-#include "investment.h"
-#include "mortage.h"
-#include "dataset.h"
-#include "dbmanager.h"
 #include <QDebug>
 #include <QtGui>
 #include <QGraphicsRectItem>
@@ -38,6 +31,14 @@
 #include <algorithm>
 #include <QTreeWidgetItemIterator>
 #include <QDateTime>
+#include "lsbarchart.h"
+#include "dataset.h"
+#include "ui_mainwindow.h"
+#include "investment.h"
+#include "mortage.h"
+#include "dataset.h"
+#include "dbmanager.h"
+#include "budgetmodel.h"
 
 using namespace std;
 

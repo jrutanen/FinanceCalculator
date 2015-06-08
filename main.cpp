@@ -24,6 +24,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     a.setApplicationName("Finance Calculator");
+
+    BudgetModel *model = new BudgetModel;
+
     MainWindow w;
     w.show();
 
