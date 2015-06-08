@@ -29,6 +29,9 @@ MainWindow::MainWindow(QWidget *parent) :
     //mouse tracking turned on for the gprahics view
     ui->gvInvestments->setMouseTracking(true);
 
+    //connect table view cost to the ´budget model
+    //ui->tableViewCost->setModel(model);
+
     //one extra hidden column for id
     ui->twCost->setColumnCount(3);
     ui->twCost->hideColumn(2);

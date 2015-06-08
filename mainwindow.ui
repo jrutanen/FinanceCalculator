@@ -515,7 +515,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QListView" name="lwCost"/>
+              <widget class="QTableView" name="tableViewCost"/>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_4">

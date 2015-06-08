@@ -57,6 +57,7 @@ public:
     void addChild(QTreeWidgetItem *parent, QString name, double amount);
     void addChildFromDB(QTreeWidgetItem *parent, QString name, QString amount, QString id);
     DBManager* dbManager;
+    //BudgetModel *model = new BudgetModel;
 
 protected:
     void updateAmount(QTreeWidgetItem *item, int column);
