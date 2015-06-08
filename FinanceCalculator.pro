@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     chartview.cpp \
     budgettreeview.cpp \
     dbmanager.cpp \
-    budgetrow.cpp
+    budgetrow.cpp \
+    budgetmodel.cpp
 
 HEADERS  += mainwindow.h \
     investment.h \
@@ -38,6 +39,7 @@ HEADERS  += mainwindow.h \
     chartview.h \
     budgettreeview.h \
     dbmanager.h \
-    budgetrow.h
+    budgetrow.h \
+    budgetmodel.h
 
 FORMS    += mainwindow.ui
