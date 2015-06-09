@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->gvInvestments->setMouseTracking(true);
 
     //connect table view cost to the ´budget model
-    BudgetModel *mBudget = new BudgetModel(0);
+    mBudget = new BudgetModel(0);
     ui->tableViewCost->setModel(mBudget);
 
     //one extra hidden column for id
@@ -50,6 +50,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Set current month to the cbMonth combobox
     setComboToCurrentMonth();
+    //update month to the data model
+    mBudget->setMonth(ui->cbMonth->currentIndex());
     //Get budget data from database and update values to budget tab
     updateBudgetItems();
 
@@ -198,7 +200,6 @@ void MainWindow::setComboToCurrentMonth()
     QString date = QDateTime::currentDateTime().toString("M");
     int index = date.toInt() - 1;
     ui->cbMonth->setCurrentIndex(index);
-
 }
 
 void MainWindow::on_pbCalculateMortagePayment_clicked()
@@ -448,4 +449,9 @@ void MainWindow::on_tabWidget_currentChanged(int index)
         //Get budget data from database and update values
         updateBudgetItems();
     }
+}
+
+void MainWindow::on_cbMonth_currentIndexChanged(int index)
+{
+//    mBudget->setMonth(ui->cbMonth->currentIndex());
 }

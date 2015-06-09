@@ -19,13 +19,17 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    void setMonth(int month);
 
 private:
     DBManager *db;
     int rows;
     int cols;
+    int month;
     double sum;
     std::vector<QStringList> expenses;
+    void readData();
+    void writeData();
 
 private slots:
     void dataUpdated();
@@ -33,7 +37,6 @@ private slots:
 signals:
     void updateView();
 
-//    dataUpdated();
 };
 
 #endif // BUDGETMODEL_H

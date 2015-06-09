@@ -57,6 +57,7 @@ public:
     void addChild(QTreeWidgetItem *parent, QString name, double amount);
     void addChildFromDB(QTreeWidgetItem *parent, QString name, QString amount, QString id);
     DBManager* dbManager;
+    BudgetModel* mBudget;
 
 protected:
     void updateAmount(QTreeWidgetItem *item, int column);
@@ -77,6 +78,8 @@ private slots:
     void on_pbRemoveSavings_clicked();
     void on_pbSave_clicked();
     void on_tabWidget_currentChanged(int index);
+
+    void on_cbMonth_currentIndexChanged(int index);
 
 private:
     Ui::MainWindow *ui;

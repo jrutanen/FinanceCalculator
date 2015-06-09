@@ -4,7 +4,8 @@ BudgetModel::BudgetModel(QObject *parent) : QAbstractTableModel(parent)
 {
     //    selectedCell = 0;
         db = new DBManager();
-        expenses = db->getBudgetedExpenses(6);
+        month = 6;
+        expenses = db->getBudgetedExpenses(month);
         rows = expenses.size();
         cols = 2;
 }
@@ -56,6 +57,21 @@ QVariant BudgetModel::headerData(int section, Qt::Orientation orientation, int r
         }
     }
     return QVariant();
+}
+
+void BudgetModel::setMonth(int month)
+{
+    this->month = month;
+}
+
+void BudgetModel::readData()
+{
+    expenses = db->getBudgetedExpenses(month);
+}
+
+void BudgetModel::writeData()
+{
+
 }
 
 void BudgetModel::dataUpdated()
