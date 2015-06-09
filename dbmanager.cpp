@@ -36,6 +36,28 @@ std::vector<QStringList> DBManager::getBudgetedExpenses(int month)
     return temp;
 }
 
+QSqlQuery DBManager::getBudgetExpenses(int month)
+{
+    QSqlQuery blah;
+    if (db.isOpen())
+    {
+        QString date = QDateTime::currentDateTime().toString("yyyy")
+                        + "-" + intToDateMonth(month) + "-01";
+        QString queryString = "";
+        QSqlQuery query(db);
+        queryString.append(QString("SELECT * FROM %1 WHERE date='%2'")
+                           .arg("expense_budget")
+                           .arg(date));
+
+        qDebug() << queryString;
+
+        query.exec(queryString);
+
+        return query;
+    }
+    return blah;
+}
+
 QStringList DBManager::getActualExpenses(int month)
 {
     QStringList *temp = new QStringList();

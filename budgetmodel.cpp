@@ -4,16 +4,19 @@ BudgetModel::BudgetModel(QObject *parent) : QAbstractTableModel(parent)
 {
     //    selectedCell = 0;
         db = new DBManager();
+        expenses = db->getBudgetedExpenses(6);
+        rows = expenses.size();
+        cols = 2;
 }
 
 int BudgetModel::rowCount(const QModelIndex &parent) const
 {
-    return 2;
+    return rows;
 }
 
 int BudgetModel::columnCount(const QModelIndex &parent) const
 {
-    return 3;
+    return cols;
 }
 
 QVariant BudgetModel::data(const QModelIndex &index, int role) const
@@ -24,10 +27,7 @@ QVariant BudgetModel::data(const QModelIndex &index, int role) const
     switch(role)
     {
         case Qt::DisplayRole:
-            if (row == 0 && col == 0)
-            {
-                return "Hello World!";
-            }
+            return expenses.at(row).at(col+1);
             break;
         case Qt::FontRole:
             if (row == 0 && col == 0) //change font only for cell(0,0)
@@ -37,27 +37,6 @@ QVariant BudgetModel::data(const QModelIndex &index, int role) const
                 return boldFont;
             }
             break;
-        case Qt::BackgroundRole:
-
-            if (row == 1 && col == 2)  //change background only for cell(1,2)
-            {
-                QBrush redBackground(Qt::red);
-                return redBackground;
-            }
-            break;
-        case Qt::TextAlignmentRole:
-
-            if (row == 1 && col == 1) //change text alignment only for cell(1,1)
-            {
-                return Qt::AlignRight + Qt::AlignVCenter;
-            }
-            break;
-        case Qt::CheckStateRole:
-
-            if (row == 1 && col == 0) //add a checkbox to cell(1,0)
-            {
-                return Qt::Checked;
-            }
     }
     return QVariant();
 }
@@ -70,11 +49,9 @@ QVariant BudgetModel::headerData(int section, Qt::Orientation orientation, int r
             switch (section)
             {
             case 0:
-                return QString("first");
+                return QString("Expense");
             case 1:
-                return QString("second");
-            case 2:
-                return QString("third");
+                return QString("Amount");
             }
         }
     }

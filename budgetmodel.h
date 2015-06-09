@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QFont>
 #include <QBrush>
+#include <QSqlQuery>
 #include "dbmanager.h"
 
 class BudgetModel : public QAbstractTableModel
@@ -21,6 +22,10 @@ public:
 
 private:
     DBManager *db;
+    int rows;
+    int cols;
+    double sum;
+    std::vector<QStringList> expenses;
 
 private slots:
     void dataUpdated();

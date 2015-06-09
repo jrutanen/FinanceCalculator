@@ -33,6 +33,7 @@ class DBManager
 public:
     DBManager();
     std::vector<QStringList> getBudgetedExpenses(int month);
+    QSqlQuery getBudgetExpenses(int month);
     QStringList getActualExpenses(int month);
     std::vector<QStringList> getIncome(int month);
     std::vector<QStringList> getLoan(int month);
