@@ -30,7 +30,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->gvInvestments->setMouseTracking(true);
 
     //connect table view cost to the ´budget model
-    //ui->tableViewCost->setModel(model);
+    BudgetModel *mBudget = new BudgetModel(0);
+    ui->tableViewCost->setModel(mBudget);
 
     //one extra hidden column for id
     ui->twCost->setColumnCount(3);
