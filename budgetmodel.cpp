@@ -105,6 +105,11 @@ Qt::ItemFlags BudgetModel::flags(const QModelIndex &index) const
     return Qt::ItemIsSelectable |  Qt::ItemIsEditable | Qt::ItemIsEnabled ;
 }
 
+bool BudgetModel::insertRows(int row, int count, const QModelIndex &parent)
+{
+
+}
+
 void BudgetModel::readData()
 {
     expenses = db->getBudgetedExpenses(month);
@@ -122,11 +127,11 @@ void BudgetModel::dataUpdated()
 
 void BudgetModel::addRow()
 {
-     //notify that expenses is appended
-    beginInsertRows(QModelIndex(), expenses.size()-1, expenses.size()-1);
-        expenses.push_back(QStringList() << "New Item" << "0.0");
-    //notify views that you're done with modifying the underlying data
-    endInsertRows();
+    //notify that expenses is appended
+   beginInsertRows(QModelIndex(), expenses.size()-1, expenses.size()-1);
+       expenses.push_back(QStringList() << "New Item" << "0.0");
+   //notify views that you're done with modifying the underlying data
+   endInsertRows();
 //    emit dataChanged();
     qDebug() << "signal received";
 }
