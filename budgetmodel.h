@@ -20,6 +20,8 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     void setMonth(int month);
+    bool setData(const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
+    Qt::ItemFlags flags(const QModelIndex & index) const ;
 
 private:
     DBManager *db;
@@ -33,10 +35,12 @@ private:
 
 private slots:
     void dataUpdated();
+    void addRow();
 
 signals:
     void updateView();
-
+    void editCompleted(const QString &);
+    void dataChanged();
 };
 
 #endif // BUDGETMODEL_H

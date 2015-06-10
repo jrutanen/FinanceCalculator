@@ -32,10 +32,12 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect table view cost to the ´budget model
     mBudget = new BudgetModel(0);
     ui->tableViewCost->setModel(mBudget);
+    QObject::connect(this, SIGNAL(addCostRow()),
+                     mBudget, SLOT(addRow()));
 
+/*            QObject::connect(&a, SIGNAL(valueChanged(int)),
+                             &b, SLOT(setValue(int)));*/
     //one extra hidden column for id
-    ui->twCost->setColumnCount(3);
-    ui->twCost->hideColumn(2);
     ui->twIncome->setColumnCount(3);
     ui->twIncome->hideColumn(2);
     ui->twLoan->setColumnCount(3);
@@ -43,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->twSavings->setColumnCount(3);
     ui->twSavings->hideColumn(2);
 
-    addRoot(ui->twCost, "Expences", 0.0);
+//    addRoot(ui->twCost, "Expences", 0.0);
     addRoot(ui->twIncome, "Income Source", 0.0);
     addRoot(ui->twLoan, "Creditor", 0.0);
     addRoot(ui->twSavings, "Investment", 0.0);
@@ -171,10 +173,11 @@ void MainWindow::updateBudgetItems()
     std::vector<QStringList> expenses = dbManager->getBudgetedExpenses(ui->cbMonth->currentIndex() + 1);
     for(int i = 0; i < expenses.size(); i++)
     {
-        addChildFromDB(ui->twCost->topLevelItem(0),
+/*        addChildFromDB(ui->twCost->topLevelItem(0),
                        expenses.at(i).at(1), //type
                        expenses.at(i).at(2), //amount
                        expenses.at(i).at(0)); //id
+                    */
     }
     std::vector<QStringList> income = dbManager->getIncome(ui->cbMonth->currentIndex()  + 1);
     for(int i = 0; i < income.size(); i++)
@@ -329,16 +332,17 @@ void MainWindow::updateAmount(QTreeWidgetItem *item, int column)
 
 void MainWindow::on_pbAddCost_clicked()
 {
-    addChild(ui->twCost->topLevelItem(0), "Cost Type", 0.0);
+    emit addCostRow();
 }
 
 void MainWindow::on_pbRemoveCost_clicked()
 {
-    QList<QTreeWidgetItem *> itemList = ui->twCost->selectedItems();
+/*    QList<QTreeWidgetItem *> itemList = ui->twCost->selectedItems();
     for (int i = 0; i < itemList.size(); i++)
     {
         itemList.at(i)->~QTreeWidgetItem();
     }
+*/
 }
 
 void MainWindow::on_pbAddIncome_clicked()
@@ -395,19 +399,6 @@ void MainWindow::on_pbRemoveSavings_clicked()
 void MainWindow::on_pbSave_clicked()
 {
     qDebug() << QString("save button clicked");
-    QTreeWidgetItemIterator node(ui->twCost);
-    while (*node) {
-      if ((*node)->parent())
-      {
-          QStringList *list = new QStringList;
-          list->append((*node)->text(0));
-          list->append((*node)->text(1));
-          list->append((*node)->text(2));
-          qDebug() << list->at(0) << ", " << list->at(1) << "," << list->at(2);
-          dbManager->addBudgetedExpense(list, ui->cbMonth->currentIndex() + 1);
-      }
-      ++node;
-    }
     //add income to the database
     QTreeWidgetItemIterator inode(ui->twIncome);
     while (*inode) {

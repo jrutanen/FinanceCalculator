@@ -500,21 +500,6 @@
               </widget>
              </item>
              <item>
-              <widget class="QTreeWidget" name="twCost">
-               <property name="tabKeyNavigation">
-                <bool>true</bool>
-               </property>
-               <property name="columnCount">
-                <number>1</number>
-               </property>
-               <column>
-                <property name="text">
-                 <string notr="true">1</string>
-                </property>
-               </column>
-              </widget>
-             </item>
-             <item>
               <widget class="QTableView" name="tableViewCost"/>
              </item>
              <item>

@@ -90,6 +90,9 @@ private:
     void removeTreeItem(QList<QTreeWidgetItem *> itemList);
     void updateBudgetItems();
     void setComboToCurrentMonth();
+
+signals:
+    void addCostRow();
 };
 
 #endif // MAINWINDOW_H
