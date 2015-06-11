@@ -25,15 +25,25 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     dbManager = new DBManager();
     ui->setupUi(this);
-
+    //Set current month to the cbMonth combobox
+    setComboToCurrentMonth();
     //mouse tracking turned on for the gprahics view
     ui->gvInvestments->setMouseTracking(true);
 
     //connect table view cost to the ´budget model
-    mBudget = new BudgetModel(0);
-    ui->tableViewCost->setModel(mBudget);
+    mBudgetedCost = new BudgetModel(0);
+    //update month to the data model
+    mBudgetedCost->setMonth(ui->cbMonth->currentIndex() + 1);
+    //select the type of data to fetch
+    mBudgetedCost->setDataType(QString("budgetedExpenses"));
+    //connect model to the tableview
+    ui->tableViewCost->setModel(mBudgetedCost);
+
     QObject::connect(this, SIGNAL(addCostRow()),
-                     mBudget, SLOT(addRow()));
+                     mBudgetedCost, SLOT(addRow()));
+
+    mActualCost = new BudgetModel(0);
+    mIncome = new BudgetModel(0);
 
 /*            QObject::connect(&a, SIGNAL(valueChanged(int)),
                              &b, SLOT(setValue(int)));*/
@@ -50,10 +60,6 @@ MainWindow::MainWindow(QWidget *parent) :
     addRoot(ui->twLoan, "Creditor", 0.0);
     addRoot(ui->twSavings, "Investment", 0.0);
 
-    //Set current month to the cbMonth combobox
-    setComboToCurrentMonth();
-    //update month to the data model
-    mBudget->setMonth(ui->cbMonth->currentIndex());
     //Get budget data from database and update values to budget tab
     updateBudgetItems();
 
@@ -171,7 +177,7 @@ void MainWindow::drawGraph( QGraphicsView *view, vector<DataSet> data)
 void MainWindow::updateBudgetItems()
 {
     std::vector<QStringList> expenses = dbManager->getBudgetedExpenses(ui->cbMonth->currentIndex() + 1);
-    for(int i = 0; i < expenses.size(); i++)
+    for(uint i = 0; i < expenses.size(); ++i)
     {
 /*        addChildFromDB(ui->twCost->topLevelItem(0),
                        expenses.at(i).at(1), //type
@@ -180,7 +186,7 @@ void MainWindow::updateBudgetItems()
                     */
     }
     std::vector<QStringList> income = dbManager->getIncome(ui->cbMonth->currentIndex()  + 1);
-    for(int i = 0; i < income.size(); i++)
+    for(uint i = 0; i < income.size(); ++i)
     {
         addChildFromDB(ui->twIncome->topLevelItem(0),
                        income.at(i).at(1), //type
@@ -189,7 +195,7 @@ void MainWindow::updateBudgetItems()
     }
     std::vector<QStringList> loans = dbManager->getLoan(ui->cbMonth->currentIndex()  + 1);
     std::vector<QStringList> savings = dbManager->getSavings(ui->cbMonth->currentIndex()  + 1);
-    for(int i = 0; i < savings.size(); i++)
+    for(uint i = 0; i < savings.size(); ++i)
     {
         addChildFromDB(ui->twSavings->topLevelItem(0),
                        savings.at(i).at(1), //type
@@ -337,6 +343,7 @@ void MainWindow::on_pbAddCost_clicked()
 
 void MainWindow::on_pbRemoveCost_clicked()
 {
+//    emit removeCostRow();
 /*    QList<QTreeWidgetItem *> itemList = ui->twCost->selectedItems();
     for (int i = 0; i < itemList.size(); i++)
     {
@@ -444,5 +451,5 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 
 void MainWindow::on_cbMonth_currentIndexChanged(int index)
 {
-//    mBudget->setMonth(ui->cbMonth->currentIndex());
+//    mBudgetedCost->setMonth(index);
 }

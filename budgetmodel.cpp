@@ -4,15 +4,14 @@ BudgetModel::BudgetModel(QObject *parent) : QAbstractTableModel(parent)
 {
     //    selectedCell = 0;
         db = new DBManager();
-        month = 6;
-        expenses = db->getBudgetedExpenses(month);
-        rows = expenses.size();
+        month = 0;
+        rows = 0;
         cols = 2;
 }
 
 int BudgetModel::rowCount(const QModelIndex &parent) const
 {
-    return expenses.size();
+    return dataSet.size();
 }
 
 int BudgetModel::columnCount(const QModelIndex &parent) const
@@ -28,7 +27,7 @@ QVariant BudgetModel::data(const QModelIndex &index, int role) const
     switch(role)
     {
         case Qt::DisplayRole:
-            return expenses.at(row).at(col+1);
+            return dataSet.at(row).at(col+1);
             break;
         case Qt::FontRole:
             if (row == 0 && col == 0) //change font only for cell(0,0)
@@ -59,9 +58,9 @@ QVariant BudgetModel::headerData(int section, Qt::Orientation orientation, int r
     return QVariant();
 }
 
-void BudgetModel::setMonth(int month)
+void BudgetModel::setMonth(int cbMonth)
 {
-    this->month = month;
+    this->month = cbMonth;
 }
 
 bool BudgetModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -81,20 +80,19 @@ bool BudgetModel::setData(const QModelIndex &index, const QVariant &value, int r
                 newList << "" << value.toString();
                 break;
         }
-
         //save value from editor to expenses
-        if(row > expenses.size())
+        if(row > dataSet.size())
         {
             //New row
-            expenses.push_back(newList);
-            qDebug() << "push_back()";
+            dataSet.push_back(newList);
         }
         else
         {
-            expenses.at(row).replace(col + 1, value.toString());
-            qDebug() << "replace";
+            QStringList values;
+            dataSet.at(row).replace(col + 1, value.toString());
+            values << dataSet.at(row).at(0) << dataSet.at(row).at(1) << dataSet.at(row).at(2);
+            updateData(values);
         }
-//        return expenses.at(row).at(col+1);
         qDebug() << value.toString();
     }
     return true;
@@ -110,14 +108,54 @@ bool BudgetModel::insertRows(int row, int count, const QModelIndex &parent)
 
 }
 
+void BudgetModel::setDataType(QString name)
+{
+    dataType = name;
+    readData();
+}
+
+void BudgetModel::updateData(QStringList values)
+{
+    db->updateBudgetedExpense(&values);
+}
+
 void BudgetModel::readData()
 {
-    expenses = db->getBudgetedExpenses(month);
+    //actualExpenses, budgetedExpenses, income
+    if(dataType.contains("actualExpenses"))
+    {
+        dataSet = db->getActualExpenses(month);
+    }
+    else if (dataType.contains("budgetedExpenses"))
+    {
+        dataSet = db->getBudgetedExpenses(month);
+        qDebug()<< "read dataset from ";
+    }
+    else if (dataType.contains("income"))
+    {
+        dataSet = db->getIncome(month);
+    }
 }
 
 void BudgetModel::writeData()
 {
-
+    for (uint i = 0; i < dataSet.size() ; ++i)
+    {
+        //actualExpenses, budgetedExpenses, income
+        if(dataType.contains("actualExpenses"))
+        {
+          //  dataSet = db->getActualExpenses(month);
+        }
+        else if (dataType.contains("budgetedExpenses"))
+        {
+            db->addBudgetedExpense(&dataSet.at(i), month);
+            qDebug()<< "adding expense to db";
+        }
+        else if (dataType.contains("income"))
+        {
+            dataSet = db->getIncome(month);
+        }
+    }
 }
 
 void BudgetModel::dataUpdated()
@@ -128,10 +166,12 @@ void BudgetModel::dataUpdated()
 void BudgetModel::addRow()
 {
     //notify that expenses is appended
-   beginInsertRows(QModelIndex(), expenses.size()-1, expenses.size()-1);
-       expenses.push_back(QStringList() << ""<< "New Item" << "0.0");
+   beginInsertRows(QModelIndex(), dataSet.size()-1, dataSet.size()-1);
+       //add new row to the dataset with empty ID
+        dataSet.push_back(QStringList() << ""<< "New Item" << "0.0");
    //notify views that you're done with modifying the underlying data
    endInsertRows();
+   writeData();
+   readData();
 //    emit dataChanged();
-    qDebug() << "signal received";
 }

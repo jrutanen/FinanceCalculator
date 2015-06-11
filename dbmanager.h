@@ -33,11 +33,11 @@ class DBManager
 public:
     DBManager();
     std::vector<QStringList> getBudgetedExpenses(int month);
-    QSqlQuery getBudgetExpenses(int month);
-    QStringList getActualExpenses(int month);
+    std::vector<QStringList> getActualExpenses(int month);
     std::vector<QStringList> getIncome(int month);
     std::vector<QStringList> getLoan(int month);
     std::vector<QStringList> getSavings(int month);
+    bool updateBudgetedExpense(QStringList *list);
     bool addBudgetedExpense(QStringList *list, int month);
     bool addActualExpense(QStringList *list, int month);
     bool addIncome(QStringList *list, int month);
@@ -50,7 +50,7 @@ private:
     bool createTables();
     QString dbPath;
     bool addData(QString tableName, QStringList *data, int month);
-    bool updateData(QString tableName, QStringList *data, int month);
+    bool updateData(QString tableName, QStringList *data);
     bool newData(QString tableName, QStringList *data, int month);
     std::vector<QStringList> getData(QString tableName, int month);
     QString intToDateMonth(int month);
