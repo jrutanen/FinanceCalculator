@@ -40,6 +40,7 @@ private:
 private slots:
     void dataUpdated();
     void addRow();
+    void removeRow(int row);
 
 signals:
     void updateView();

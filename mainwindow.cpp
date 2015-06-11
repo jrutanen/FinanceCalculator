@@ -348,13 +348,8 @@ void MainWindow::on_pbAddCost_clicked()
 
 void MainWindow::on_pbRemoveCost_clicked()
 {
-//    emit removeCostRow();
-/*    QList<QTreeWidgetItem *> itemList = ui->twCost->selectedItems();
-    for (int i = 0; i < itemList.size(); i++)
-    {
-        itemList.at(i)->~QTreeWidgetItem();
-    }
-*/
+//    emit removeCostRow(ui->tableViewCost->selectionModel()->currentIndex().column())
+                       //selectionModel()->currentIndex().row());
 }
 
 void MainWindow::on_pbAddIncome_clicked()

@@ -167,9 +167,39 @@ void BudgetModel::addRow()
 {
     //notify that expenses is appended
    beginInsertRows(QModelIndex(), dataSet.size()-1, dataSet.size()-1);
-       //add new row to the dataset with empty ID
-        dataSet.push_back(QStringList() << ""<< "New Item" << "0.0");
+       //actualExpenses, budgetedExpenses, income
+       if(dataType.contains("actualExpenses"))
+       {
+           QStringList row;
+           row << ""<< "New Item" << "0.0";
+//           db->addActualExpense(&row , month);
+           dataSet = db->getActualExpenses(month);
+       }
+       else if (dataType.contains("budgetedExpenses"))
+       {
+           QStringList row;
+           row << ""<< "New Item" << "0.0";
+           db->addBudgetedExpense(&row , month);
+           dataSet = db->getBudgetedExpenses(month);
+           qDebug()<< "updated dataset and row";
+       }
+       else if (dataType.contains("income"))
+       {
+           //dataSet = db->getIncome(month);
+       }       //add new row to the dataset with empty ID
    //notify views that you're done with modifying the underlying data
    endInsertRows();
-//    emit dataChanged();
+   //    emit dataChanged();
+}
+
+void BudgetModel::removeRow(int row)
+{
+/*A removeRows() implementation must call beginRemoveRows() before the
+ * rows are removed from the data structure, and it must call endRemoveRows()
+ * immediately afterwards.*/
+
+/*    beginRemoveRows();
+        removeRows()
+    endRemoveRows();
+*/
 }

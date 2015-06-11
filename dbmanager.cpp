@@ -77,7 +77,7 @@ bool DBManager::addBudgetedExpense(QStringList *list, int month)
 {
     qDebug() << QString("addBudgetedExpense");
     bool dbUpdated = false;
-    if (list->at(2).isEmpty())
+    if (list->at(0).isEmpty())
     {
         dbUpdated =  addData(QString("expense_budget"), list, month);
     }
@@ -97,7 +97,7 @@ bool DBManager::addIncome(QStringList *list, int month)
 {
     qDebug() << QString("addIncome");
     bool dbUpdated = false;
-    if (list->at(2).isEmpty())
+    if (list->at(0).isEmpty())
     {
         dbUpdated =  addData(QString("income_budget"), list, month);
     }
@@ -247,8 +247,8 @@ bool DBManager::addData(QString tableName, QStringList *data, int month)
         queryString.append(QString("INSERT INTO %1 (type, amount, date) "
                                    "VALUES ('%2', '%3', '%4')")
                                    .arg(tableName)
-                                   .arg(data->at(0))
                                    .arg(data->at(1))
+                                   .arg(data->at(2))
                                    .arg(date)
                                    );
 
