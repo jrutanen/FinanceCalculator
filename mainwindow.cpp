@@ -38,6 +38,11 @@ MainWindow::MainWindow(QWidget *parent) :
     mBudgetedCost->setDataType(QString("budgetedExpenses"));
     //connect model to the tableview
     ui->tableViewCost->setModel(mBudgetedCost);
+    ui->tableViewCost->setColumnWidth(0, 240);
+    ui->tableViewCost->setColumnWidth(1, ui->tableViewCost->width() - 230);
+    ui->tableViewCost->verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
+    ui->tableViewCost->verticalHeader()->setDefaultSectionSize(20);
+    ui->tableViewCost->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     QObject::connect(this, SIGNAL(addCostRow()),
                      mBudgetedCost, SLOT(addRow()));

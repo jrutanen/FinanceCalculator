@@ -171,7 +171,5 @@ void BudgetModel::addRow()
         dataSet.push_back(QStringList() << ""<< "New Item" << "0.0");
    //notify views that you're done with modifying the underlying data
    endInsertRows();
-   writeData();
-   readData();
 //    emit dataChanged();
 }
