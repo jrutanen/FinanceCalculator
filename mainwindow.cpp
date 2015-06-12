@@ -46,6 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QObject::connect(this, SIGNAL(addCostRow()),
                      mBudgetedCost, SLOT(addRow()));
+    QObject::connect(this, SIGNAL(monthChanged(int)),
+                     mBudgetedCost, SLOT(changeMonth(int)));
 
     mActualCost = new BudgetModel(0);
     mIncome = new BudgetModel(0);
@@ -451,5 +453,5 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 
 void MainWindow::on_cbMonth_currentIndexChanged(int index)
 {
-//    mBudgetedCost->setMonth(index);
+    emit monthChanged(index + 1);
 }

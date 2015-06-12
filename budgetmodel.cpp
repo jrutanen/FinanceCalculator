@@ -189,7 +189,6 @@ void BudgetModel::addRow()
        }       //add new row to the dataset with empty ID
    //notify views that you're done with modifying the underlying data
    endInsertRows();
-   //    emit dataChanged();
 }
 
 void BudgetModel::removeRow(int row)
@@ -202,4 +201,10 @@ void BudgetModel::removeRow(int row)
         removeRows()
     endRemoveRows();
 */
+}
+
+void BudgetModel::changeMonth(int cbMonth)
+{
+    month = cbMonth;
+    readData();
 }
