@@ -164,8 +164,8 @@ void LSBarChart::drawYAxis(double max)
     this->addLine(x, 8, x, yAxis.length, QPen(Qt::black));
     this->addLine(xAxis.length, 8, xAxis.length + 8, 8, QPen(Qt::black));
     this->addLine(xAxis.length, (canvasHeight-8)/2, xAxis.length + 8, (canvasHeight-8)/2, QPen(Qt::black));
-    this->addText(QString("%1").arg(max, 0, 'f', 0))->setPos(canvasWidth, 8);
-    this->addText(QString("%1").arg(max/2, 0, 'f', 0))->setPos(canvasWidth, (canvasHeight-8)/2);
+    this->addText(QString("%1").arg(max, 0, 'f', 0))->setPos(canvasWidth + 8, - 8);
+    this->addText(QString("%1").arg(max/2, 0, 'f', 0))->setPos(canvasWidth + 8, (canvasHeight-8)/2 - 16);
 }
 
 void LSBarChart::drawLegend()
