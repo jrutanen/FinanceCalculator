@@ -129,12 +129,18 @@ void BudgetModel::setDataType(QString name)
 void BudgetModel::updateData(QStringList values)
 {
     db->updateBudgetedExpense(&values);
+    readData();
 }
 
 QStringList BudgetModel::calculateTotal(std::deque<QStringList> data)
 {
+    double totalAmount = 0.0;
+    for (int i = 0; i < data.size(); ++i)
+    {
+        totalAmount += data.at(i).at(2).toDouble();
+    }
     QStringList row;
-    row <<"" << "Total" << "0.0";
+    row <<"" << "Total" << QString::number(totalAmount);
     return row;
 }
 
