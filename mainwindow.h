@@ -96,6 +96,7 @@ private:
 signals:
     void addCostRow();
     void monthChanged(int);
+    void removeCostRow(int);
 };
 
 #endif // MAINWINDOW_H

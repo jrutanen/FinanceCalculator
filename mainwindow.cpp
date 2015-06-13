@@ -36,8 +36,12 @@ MainWindow::MainWindow(QWidget *parent) :
     mBudgetedCost->setMonth(ui->cbMonth->currentIndex() + 1);
     //select the type of data to fetch
     mBudgetedCost->setDataType(QString("budgetedExpenses"));
+    // set selection model
+    QItemSelectionModel *selectionModel = new QItemSelectionModel(mBudgetedCost);
+
     //connect model to the tableview
     ui->tableViewCost->setModel(mBudgetedCost);
+    ui->tableViewCost->setSelectionModel(selectionModel);
     ui->tableViewCost->setColumnWidth(0, 240);
     ui->tableViewCost->setColumnWidth(1, ui->tableViewCost->width() - 230);
     ui->tableViewCost->verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
@@ -48,12 +52,12 @@ MainWindow::MainWindow(QWidget *parent) :
                      mBudgetedCost, SLOT(addRow()));
     QObject::connect(this, SIGNAL(monthChanged(int)),
                      mBudgetedCost, SLOT(changeMonth(int)));
+    QObject::connect(this, SIGNAL(removeCostRow(int)),
+                     mBudgetedCost, SLOT(removeRow(int)));
 
     mActualCost = new BudgetModel(0);
     mIncome = new BudgetModel(0);
 
-/*            QObject::connect(&a, SIGNAL(valueChanged(int)),
-                             &b, SLOT(setValue(int)));*/
     //one extra hidden column for id
     ui->twIncome->setColumnCount(3);
     ui->twIncome->hideColumn(2);
@@ -183,7 +187,7 @@ void MainWindow::drawGraph( QGraphicsView *view, vector<DataSet> data)
 
 void MainWindow::updateBudgetItems()
 {
-    std::vector<QStringList> expenses = dbManager->getBudgetedExpenses(ui->cbMonth->currentIndex() + 1);
+    std::deque<QStringList> expenses = dbManager->getBudgetedExpenses(ui->cbMonth->currentIndex() + 1);
     for(uint i = 0; i < expenses.size(); ++i)
     {
 /*        addChildFromDB(ui->twCost->topLevelItem(0),
@@ -192,7 +196,7 @@ void MainWindow::updateBudgetItems()
                        expenses.at(i).at(0)); //id
                     */
     }
-    std::vector<QStringList> income = dbManager->getIncome(ui->cbMonth->currentIndex()  + 1);
+    std::deque<QStringList> income = dbManager->getIncome(ui->cbMonth->currentIndex()  + 1);
     for(uint i = 0; i < income.size(); ++i)
     {
         addChildFromDB(ui->twIncome->topLevelItem(0),
@@ -200,8 +204,8 @@ void MainWindow::updateBudgetItems()
                        income.at(i).at(2), //amount
                        income.at(i).at(0)); //id
     }
-    std::vector<QStringList> loans = dbManager->getLoan(ui->cbMonth->currentIndex()  + 1);
-    std::vector<QStringList> savings = dbManager->getSavings(ui->cbMonth->currentIndex()  + 1);
+    std::deque<QStringList> loans = dbManager->getLoan(ui->cbMonth->currentIndex()  + 1);
+    std::deque<QStringList> savings = dbManager->getSavings(ui->cbMonth->currentIndex()  + 1);
     for(uint i = 0; i < savings.size(); ++i)
     {
         addChildFromDB(ui->twSavings->topLevelItem(0),
@@ -350,8 +354,7 @@ void MainWindow::on_pbAddCost_clicked()
 
 void MainWindow::on_pbRemoveCost_clicked()
 {
-//    emit removeCostRow(ui->tableViewCost->selectionModel()->currentIndex().column())
-                       //selectionModel()->currentIndex().row());
+    emit removeCostRow(ui->tableViewCost->selectionModel()->currentIndex().row());
 }
 
 void MainWindow::on_pbAddIncome_clicked()

@@ -29,37 +29,37 @@ DBManager::DBManager()
     }
 }
 
-std::vector<QStringList> DBManager::getBudgetedExpenses(int month)
+std::deque<QStringList> DBManager::getBudgetedExpenses(int month)
 {
-    std::vector<QStringList> temp;
+    std::deque<QStringList> temp;
     temp = getData("expense_budget", month);
     return temp;
 }
 
-std::vector<QStringList> DBManager::getActualExpenses(int month)
+std::deque<QStringList> DBManager::getActualExpenses(int month)
 {
-    std::vector<QStringList> temp;
+    std::deque<QStringList> temp;
     temp = getData("expense_actual", month);
     return temp;
 }
 
-std::vector<QStringList>  DBManager::getIncome(int month)
+std::deque<QStringList>  DBManager::getIncome(int month)
 {
-    std::vector<QStringList> temp;
+    std::deque<QStringList> temp;
     temp = getData("income_budget", month);
     return temp;
 }
 
-std::vector<QStringList> DBManager::getLoan(int month)
+std::deque<QStringList> DBManager::getLoan(int month)
 {
-    std::vector<QStringList> temp;
+    std::deque<QStringList> temp;
     temp = getData("loans", month);
     return temp;
 }
 
-std::vector<QStringList> DBManager::getSavings(int month)
+std::deque<QStringList> DBManager::getSavings(int month)
 {
-    std::vector<QStringList> temp;
+    std::deque<QStringList> temp;
     temp = getData("savings", month);
     return temp;
 }
@@ -86,6 +86,11 @@ bool DBManager::addBudgetedExpense(QStringList *list, int month)
         dbUpdated =  updateData(QString("expense_budget"), list);
     }
     return dbUpdated;
+}
+
+bool DBManager::removeBudgetedExpense(QString id)
+{
+    removeData(QString("expense_budget"), id);
 }
 
 bool DBManager::addActualExpense(QStringList *list, int month)
@@ -326,9 +331,37 @@ bool DBManager::newData(QString tableName, QStringList *data, int month)
 
 }
 
-std::vector<QStringList> DBManager::getData(QString tableName, int month)
+bool DBManager::removeData(QString tableName, QString id)
 {
-    std::vector<QStringList> queryResult;// = new std::vector<QStringList>;
+    if (db.isOpen())
+    {
+        QString queryString = "";
+        QSqlQuery query(db);
+
+        queryString.append(QString("DELETE FROM %1 WHERE id='%2'")
+                           .arg(tableName)
+                           .arg(id));
+
+        qDebug() << queryString;
+
+        if(!query.exec(queryString))
+        {
+            qDebug() << QString("Could not remove record from expense_budget");
+            return false;
+        }
+    }
+    else
+    {
+        qDebug() << QString("DB is Closed!");
+    }
+
+    return true;
+
+}
+
+std::deque<QStringList> DBManager::getData(QString tableName, int month)
+{
+    std::deque<QStringList> queryResult;// = new std::deque<QStringList>;
     if (db.isOpen())
     {
         QString date = QDateTime::currentDateTime().toString("yyyy")

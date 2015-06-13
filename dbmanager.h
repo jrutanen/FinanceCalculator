@@ -27,18 +27,20 @@
 #include <QDebug>
 #include <QStandardPaths>
 #include <QDateTime>
+#include <deque>
 
 class DBManager
 {
 public:
     DBManager();
-    std::vector<QStringList> getBudgetedExpenses(int month);
-    std::vector<QStringList> getActualExpenses(int month);
-    std::vector<QStringList> getIncome(int month);
-    std::vector<QStringList> getLoan(int month);
-    std::vector<QStringList> getSavings(int month);
+    std::deque<QStringList> getBudgetedExpenses(int month);
+    std::deque<QStringList> getActualExpenses(int month);
+    std::deque<QStringList> getIncome(int month);
+    std::deque<QStringList> getLoan(int month);
+    std::deque<QStringList> getSavings(int month);
     bool updateBudgetedExpense(QStringList *list);
     bool addBudgetedExpense(QStringList *list, int month);
+    bool removeBudgetedExpense(QString id);
     bool addActualExpense(QStringList *list, int month);
     bool addIncome(QStringList *list, int month);
     bool addLoan(QStringList *list, int month);
@@ -52,7 +54,8 @@ private:
     bool addData(QString tableName, QStringList *data, int month);
     bool updateData(QString tableName, QStringList *data);
     bool newData(QString tableName, QStringList *data, int month);
-    std::vector<QStringList> getData(QString tableName, int month);
+    bool removeData(QString tableName, QString id);
+    std::deque<QStringList> getData(QString tableName, int month);
     QString intToDateMonth(int month);
 };
 

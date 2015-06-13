@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QFont>
 #include <QBrush>
-#include <QSqlQuery>
+#include <deque>
 #include "dbmanager.h"
 
 class BudgetModel : public QAbstractTableModel
@@ -32,10 +32,11 @@ private:
     int cols;
     int month;
     double sum;
-    std::vector<QStringList> dataSet;
+    std::deque<QStringList> dataSet;
     void readData();
     void writeData();    
     void updateData(QStringList values);
+    QStringList calculateTotal(std::deque<QStringList> data);
 
 private slots:
     void dataUpdated();
