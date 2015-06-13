@@ -42,8 +42,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect model to the tableview
     ui->tableViewCost->setModel(mBudgetedCost);
     ui->tableViewCost->setSelectionModel(selectionModel);
-    ui->tableViewCost->setColumnWidth(0, 240);
-    ui->tableViewCost->setColumnWidth(1, ui->tableViewCost->width() - 230);
+    ui->tableViewCost->setColumnWidth(0, 230);
+    ui->tableViewCost->setColumnWidth(1, ui->tableViewCost->width() - 240);
     ui->tableViewCost->verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
     ui->tableViewCost->verticalHeader()->setDefaultSectionSize(20);
     ui->tableViewCost->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -56,18 +56,38 @@ MainWindow::MainWindow(QWidget *parent) :
                      mBudgetedCost, SLOT(removeRow(int)));
 
     mActualCost = new BudgetModel(0);
+
+    //connect table view income to the budget model
     mIncome = new BudgetModel(0);
+    //update month to the data model
+    mIncome->setMonth(ui->cbMonth->currentIndex() + 1);
+    //select the type of data to fetch
+    mIncome->setDataType(QString("income"));
+    // set selection model
+    QItemSelectionModel *selectionModelIncome = new QItemSelectionModel(mIncome);
+
+    QObject::connect(this, SIGNAL(addIncomeRow()),
+                     mIncome, SLOT(addRow()));
+    QObject::connect(this, SIGNAL(monthChanged(int)),
+                     mIncome, SLOT(changeMonth(int)));
+    QObject::connect(this, SIGNAL(removeIncomeRow(int)),
+                     mIncome, SLOT(removeRow(int)));
+
+    //connect model to the tableview
+    ui->tableViewIncome->setModel(mIncome);
+    ui->tableViewIncome->setSelectionModel(selectionModel);
+    ui->tableViewIncome->setColumnWidth(0, 230);
+    ui->tableViewIncome->setColumnWidth(1, ui->tableViewIncome->width() - 240);
+    ui->tableViewIncome->verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
+    ui->tableViewIncome->verticalHeader()->setDefaultSectionSize(20);
+    ui->tableViewIncome->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     //one extra hidden column for id
-    ui->twIncome->setColumnCount(3);
-    ui->twIncome->hideColumn(2);
     ui->twLoan->setColumnCount(3);
     ui->twLoan->hideColumn(2);
     ui->twSavings->setColumnCount(3);
     ui->twSavings->hideColumn(2);
 
-//    addRoot(ui->twCost, "Expences", 0.0);
-    addRoot(ui->twIncome, "Income Source", 0.0);
     addRoot(ui->twLoan, "Creditor", 0.0);
     addRoot(ui->twSavings, "Investment", 0.0);
 
@@ -199,10 +219,11 @@ void MainWindow::updateBudgetItems()
     std::deque<QStringList> income = dbManager->getIncome(ui->cbMonth->currentIndex()  + 1);
     for(uint i = 0; i < income.size(); ++i)
     {
-        addChildFromDB(ui->twIncome->topLevelItem(0),
+/*        addChildFromDB(ui->twIncome->topLevelItem(0),
                        income.at(i).at(1), //type
                        income.at(i).at(2), //amount
                        income.at(i).at(0)); //id
+*/
     }
     std::deque<QStringList> loans = dbManager->getLoan(ui->cbMonth->currentIndex()  + 1);
     std::deque<QStringList> savings = dbManager->getSavings(ui->cbMonth->currentIndex()  + 1);
@@ -359,16 +380,12 @@ void MainWindow::on_pbRemoveCost_clicked()
 
 void MainWindow::on_pbAddIncome_clicked()
 {
-    addChild(ui->twIncome->topLevelItem(0), "Income Type", 0.0);
+    emit addIncomeRow();
 }
 
 void MainWindow::on_pbRemoveIncome_clicked()
 {
-    QList<QTreeWidgetItem *> itemList = ui->twIncome->selectedItems();
-    for (int i = 0; i < itemList.size(); i++)
-    {
-        itemList.at(i)->~QTreeWidgetItem();
-    }
+    emit removeIncomeRow(ui->tableViewIncome->selectionModel()->currentIndex().row());
 }
 void removeTreeItem(QList<QTreeWidgetItem *> itemList)
 {
@@ -412,7 +429,7 @@ void MainWindow::on_pbSave_clicked()
 {
     qDebug() << QString("save button clicked");
     //add income to the database
-    QTreeWidgetItemIterator inode(ui->twIncome);
+/*    QTreeWidgetItemIterator inode(ui->twIncome);
     while (*inode) {
       if ((*inode)->parent())
       {
@@ -425,6 +442,7 @@ void MainWindow::on_pbSave_clicked()
       }
       ++inode;
     }
+*/
     //add loans to the database
 
     //add savings to the database

@@ -128,7 +128,19 @@ void BudgetModel::setDataType(QString name)
 
 void BudgetModel::updateData(QStringList values)
 {
-    db->updateBudgetedExpense(&values);
+    //actualExpenses, budgetedExpenses, income
+    if(dataType.contains("actualExpenses"))
+    {
+        dataSet = db->getActualExpenses(month);
+    }
+    else if (dataType.contains("budgetedExpenses"))
+    {
+        db->updateBudgetedExpense(&values);
+    }
+    else if (dataType.contains("income"))
+    {
+        db->updateIncome(&values);
+    }
     readData();
 }
 
@@ -153,7 +165,6 @@ void BudgetModel::readData()
     }
     else if (dataType.contains("budgetedExpenses"))
     {
-//        dataSet = db->getBudgetedExpenses(month);
         dataSet = db->getBudgetedExpenses(month);
         dataSet.push_front(calculateTotal(dataSet));
         qDebug()<< "read dataset from ";
@@ -161,6 +172,7 @@ void BudgetModel::readData()
     else if (dataType.contains("income"))
     {
         dataSet = db->getIncome(month);
+        dataSet.push_front(calculateTotal(dataSet));
     }
 }
 
@@ -194,6 +206,7 @@ void BudgetModel::addRow()
 {
     //notify that expenses is appended
    beginInsertRows(QModelIndex(), dataSet.size()-1, dataSet.size()-1);
+       //add new row to the dataset with empty ID
        //actualExpenses, budgetedExpenses, income
        if(dataType.contains("actualExpenses"))
        {
@@ -207,12 +220,14 @@ void BudgetModel::addRow()
            row << ""<< "New Item" << "0.0";
            db->addBudgetedExpense(&row , month);
            readData();
-           qDebug()<< "updated dataset and row";
        }
        else if (dataType.contains("income"))
        {
-           //dataSet = db->getIncome(month);
-       }       //add new row to the dataset with empty ID
+           QStringList row;
+           row << ""<< "New Item" << "0.0";
+           db->addIncome(&row , month);
+           readData();
+       }
    //notify views that you're done with modifying the underlying data
    endInsertRows();
 }
@@ -227,7 +242,19 @@ void BudgetModel::removeRow(int row)
         if (row > 0)
         {
             //remove record from the database
-            db->removeBudgetedExpense(dataSet.at(row).at(0));
+            //actualExpenses, budgetedExpenses, income
+            if(dataType.contains("actualExpenses"))
+            {
+              //  db->removeActualExpenses(month); //TODO
+            }
+            else if (dataType.contains("budgetedExpenses"))
+            {
+                db->removeBudgetedExpense(dataSet.at(row).at(0));
+            }
+            else if (dataType.contains("income"))
+            {
+                db->removeIncome(dataSet.at(row).at(0));
+            }
             readData();
         }
     endRemoveRows();

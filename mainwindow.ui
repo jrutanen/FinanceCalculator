@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>719</width>
-    <height>574</height>
+    <width>723</width>
+    <height>689</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -377,7 +377,7 @@
           <x>0</x>
           <y>0</y>
           <width>691</width>
-          <height>500</height>
+          <height>588</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -501,6 +501,12 @@
              </item>
              <item>
               <widget class="QTableView" name="tableViewCost">
+               <property name="verticalScrollBarPolicy">
+                <enum>Qt::ScrollBarAlwaysOn</enum>
+               </property>
+               <property name="horizontalScrollBarPolicy">
+                <enum>Qt::ScrollBarAlwaysOff</enum>
+               </property>
                <property name="autoScroll">
                 <bool>true</bool>
                </property>
@@ -542,12 +548,22 @@
               </widget>
              </item>
              <item>
-              <widget class="QTreeWidget" name="twIncome">
-               <column>
-                <property name="text">
-                 <string notr="true">1</string>
-                </property>
-               </column>
+              <widget class="QTableView" name="tableViewIncome">
+               <property name="verticalScrollBarPolicy">
+                <enum>Qt::ScrollBarAlwaysOn</enum>
+               </property>
+               <property name="horizontalScrollBarPolicy">
+                <enum>Qt::ScrollBarAlwaysOff</enum>
+               </property>
+               <property name="autoScroll">
+                <bool>true</bool>
+               </property>
+               <property name="autoScrollMargin">
+                <number>16</number>
+               </property>
+               <property name="gridStyle">
+                <enum>Qt::DotLine</enum>
+               </property>
               </widget>
              </item>
              <item>
@@ -555,14 +571,14 @@
                <item>
                 <widget class="QPushButton" name="pbAddIncome">
                  <property name="text">
-                  <string>Add Source</string>
+                  <string>Add Income</string>
                  </property>
                 </widget>
                </item>
                <item>
                 <widget class="QPushButton" name="pbRemoveIncome">
                  <property name="text">
-                  <string>Remove Source</string>
+                  <string>Remove Income</string>
                  </property>
                 </widget>
                </item>
@@ -652,7 +668,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>719</width>
+     <width>723</width>
      <height>22</height>
     </rect>
    </property>

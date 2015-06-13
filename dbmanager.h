@@ -42,7 +42,9 @@ public:
     bool addBudgetedExpense(QStringList *list, int month);
     bool removeBudgetedExpense(QString id);
     bool addActualExpense(QStringList *list, int month);
+    bool updateIncome(QStringList *list);
     bool addIncome(QStringList *list, int month);
+    bool removeIncome(QString id);
     bool addLoan(QStringList *list, int month);
     bool addSavings(QStringList *list, int month);
 

@@ -95,8 +95,10 @@ private:
 
 signals:
     void addCostRow();
+    void addIncomeRow();
     void monthChanged(int);
     void removeCostRow(int);
+    void removeIncomeRow(int);
 };
 
 #endif // MAINWINDOW_H
