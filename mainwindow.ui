@@ -482,7 +482,7 @@
            <item>
             <widget class="QPushButton" name="pbSave">
              <property name="text">
-              <string>Save</string>
+              <string>Lock This Monts Budget</string>
              </property>
             </widget>
            </item>

@@ -86,11 +86,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QPushButton *pbCalculateInvestmentValue;
-//    LSBarChart *scene;
     void drawGraph(QGraphicsView*, vector<DataSet>);
     void skipUserInput();
-    void removeTreeItem(QList<QTreeWidgetItem *> itemList);
-    void updateBudgetItems();
     void setComboToCurrentMonth();
 
 signals:

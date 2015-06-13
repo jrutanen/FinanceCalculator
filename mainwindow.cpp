@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //select the type of data to fetch
     mIncome->setDataType(QString("income"));
     // set selection model
-    QItemSelectionModel *selectionModelIncome = new QItemSelectionModel(mIncome);
+//    QItemSelectionModel *selectionModelIncome = new QItemSelectionModel(mIncome);
 
     QObject::connect(this, SIGNAL(addIncomeRow()),
                      mIncome, SLOT(addRow()));
@@ -90,9 +90,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     addRoot(ui->twLoan, "Creditor", 0.0);
     addRoot(ui->twSavings, "Investment", 0.0);
-
-    //Get budget data from database and update values to budget tab
-    updateBudgetItems();
 
 #ifdef NO_USER_INPUT
     skipUserInput();
@@ -203,37 +200,6 @@ void MainWindow::drawGraph( QGraphicsView *view, vector<DataSet> data)
     view->setScene( scene );
     view->matrix().reset();
     scene->drawChart(data);
-}
-
-void MainWindow::updateBudgetItems()
-{
-    std::deque<QStringList> expenses = dbManager->getBudgetedExpenses(ui->cbMonth->currentIndex() + 1);
-    for(uint i = 0; i < expenses.size(); ++i)
-    {
-/*        addChildFromDB(ui->twCost->topLevelItem(0),
-                       expenses.at(i).at(1), //type
-                       expenses.at(i).at(2), //amount
-                       expenses.at(i).at(0)); //id
-                    */
-    }
-    std::deque<QStringList> income = dbManager->getIncome(ui->cbMonth->currentIndex()  + 1);
-    for(uint i = 0; i < income.size(); ++i)
-    {
-/*        addChildFromDB(ui->twIncome->topLevelItem(0),
-                       income.at(i).at(1), //type
-                       income.at(i).at(2), //amount
-                       income.at(i).at(0)); //id
-*/
-    }
-    std::deque<QStringList> loans = dbManager->getLoan(ui->cbMonth->currentIndex()  + 1);
-    std::deque<QStringList> savings = dbManager->getSavings(ui->cbMonth->currentIndex()  + 1);
-    for(uint i = 0; i < savings.size(); ++i)
-    {
-        addChildFromDB(ui->twSavings->topLevelItem(0),
-                       savings.at(i).at(1), //type
-                       savings.at(i).at(2), //amount
-                       savings.at(i).at(0)); //id
-    }
 }
 
 void MainWindow::setComboToCurrentMonth()
@@ -365,9 +331,6 @@ void MainWindow::updateAmount(QTreeWidgetItem *item, int column)
     }
 }
 
-
-
-
 void MainWindow::on_pbAddCost_clicked()
 {
     emit addCostRow();
@@ -386,15 +349,6 @@ void MainWindow::on_pbAddIncome_clicked()
 void MainWindow::on_pbRemoveIncome_clicked()
 {
     emit removeIncomeRow(ui->tableViewIncome->selectionModel()->currentIndex().row());
-}
-void removeTreeItem(QList<QTreeWidgetItem *> itemList)
-{
-    /*
-    for (uint i = 0; i < itemList.size(); i++)
-    {
-        itemList.at(i)->~QTreeWidgetItem();
-    }
-    */
 }
 
 void MainWindow::on_pbAddLoan_clicked()
@@ -428,37 +382,6 @@ void MainWindow::on_pbRemoveSavings_clicked()
 void MainWindow::on_pbSave_clicked()
 {
     qDebug() << QString("save button clicked");
-    //add income to the database
-/*    QTreeWidgetItemIterator inode(ui->twIncome);
-    while (*inode) {
-      if ((*inode)->parent())
-      {
-          QStringList *list = new QStringList;
-          list->append((*inode)->text(0));
-          list->append((*inode)->text(1));
-          list->append((*inode)->text(2));
-          qDebug() << list->at(0) << ", " << list->at(1) << "," << list->at(2);
-          dbManager->addIncome(list, ui->cbMonth->currentIndex() + 1);
-      }
-      ++inode;
-    }
-*/
-    //add loans to the database
-
-    //add savings to the database
-    QTreeWidgetItemIterator snode(ui->twSavings);
-    while (*snode) {
-      if ((*snode)->parent())
-      {
-          QStringList *list = new QStringList;
-          list->append((*snode)->text(0));
-          list->append((*snode)->text(1));
-          list->append((*snode)->text(2));
-          qDebug() << list->at(0) << ", " << list->at(1) << "," << list->at(2);
-          dbManager->addSavings(list, ui->cbMonth->currentIndex() + 1);
-      }
-      ++snode;
-    }
 }
 
 void MainWindow::on_tabWidget_currentChanged(int index)
@@ -467,8 +390,6 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     {
         //Set current month to the cbMonth combobox
         setComboToCurrentMonth();
-        //Get budget data from database and update values
-        updateBudgetItems();
     }
 }
 
