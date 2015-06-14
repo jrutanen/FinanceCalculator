@@ -23,15 +23,29 @@
 #include<QDebug>
 #include<QResizeEvent>
 
-
+//!  ChartView class.
+/*!
+  This class is custom QGraphicsView. resizeEvent method is overriden in this
+  class, otherwise it's regular QGraphicsView.
+*/
 class ChartView : public QGraphicsView
 {
     Q_OBJECT
 
 public:
+    //! A constructor.
+    /*!
+      Constructor for ChartView class.
+    */
     ChartView(QWidget *parent = 0);
 
 protected:
+    //! A overriden method taking one argument.
+    /*!
+      \brief this method updates the size of the graphicsview and the scene that it contains.
+      \param *event a QResizeEvent.
+      \sa ChartView()
+    */
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 
 private:
@@ -39,3 +53,4 @@ private:
 };
 
 #endif // CHARTVIEW_H
+
