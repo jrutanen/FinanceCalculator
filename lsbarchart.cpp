@@ -57,16 +57,6 @@ LSBarChart::~LSBarChart(void)
 
 }
 
-void LSBarChart::addSummary( std::vector<DataSet> data)
-{
-    std::vector<double> values;
-
-    for ( uint i = 0; i < data.size(); i++)
-    {
-        values.push_back((std::accumulate(data[i].getData().begin(), data[i].getData().end(), 0)));
-    }
-}
-
 void LSBarChart::drawChart(std::vector<DataSet> data)
 {
     dataSets = data;
@@ -191,14 +181,6 @@ void LSBarChart::drawBar(double x, double y, double height, double width, QColor
 {
     this->addRect(x, canvasHeight-y - height, width, height, Qt::NoPen, QBrush(color));
 }
-void LSBarChart::drawBarWithColor(double position, double height, double width, QColor color)
-{
-    this->addRect(position, canvasHeight-height, width, height, Qt::NoPen, QBrush(color) );
-}
-void LSBarChart::drawStackedBarWithColor(double position, double height, double width, QColor color)
-{
-    this->addRect(position, canvasHeight-height, width, height, Qt::NoPen, QBrush(color) );
-}
 
 void LSBarChart::addInfoText(QString text)
 {
@@ -251,7 +233,6 @@ double LSBarChart::calculateMaxAxisValue(double value)
 
     return maxValue;
 }
-
 
 void LSBarChart::drawCursorLine(double x, double y)
 {
@@ -308,7 +289,6 @@ void LSBarChart::mouseMoveEvent(QGraphicsSceneMouseEvent * e)
                       + dataSets[2].getData().at(x))
                       * unitHeight;
             drawCursorLine(e->scenePos().x(), y);
-//            qDebug() << QString("x: %1, y: %2, height: %3").arg(e->scenePos().x()).arg(e->scenePos().y()).arg(y);
             addInfoText(QString("%1: %2\n"
                                 "%3: %4\n"
                                 "%5: %6")

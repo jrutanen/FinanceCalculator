@@ -30,7 +30,7 @@
 class Investment
 {
 public :
-    //! Constructor for the class.
+    //! Constructor for the class Investment.
     /*!
       \param rate double value containing the yearly growth rate for the investment.
       \param balance double current amount of investments.

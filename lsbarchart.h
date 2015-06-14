@@ -47,51 +47,165 @@
 
 using namespace std;
 
+//! LSBarChart class.
+/*!
+  This class is a custom scene inherited from QGraphicsScene. This class draws
+  barchart from a vector of dataSet.
+*/
 class LSBarChart : public QGraphicsScene
 {
 public:
+    //! A constructor.
+    /*!
+      Constructor for LSBarChart class.
+    */
     LSBarChart();
-    LSBarChart(double, double);
+
+    //! Constructor for the class LSBarChar.
+    /*!
+      \param width double value for width of the scene.
+      \param height double value for height of the scene.
+    */
+    LSBarChart(double width, double height);
     ~ LSBarChart(void);
-    void drawChart(std::vector<DataSet>);
-    void addSummary(std::vector<DataSet>);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent*);
+
+    //! A method to draw bar chart from the data.
+    /*!
+      \param data vector<DataSet> containing the series for data to be presented.
+      \sa LSBarChart()
+    */
+    void drawChart(std::vector<DataSet> data);
+
+    //! A method that draws infobox and line to the chart when mouse is moved over it.
+    /*!
+      \param e QGraphicsEvent containing the mouse pointer coordinates.
+      \sa LSBarChart()
+    */
+    void mouseMoveEvent(QGraphicsSceneMouseEvent* e);
 
 private:
-    void drawXAxis(int);
-    void drawYAxis(double);
+    //! A method that draws xAxis for the barchart.
+    /*!
+      \param max int for the maximum x-value in the data series.
+      \sa LSBarChart()
+    */
+    void drawXAxis(int max);
+
+    //! A method that draws yAxis for the barchart.
+    /*!
+      \param max int for the maximum y-value in the data series.
+      \sa LSBarChart()
+    */
+    void drawYAxis(double max);
+
+    //! A method that draws Legend (colored boxes and name of the series) under the bar chart.
+    /*!
+      \sa LSBarChart()
+    */
     void drawLegend();
-    void drawBar(double, double, double, double, QColor);
-    void drawBarWithColor(double, double, double, QColor);
-    void drawStackedBarWithColor(double, double, double, QColor);
+
+    //! A method that draws a box into the barchart.
+    /*!
+      \param x int x position for the top left corner of the box.
+      \param y int y position for the top left corner of the box.
+      \param height double height of the box.
+      \param width double width of the box.
+      \param color QColor value for the color of the box.
+      \sa LSBarChart()
+    */
+    void drawBar(double x, double y, double height, double width, QColor color);
+
+    //! A method that shows information of the current bar in the infobox.
+    /*!
+      \param text QString value of the text to be displayed.
+      \sa LSBarChart()
+    */
     void addInfoText(QString text);
-    double calculateMaxAxisValue(double);
+
+    //! A method that calculates extra buffer for the maximum value for the Axis.
+    /*!
+      \brief This method adds small buffer to the maximum value to make the chart look nicer.
+      \param value double value that the buffer will be added to
+      \return double maximum value for the axis
+      \sa LSBarChart()
+    */
+    double calculateMaxAxisValue(double value);
+
     std::vector<DataSet> dataSets;
+
+    //! A method that calculates extra buffer for the maximum value for the Axis.
+    /*!
+      \brief This method adds small buffer to the maximum value to make the chart look nicer.
+      \param value double value that the buffer will be added to
+      \return double maximum value for the axis
+      \sa LSBarChart()
+    */
     void drawCursorLine(double x, double y);
+
+    //! pointer to a cursoline shown at position of the mouse pointer
     QGraphicsLineItem *cursorLine;
+
+    //! pointer to the infotext in the callout shown when mouse pointer is hovering above the chart
     QGraphicsTextItem *infoText;
+
+    //! pointer to the infobox callout shown when mouse pointer is hovering above the chart
     InfoBox *infoBox;
+
+    //! Describes how many pixels each data point in the dataset is
     double unitHeight;
-    double calculateMaxDataValue(std::vector<DataSet>);
-//    QLineF cursorLine;
+
+    //! A method that calculates the maximum value for axis from the dataset.
+    /*!
+      This calculates the maximum value through all datasets. This calculation
+      makes sure that the chart can be fitted to the area of the scene.
+      \param data vector<DataSet> dataset that will be analysed for max value.
+      \return double maximum value for the axis.
+      \sa LSBarChart()
+    */
+    double calculateMaxDataValue(std::vector<DataSet> data);
+
 protected:
+    //! bool to select if animation for barchart is used or not (currently not in use).
     bool animation;
+
+    //! Width of the scene.
     double width;
+
+    //! Height of the scene.
     double height;
+
+    //! Widht of the are where barchart is drawn.
     double canvasWidth;
+
+    //! Height of the are where barchart is drawn.
     double canvasHeight;
+
+    //! left margin for the barchart
     double leftMargin;
+
+    //! widht of individual bars
     double barWidth;
+
+    //! width of the gap between bars
     double gap;
+
+    //! \struct Axis
+    /*!
+      \brief This struct contains information about the axis.
+      Axis contain pixel position (int) for the axis, length and width of the axis line and label for the axis (QString).
+    */
     struct Axis {
         int position;
         double length;
         double width;
         QString label;
     };
-    Axis xAxis;
-    Axis yAxis;
 
+    //! xAxis parameters
+    Axis xAxis;
+
+    //! yAxis parameters
+    Axis yAxis;
 };
 
 #endif // LSBARCHART_H

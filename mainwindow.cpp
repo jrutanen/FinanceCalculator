@@ -90,10 +90,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     addRoot(ui->twLoan, "Creditor", 0.0);
     addRoot(ui->twSavings, "Investment", 0.0);
-
-#ifdef NO_USER_INPUT
-    skipUserInput();
-#endif
 }
 
 void MainWindow::handleCalculateInvestment() {

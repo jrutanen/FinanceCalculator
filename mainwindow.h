@@ -44,6 +44,12 @@
 using namespace std;
 
 namespace Ui {
+
+//! MainWindow class.
+/*!
+    Main Window for the application.
+*/
+
 class MainWindow;
 }
 
@@ -81,7 +87,6 @@ private slots:
     void on_pbRemoveSavings_clicked();
     void on_pbSave_clicked();
     void on_tabWidget_currentChanged(int index);
-
     void on_cbMonth_currentIndexChanged(int index);
 
 private:
