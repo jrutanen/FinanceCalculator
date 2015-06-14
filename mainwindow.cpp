@@ -148,48 +148,67 @@ void MainWindow::addChildFromDB(QTreeWidgetItem *parent, QString name, QString a
 
 void MainWindow::on_pbCalculateInvestmentValue_clicked()
 {
+    bool fieldsNotEmpty = false;
     vector< vector<double> > values;
     vector<DataSet> *dataset = new vector<DataSet>;
     QString name;
     QString unit = "SEK";
     ui->gvInvestments->resetTransform();
-    //rate, balance, monthlyPayment, paymentTime, savingsTime
-    Investment inv( ui->leRate->text().toDouble(),
-                    ui->leStartBalance->text().toDouble(),
-                    ui->leMonthlyPayment->text().toDouble(),
-                    ui->lePayments->text().toInt(),
-                    ui->leSavingsTime->text().toInt());
 
-    values = inv.CalculateValue( ui->leRate->text().toDouble(),
-                         ui->leStartBalance->text().toDouble(),
-                         ui->leMonthlyPayment->text().toDouble(),
-                         ui->lePayments->text().toInt(),
-                         ui->leSavingsTime->text().toInt() );
-
-    ui->leTotal->setText(QString("%1").arg(values[0].back()+values[1].back()+values[2].back(), 0, 'f', 0));
-
-    for (uint i = 0; i < values.size(); i++)
+    fieldsNotEmpty = (ui->leRate->text() != "" && ui->leMonthlyPayment->text() != "" && ui->lePayments->text() != "");
+    if (fieldsNotEmpty)
     {
-        switch ( i )
+        if (ui->leSavingsTime->text() == "")
         {
-            case 0:
-                name = "Payment";
-                break;
-            case 1:
-                name = "Savings";
-                break;
-            case 2:
-                name = "Interest";
-                break;
-            default:
-                name = "N/A";
-                break;
+            ui->leSavingsTime->setText(ui->lePayments->text());
         }
-        DataSet *data = new DataSet(values.at(i), name, unit);
-        dataset->push_back(*data);
-    }
 
-    drawGraph(ui->gvInvestments, *dataset);
+        //rate, balance, monthlyPayment, paymentTime, savingsTime
+        Investment inv( ui->leRate->text().toDouble(),
+                        ui->leStartBalance->text().toDouble(),
+                        ui->leMonthlyPayment->text().toDouble(),
+                        ui->lePayments->text().toInt(),
+                        ui->leSavingsTime->text().toInt());
+
+        values = inv.CalculateValue( ui->leRate->text().toDouble(),
+                             ui->leStartBalance->text().toDouble(),
+                             ui->leMonthlyPayment->text().toDouble(),
+                             ui->lePayments->text().toInt(),
+                             ui->leSavingsTime->text().toInt() );
+
+        ui->leTotal->setText(QString("%1").arg(values[0].back()+values[1].back()+values[2].back(), 0, 'f', 0));
+
+        for (uint i = 0; i < values.size(); i++)
+        {
+            switch ( i )
+            {
+                case 0:
+                    name = "Payment";
+                    break;
+                case 1:
+                    name = "Savings";
+                    break;
+                case 2:
+                    name = "Interest";
+                    break;
+                default:
+                    name = "N/A";
+                    break;
+            }
+            DataSet *data = new DataSet(values.at(i), name, unit);
+            dataset->push_back(*data);
+        }
+
+        drawGraph(ui->gvInvestments, *dataset);
+    } //if (fieldsNotEmpty)
+    else
+    {
+        //show message box
+        QMessageBox msgBox;
+        msgBox.setText("Please fill in the required information.");
+        msgBox.setStandardButtons(QMessageBox::Close);
+        int ret = msgBox.exec();
+    }
 }
 void MainWindow::drawGraph( QGraphicsView *view, vector<DataSet> data)
 {
@@ -211,6 +230,7 @@ void MainWindow::setComboToCurrentMonth()
 
 void MainWindow::on_pbCalculateMortagePayment_clicked()
 {
+    bool fieldsNotEmpty = false;
     vector<DataSet> *dataset = new vector<DataSet>;
     QString name;
     QString unit = "SEK";
@@ -219,38 +239,53 @@ void MainWindow::on_pbCalculateMortagePayment_clicked()
     double payment = 0.0;
     //rate, balance, monthlyPayment, paymentTime, savingsTime
     Mortage *m = new Mortage();
-    payment = m->MonthlyPayment(ui->leTopLoanInterest->text().toDouble(),
-                                ui->leTopLoan->text().toDouble()+ui->leBottomLoan->text().toDouble(),
-                                ui->leMortageYears->text().toDouble());
 
-    ui->leMonthlyMortagePayment->setText(QString("%1").arg(payment, 0, 'f', 0));
+    fieldsNotEmpty = (ui->leTopLoanInterest->text() != "" && ui->leTopLoan->text() != "" && ui->leMortageYears->text() != "");
 
-    values = m->GetPayments(ui->leTopLoanInterest->text().toDouble(),
-                ui->leTopLoan->text().toDouble()+ui->leBottomLoan->text().toDouble(),
-                ui->leMortageYears->text().toDouble(), ui->cbPaymentPlan->currentIndex());
-
-    for (uint i = 0; i < values.size(); i++)
+    if (fieldsNotEmpty)
     {
-        switch ( i )
-        {
-            case 0:
-                name = "Paid";
-                break;
-            case 1:
-                name = "Interest";
-                break;
-            case 2:
-                name = "Principal";
-                break;
-            default:
-                name = "N/A";
-                break;
-        }
 
-        DataSet *data = new DataSet(values.at(i), name, unit);
-        dataset->push_back(*data);
+        payment = m->MonthlyPayment(ui->leTopLoanInterest->text().toDouble(),
+                                    ui->leTopLoan->text().toDouble()+ui->leBottomLoan->text().toDouble(),
+                                    ui->leMortageYears->text().toDouble());
+
+        ui->leMonthlyMortagePayment->setText(QString("%1").arg(payment, 0, 'f', 0));
+
+        values = m->GetPayments(ui->leTopLoanInterest->text().toDouble(),
+                    ui->leTopLoan->text().toDouble()+ui->leBottomLoan->text().toDouble(),
+                    ui->leMortageYears->text().toDouble(), ui->cbPaymentPlan->currentIndex());
+
+        for (uint i = 0; i < values.size(); i++)
+        {
+            switch ( i )
+            {
+                case 0:
+                    name = "Paid";
+                    break;
+                case 1:
+                    name = "Interest";
+                    break;
+                case 2:
+                    name = "Principal";
+                    break;
+                default:
+                    name = "N/A";
+                    break;
+            }
+
+            DataSet *data = new DataSet(values.at(i), name, unit);
+            dataset->push_back(*data);
+        }
+        drawGraph(ui->gvMortage, *dataset);
     }
-    drawGraph(ui->gvMortage, *dataset);
+    else
+    {
+        //show message box
+        QMessageBox msgBox;
+        msgBox.setText("Please fill in the required information.");
+        msgBox.setStandardButtons(QMessageBox::Close);
+        int ret = msgBox.exec();
+    }
 }
 
 void MainWindow::on_cbInvestmentType_currentIndexChanged(int index)
