@@ -21,18 +21,51 @@
 #define INVESTMENT_H
 #include <vector>
 
+//!  Investment class.
+/*!
+  This class contains information about the investments and savings and calculate future
+  growth for the investment.
+*/
 
 class Investment
 {
-    private :
-        double rate;
-        double balance;
-        double monthlyPayment;
-        int paymentTime;
-        int savingsTime;
-    public :
-        Investment(double, double, double, int, int);
-        std::vector< std::vector<double> > CalculateValue(double, double, double, int, int);
+public :
+    //! Constructor for the class.
+    /*!
+      \param rate double value containing the yearly growth rate for the investment.
+      \param balance double current amount of investments.
+      \param monthlyPayment double value for monhly saving.
+      \param paymentTime int value for years of added monthly savings.
+      \param savingsTime int value for total time of savings.
+    */
+    Investment(double rate, double balance, double monthlyPayment, int paymentTime, int savingsTime);
+
+    //! A method to calculate the compouded interest for the investments.
+    /*!
+      \param rate double value containing the yearly growth rate for the investment.
+      \param balance double current amount of investments.
+      \param monthlyPayment double value for monhly saving.
+      \param paymentTime int value for years of added monthly savings.
+      \param savingsTime int value for total time of savings.
+      \return vector<double> with yearly values for added savings, added interest and savings from previous year.
+      \sa Investment()
+    */
+    std::vector< std::vector<double> > CalculateValue(double rate, double balance, double monthlyPayment, int paymentTime, int savingsTime);
+private :
+    //! Yearly rate of return for the investment
+    double rate;
+
+    //! Starting balance in the investments account
+    double balance;
+
+    //! Monthly savings
+    double monthlyPayment;
+
+    //! Amount of years for monthly additions to the savings
+    int paymentTime;
+
+    //! Amount of years the investment is compounding
+    int savingsTime;
 };
 
 #endif // INVESTMENT_H

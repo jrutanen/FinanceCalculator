@@ -39,7 +39,7 @@ class DBManager
 public:
     //! A constructor.
     /*!
-      Constructor for BudgetModel class.
+      Constructor for DBManager class.
     */
     DBManager();
 

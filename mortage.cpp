@@ -24,14 +24,6 @@ Mortage::Mortage()
 {
 
 }
-double Mortage::MonthlyPayment()
-{
-    double yRate = 5.00;
-    double principal = 5000000;
-    int years = 15;
-
-    return CalculateMonthlyPayment(yRate/100/12, principal, years * 12);;
-}
 
 double Mortage::MonthlyPayment(double yRate, double principal, int years)
 {

@@ -23,18 +23,83 @@
 #include <cmath>
 #include <QDebug>
 
+//! Mortage class.
+/*!
+  This class contains information about the mortage and calculates the monthly
+  mortage cost based on how fast loan shall be paid off (in years).
+*/
 class Mortage
 {
 public:
+    //! Constructor for the class.
+    /*!
+    */
     Mortage();
-    double MonthlyPayment();
-    double MonthlyPayment(double, double, int);
-    std::vector < std::vector<double> > GetPayments(double, double, int, int);
+
+    //! A method to calculate the monthly payment for the mortage.
+    /*!
+      \param yRate double value containing the yearly interest rate for mortage.
+      \param principal double for total amount of mortage.
+      \param years int value for amount of years to pay off the mortage.
+      \return double montly payment for the mortage.
+      \sa Mortage()
+    */
+    double MonthlyPayment(double yRate, double principal, int years);
+
+    //! A method to calculate the monthly payment for the mortage.
+    /*!
+      \param yRate double value containing the yearly interest rate for mortage.
+      \param principal double for total amount of mortage.
+      \param years int value for amount of years to pay off the mortage.
+      \param loanType int value for amortization type (fixed, annuity).
+      \return vector< vector<double> > yearly values for amount of principal left, total paid
+              interest rate and total payments made.
+      \sa Mortage()
+    */
+    std::vector < std::vector<double> > GetPayments(double yRate, double principal, int years, int loanType);
+
 private:
-    std::vector < std::vector<double> > GetPayments(double, double, int);
-    std::vector < std::vector<double> > GetFixedAmortizationPayments(double, double, int);
-    std::vector< std::vector <double> > yearlyPayments( std::vector< std::vector <double> > );
-    double CalculateMonthlyPayment(double, double, int);
+    //! A method to calculate the monthly payment for the mortage with annuity.
+    /*!
+      \param yRate double value containing the yearly interest rate for mortage.
+      \param principal double for total amount of mortage.
+      \param years int value for amount of years to pay off the mortage.
+      \return vector< vector<double> > monthly values for amount of principal left, total paid
+              interest rate and total payments made.
+      \sa Mortage()
+    */
+    std::vector < std::vector<double> > GetPayments(double yRate, double principal, int years);
+
+    //! A method to calculate the monthly payment for the mortage with fixed payments towards principal.
+    /*!
+      \param yRate double value containing the yearly interest rate for mortage.
+      \param principal double for total amount of mortage.
+      \param years int value for amount of years to pay off the mortage.
+      \return vector< vector<double> > monthly values for amount of principal left, total paid
+              interest rate and total payments made.
+      \sa Mortage()
+    */
+    std::vector < std::vector<double> > GetFixedAmortizationPayments(double yRate, double principal, int years);
+
+    //! A method to calculate the yearly payment for the mortage based on the monthly values.
+    /*!
+      \param monthlyData vector< vector<double> > monthly values for amount of principal left, total paid
+              interest rate and total payments made
+      \return vector< vector<double> > yearly values for amount of principal left, total paid
+              interest rate and total payments made.
+      \sa Mortage()
+    */
+    std::vector< std::vector <double> > yearlyPayments( std::vector< std::vector <double> > monthlyData);
+
+    //! A method to calculate the monthly payment for the mortage.
+    /*!
+      \param eRate double monhly interest rate (yearlyrate/12).
+      \param principal double for total amount of mortage.
+      \param months int value for amount of months to pay off the mortage.
+      \return double monhly payment for the mortage.
+      \sa Mortage()
+    */
+    double CalculateMonthlyPayment(double eRate, double principal, int months);
 };
 
 #endif // MORTAGE_H
