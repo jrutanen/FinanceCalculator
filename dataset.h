@@ -23,6 +23,10 @@
 #include<QString>
 #include<vector>
 
+//!  DataSet class.
+/*!
+  This class is not used currently. To be deleted.
+*/
 class DataSet
 {
 public:
