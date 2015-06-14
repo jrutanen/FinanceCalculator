@@ -377,41 +377,6 @@ bool DBManager::updateData(QString tableName, QStringList *data)
     return queryOk;
 }
 
-bool DBManager::newData(QString tableName, QStringList *data, int month)
-{
-    bool isNew = false;
-    if (db.isOpen())
-    {
-        QString date = QString("%1-%2-01")
-                       .arg(QDateTime::currentDateTime().toString("yyyy"))
-                       .arg(intToDateMonth(month));
-        qDebug() << date;
-        QString queryString = "";
-        QSqlQuery query(db);
-
-        queryString.append(QString("SELECT * FROM %1 WHERE date='%2'")
-                           .arg(tableName)
-                           .arg(date));
-
-        qDebug() << queryString;
-
-        query.exec(queryString);
-
-        while (query.next()) {
-            qDebug() << QString("%1, %2, %3")
-                        .arg(query.value(0).toString())
-                        .arg(query.value(1).toString())
-                        .arg(query.value(2).toString());
-        }
-    }
-    else
-    {
-        qDebug() << QString("DB is Closed!");
-    }
-    return isNew;
-
-}
-
 bool DBManager::removeData(QString tableName, QString id)
 {
     if (db.isOpen())
