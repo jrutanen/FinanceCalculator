@@ -93,7 +93,6 @@ private:
     Ui::MainWindow *ui;
     QPushButton *pbCalculateInvestmentValue;
     void drawGraph(QGraphicsView*, vector<DataSet>);
-    void skipUserInput();
     void setComboToCurrentMonth();
 
 signals:
