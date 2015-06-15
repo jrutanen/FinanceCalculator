@@ -90,6 +90,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     addRoot(ui->twLoan, "Creditor", 0.0);
     addRoot(ui->twSavings, "Investment", 0.0);
+
+    //set validators for the lineedits
+    QDoubleValidator *vDouble = new QDoubleValidator(0);
+    QIntValidator *vInt = new QIntValidator(0);
+    ui->leBottomLoan->setValidator(vDouble);
+    ui->leBottomLoanInterest->setValidator(vDouble);
+    ui->leTopLoan->setValidator(vDouble);
+    ui->leTopLoanInterest->setValidator(vDouble);
+    ui->leRate->setValidator(vDouble);
+    ui->leStartBalance->setValidator(vDouble);
+    ui->leTotal->setValidator(vDouble);
+    ui->leMonthlyPayment->setValidator(vDouble);
+    ui->leMortageYears->setValidator(vInt);
+    ui->leSavingsTime->setValidator(vInt);
+    ui->lePayments->setValidator(vInt);
 }
 
 void MainWindow::handleCalculateInvestment() {
