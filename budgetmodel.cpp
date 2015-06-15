@@ -258,4 +258,7 @@ void BudgetModel::changeMonth(int cbMonth)
 {
     month = cbMonth;
     readData();
+    QModelIndex topLeft = index(0, 0);
+    QModelIndex bottomRight = index(rowCount() - 1, columnCount() - 1);
+    emit dataChanged(topLeft, bottomRight);
 }
