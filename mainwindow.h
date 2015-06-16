@@ -64,10 +64,13 @@ public:
     void addRoot(QTreeWidget *widget, QString name, double amount);
     void addChild(QTreeWidgetItem *parent, QString name, double amount);
     void addChildFromDB(QTreeWidgetItem *parent, QString name, QString amount, QString id);
-    DBManager* dbManager;
+
+private:
     BudgetModel* mBudgetedCost;
     BudgetModel* mActualCost;
     BudgetModel* mIncome;
+    BudgetModel* mLoans;
+    BudgetModel* mSavings;
 
 protected:
     void updateAmount(QTreeWidgetItem *item, int column);
@@ -76,8 +79,6 @@ private slots:
     void on_pbCalculateInvestmentValue_clicked();
     void on_pbCalculateMortagePayment_clicked();
     void on_cbInvestmentType_currentIndexChanged(int index);
-    void on_twCost_itemChanged(QTreeWidgetItem *item, int column);
-    void on_twIncome_itemChanged(QTreeWidgetItem *item, int column);
     void on_pbAddCost_clicked();
     void on_pbRemoveCost_clicked();
     void on_pbAddIncome_clicked();
@@ -98,10 +99,14 @@ private:
 
 signals:
     void addCostRow();
-    void addIncomeRow();
-    void monthChanged(int);
     void removeCostRow(int);
+    void addIncomeRow();
     void removeIncomeRow(int);
+    void addLoanRow();
+    void removeLoanRow(int);
+    void addSavingsRow();
+    void removeSavingsRow(int);
+    void monthChanged(int);
 };
 
 #endif // MAINWINDOW_H

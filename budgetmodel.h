@@ -102,7 +102,7 @@ public:
       \return true if row addition was successful, otherwise returns false.
       \sa BudgetModel()
     */
-    bool insertRows(int row, int count, const QModelIndex & parent = QModelIndex());
+//    bool insertRows(int row, int count, const QModelIndex & parent = QModelIndex());
 
     /*! A method to set the type of data object contains (budgeted expense, actual expense, income, savings or investment).
       \param name a QString containing datatype.

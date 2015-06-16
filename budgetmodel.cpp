@@ -63,6 +63,7 @@ QVariant BudgetModel::data(const QModelIndex &index, int role) const
             }
             break;
     }
+
     return QVariant();
 }
 
@@ -80,6 +81,7 @@ QVariant BudgetModel::headerData(int section, Qt::Orientation orientation, int r
             }
         }
     }
+
     return QVariant();
 }
 
@@ -98,8 +100,8 @@ bool BudgetModel::setData(const QModelIndex &index, const QVariant &value, int r
 
     if (role == Qt::EditRole)
     {
-        int row = index.row();
-        int col = index.column();
+        uint row = index.row();
+        uint col = index.column();
         QStringList newList;
 
         switch(col)
@@ -126,6 +128,9 @@ bool BudgetModel::setData(const QModelIndex &index, const QVariant &value, int r
         }
         qDebug() << value.toString();
     }
+
+    readData();
+
     return true;
 }
 
@@ -133,12 +138,12 @@ Qt::ItemFlags BudgetModel::flags(const QModelIndex &index) const
 {
     return Qt::ItemIsSelectable |  Qt::ItemIsEditable | Qt::ItemIsEnabled ;
 }
-
+/*
 bool BudgetModel::insertRows(int row, int count, const QModelIndex &parent)
 {
 
 }
-
+*/
 void BudgetModel::setDataType(QString name)
 {
     dataType = name;
@@ -160,13 +165,21 @@ void BudgetModel::updateData(QStringList values)
     {
         db->updateIncome(&values);
     }
+    else if (dataType.contains("loan"))
+    {
+        db->updateLoan(&values);
+    }
+    else if (dataType.contains("savings"))
+    {
+        db->updateSavings(&values);
+    }
     readData();
 }
 
 QStringList BudgetModel::calculateTotal(std::deque<QStringList> data)
 {
     double totalAmount = 0.0;
-    for (int i = 0; i < data.size(); ++i)
+    for (uint i = 0; i < data.size(); ++i)
     {
         totalAmount += data.at(i).at(2).toDouble();
     }
@@ -177,23 +190,42 @@ QStringList BudgetModel::calculateTotal(std::deque<QStringList> data)
 
 void BudgetModel::readData()
 {
-    //actualExpenses, budgetedExpenses, income
-    if(dataType.contains("actualExpenses"))
-    {
-        dataSet = db->getActualExpenses(month);
-        dataSet.push_front(calculateTotal(dataSet));
-    }
-    else if (dataType.contains("budgetedExpenses"))
-    {
-        dataSet = db->getBudgetedExpenses(month);
-        dataSet.push_front(calculateTotal(dataSet));
-        qDebug()<< "read dataset from ";
-    }
-    else if (dataType.contains("income"))
-    {
-        dataSet = db->getIncome(month);
-        dataSet.push_front(calculateTotal(dataSet));
-    }
+    beginResetModel();
+        //actualExpenses, budgetedExpenses, income
+        if(dataType.contains("actualExpenses"))
+        {
+            dataSet = db->getActualExpenses(month);
+            dataSet.push_front(calculateTotal(dataSet));
+        }
+        else if (dataType.contains("budgetedExpenses"))
+        {
+            dataSet = db->getBudgetedExpenses(month);
+            dataSet.push_front(calculateTotal(dataSet));
+            qDebug()<< "read dataset from ";
+        }
+        else if (dataType.contains("income"))
+        {
+            dataSet = db->getIncome(month);
+            dataSet.push_front(calculateTotal(dataSet));
+        }
+        else if (dataType.contains("loan"))
+        {
+            dataSet = db->getLoan(month);
+            dataSet.push_front(calculateTotal(dataSet));
+        }
+        else if (dataType.contains("savings"))
+        {
+            dataSet = db->getSavings(month);
+            dataSet.push_front(calculateTotal(dataSet));
+        }
+    endResetModel();
+
+    //Notify views that data has changed.
+ /*   QModelIndex topLeft = index(0, 0);
+    QModelIndex bottomRight = index(rowCount() - 1, columnCount() - 1);
+    qDebug() << "row count: " << rowCount() << " column count: " << columnCount();
+    emit dataChanged(topLeft, bottomRight);
+*/
 }
 
 void BudgetModel::addRow()
@@ -222,16 +254,26 @@ void BudgetModel::addRow()
            db->addIncome(&row , month);
            readData();
        }
+       else if (dataType.contains("loan"))
+       {
+           QStringList row;
+           row << ""<< "New Item" << "0.0";
+           db->addLoan(&row , month);
+           readData();
+       }
+       else if (dataType.contains("savings"))
+       {
+           QStringList row;
+           row << ""<< "New Item" << "0.0";
+           db->addSavings(&row , month);
+           readData();
+       }
    //notify views that you're done with modifying the underlying data
    endInsertRows();
 }
 
 void BudgetModel::removeRow(int row)
 {
-    /*A removeRows() implementation must call beginRemoveRows() before the
-    * rows are removed from the data structure, and it must call endRemoveRows()
-    * immediately afterwards.*/
-
     beginRemoveRows(QModelIndex(), row, row-1);
         if (row > 0)
         {
@@ -249,6 +291,14 @@ void BudgetModel::removeRow(int row)
             {
                 db->removeIncome(dataSet.at(row).at(0));
             }
+            else if (dataType.contains("loan"))
+            {
+                db->removeLoan(dataSet.at(row).at(0));
+            }
+            else if (dataType.contains("savings"))
+            {
+                db->removeSavings(dataSet.at(row).at(0));
+            }
             readData();
         }
     endRemoveRows();
@@ -258,7 +308,4 @@ void BudgetModel::changeMonth(int cbMonth)
 {
     month = cbMonth;
     readData();
-    QModelIndex topLeft = index(0, 0);
-    QModelIndex bottomRight = index(rowCount() - 1, columnCount() - 1);
-    emit dataChanged(topLeft, bottomRight);
 }

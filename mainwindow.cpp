@@ -23,31 +23,29 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    dbManager = new DBManager();
+    //initialize db
     ui->setupUi(this);
-    //Set current month to the cbMonth combobox
-    setComboToCurrentMonth();
+
     //mouse tracking turned on for the gprahics view
     ui->gvInvestments->setMouseTracking(true);
 
     //connect table view cost to the ´budget model
     mBudgetedCost = new BudgetModel(0);
-    //update month to the data model
-    mBudgetedCost->setMonth(ui->cbMonth->currentIndex() + 1);
     //select the type of data to fetch
     mBudgetedCost->setDataType(QString("budgetedExpenses"));
     // set selection model
-    QItemSelectionModel *selectionModel = new QItemSelectionModel(mBudgetedCost);
+    QItemSelectionModel *costSelectionModel = new QItemSelectionModel(mBudgetedCost);
 
-    //connect model to the tableview
+    //connect model to the cost tableview
     ui->tableViewCost->setModel(mBudgetedCost);
-    ui->tableViewCost->setSelectionModel(selectionModel);
+    ui->tableViewCost->setSelectionModel(costSelectionModel);
     ui->tableViewCost->setColumnWidth(0, 230);
     ui->tableViewCost->setColumnWidth(1, ui->tableViewCost->width() - 240);
     ui->tableViewCost->verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
     ui->tableViewCost->verticalHeader()->setDefaultSectionSize(20);
     ui->tableViewCost->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    //connect signals for the cost tableview
     QObject::connect(this, SIGNAL(addCostRow()),
                      mBudgetedCost, SLOT(addRow()));
     QObject::connect(this, SIGNAL(monthChanged(int)),
@@ -59,12 +57,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //connect table view income to the budget model
     mIncome = new BudgetModel(0);
-    //update month to the data model
-    mIncome->setMonth(ui->cbMonth->currentIndex() + 1);
     //select the type of data to fetch
     mIncome->setDataType(QString("income"));
     // set selection model
-//    QItemSelectionModel *selectionModelIncome = new QItemSelectionModel(mIncome);
+    QItemSelectionModel *incomeSelectionModel = new QItemSelectionModel(mIncome);
+
+    //connect model to the tableview
+    ui->tableViewIncome->setModel(mIncome);
+    ui->tableViewIncome->setSelectionModel(incomeSelectionModel);
+    ui->tableViewIncome->setColumnWidth(0, 230);
+    ui->tableViewIncome->setColumnWidth(1, ui->tableViewIncome->width() - 240);
+    ui->tableViewIncome->verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
+    ui->tableViewIncome->verticalHeader()->setDefaultSectionSize(20);
+    ui->tableViewIncome->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     QObject::connect(this, SIGNAL(addIncomeRow()),
                      mIncome, SLOT(addRow()));
@@ -73,23 +78,56 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(this, SIGNAL(removeIncomeRow(int)),
                      mIncome, SLOT(removeRow(int)));
 
-    //connect model to the tableview
-    ui->tableViewIncome->setModel(mIncome);
-    ui->tableViewIncome->setSelectionModel(selectionModel);
-    ui->tableViewIncome->setColumnWidth(0, 230);
-    ui->tableViewIncome->setColumnWidth(1, ui->tableViewIncome->width() - 240);
-    ui->tableViewIncome->verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
-    ui->tableViewIncome->verticalHeader()->setDefaultSectionSize(20);
-    ui->tableViewIncome->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    //one extra hidden column for id
-    ui->twLoan->setColumnCount(3);
-    ui->twLoan->hideColumn(2);
-    ui->twSavings->setColumnCount(3);
-    ui->twSavings->hideColumn(2);
+    //connect table view loan to the budget model
+    mLoans = new BudgetModel(0);
+    //select the type of data to fetch
+    mLoans->setDataType(QString("loan"));
+    // set selection model
+    QItemSelectionModel *loanSelectionModel = new QItemSelectionModel(mLoans);
 
-    addRoot(ui->twLoan, "Creditor", 0.0);
-    addRoot(ui->twSavings, "Investment", 0.0);
+    //connect model to the cost tableview
+    ui->tableViewLoan->setModel(mLoans);
+    ui->tableViewLoan->setSelectionModel(loanSelectionModel);
+    ui->tableViewLoan->setColumnWidth(0, 230);
+    ui->tableViewLoan->setColumnWidth(1, ui->tableViewLoan->width() - 240);
+    ui->tableViewLoan->verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
+    ui->tableViewLoan->verticalHeader()->setDefaultSectionSize(20);
+    ui->tableViewLoan->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    //connect signals for the cost tableview
+    QObject::connect(this, SIGNAL(addLoanRow()),
+                     mLoans, SLOT(addRow()));
+    QObject::connect(this, SIGNAL(monthChanged(int)),
+                     mLoans, SLOT(changeMonth(int)));
+    QObject::connect(this, SIGNAL(removeLoanRow(int)),
+                     mLoans, SLOT(removeRow(int)));
+
+    //connect table view savings to the budget model
+    mSavings = new BudgetModel(0);
+    //select the type of data to fetch
+    mSavings->setDataType(QString("savings"));
+    // set selection model
+    QItemSelectionModel *savingsSelectionModel = new QItemSelectionModel(mSavings);
+
+    //connect model to the cost tableview
+    ui->tableViewSavings->setModel(mSavings);
+    ui->tableViewSavings->setSelectionModel(savingsSelectionModel);
+    ui->tableViewSavings->setColumnWidth(0, 230);
+    ui->tableViewSavings->setColumnWidth(1, ui->tableViewSavings->width() - 240);
+    ui->tableViewSavings->verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
+    ui->tableViewSavings->verticalHeader()->setDefaultSectionSize(20);
+    ui->tableViewSavings->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    //connect signals for the cost tableview
+    QObject::connect(this, SIGNAL(addSavingsRow()),
+                     mSavings, SLOT(addRow()));
+    QObject::connect(this, SIGNAL(monthChanged(int)),
+                     mSavings, SLOT(changeMonth(int)));
+    QObject::connect(this, SIGNAL(removeSavingsRow(int)),
+                     mSavings, SLOT(removeRow(int)));
+
+    mActualCost = new BudgetModel(0);
 
     //set validators for the lineedits
     QDoubleValidator *vDouble = new QDoubleValidator(0);
@@ -105,6 +143,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->leMortageYears->setValidator(vInt);
     ui->leSavingsTime->setValidator(vInt);
     ui->lePayments->setValidator(vInt);
+
+    //Set current month to the cbMonth combobox
+    setComboToCurrentMonth();
 }
 
 void MainWindow::handleCalculateInvestment() {
@@ -114,47 +155,6 @@ void MainWindow::handleCalculateInvestment() {
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::addRoot(QTreeWidget *widget, QString name, double amount)
-{
-    QTreeWidgetItem *item = new QTreeWidgetItem(widget);
-    //Format header
-    widget->setHeaderLabels(QStringList() << name << "Amount");
-    widget->header()->resizeSection(0, 230);
-
-    item->setText(0, "Total");
-    item->setText(1, QString::number(amount));
-    widget->addTopLevelItem(item);
-}
-
-void MainWindow::addChild(QTreeWidgetItem *parent, QString name, double amount)
-{
-    QTreeWidgetItem *item = new QTreeWidgetItem();
-    item->setText(0, name);
-    item->setText(1, QString::number(amount));
-    parent->addChild(item);
-    item->setFlags(item->flags() | Qt::ItemIsEditable);
-
-    if(!parent->isExpanded())
-    {
-        parent->setExpanded(true);
-    }
-}
-
-void MainWindow::addChildFromDB(QTreeWidgetItem *parent, QString name, QString amount, QString id)
-{
-    QTreeWidgetItem *item = new QTreeWidgetItem();
-    item->setText(0, name);
-    item->setText(1, amount);
-    item->setText(2, id);
-    parent->addChild(item);
-    item->setFlags(item->flags() | Qt::ItemIsEditable);
-
-    if(!parent->isExpanded())
-    {
-        parent->setExpanded(true);
-    }
 }
 
 void MainWindow::on_pbCalculateInvestmentValue_clicked()
@@ -358,16 +358,6 @@ void MainWindow::on_cbInvestmentType_currentIndexChanged(int index)
     ui->leRate->setText(QString("%1").arg(rate));
 }
 
-void MainWindow::on_twCost_itemChanged(QTreeWidgetItem *item, int column)
-{
-    updateAmount(item, column);
-}
-
-void MainWindow::on_twIncome_itemChanged(QTreeWidgetItem *item, int column)
-{
-    updateAmount(item, column);
-}
-
 void MainWindow::updateAmount(QTreeWidgetItem *item, int column)
 {
     double totalCost = 0.0;
@@ -406,30 +396,22 @@ void MainWindow::on_pbRemoveIncome_clicked()
 
 void MainWindow::on_pbAddLoan_clicked()
 {
-    addChild(ui->twLoan->topLevelItem(0), "Creditor", 0.0);
+    emit addLoanRow();
 }
 
 void MainWindow::on_pbRemoveLoan_clicked()
 {
-    QList<QTreeWidgetItem *> itemList = ui->twLoan->selectedItems();
-    for (int i = 0; i < itemList.size(); i++)
-    {
-        itemList.at(i)->~QTreeWidgetItem();
-    }
+    emit removeLoanRow(ui->tableViewLoan->selectionModel()->currentIndex().row());
 }
 
 void MainWindow::on_pbAddSavings_clicked()
 {
-    addChild(ui->twSavings->topLevelItem(0), "Investment", 0.0);
+    emit addSavingsRow();
 }
 
 void MainWindow::on_pbRemoveSavings_clicked()
 {
-    QList<QTreeWidgetItem *> itemList = ui->twSavings->selectedItems();
-    for (int i = 0; i < itemList.size(); i++)
-    {
-        itemList.at(i)->~QTreeWidgetItem();
-    }
+    emit removeSavingsRow(ui->tableViewSavings->selectionModel()->currentIndex().row());
 }
 
 void MainWindow::on_pbSave_clicked()
@@ -439,11 +421,7 @@ void MainWindow::on_pbSave_clicked()
 
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
-    if (index == 2)
-    {
-        //Set current month to the cbMonth combobox
-        setComboToCurrentMonth();
-    }
+
 }
 
 void MainWindow::on_cbMonth_currentIndexChanged(int index)

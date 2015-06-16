@@ -33,7 +33,7 @@
        <locale language="English" country="UnitedStates"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_invest">
        <property name="locale">
@@ -592,13 +592,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QTreeWidget" name="twLoan">
-               <column>
-                <property name="text">
-                 <string notr="true">1</string>
-                </property>
-               </column>
-              </widget>
+              <widget class="QTableView" name="tableViewLoan"/>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -626,13 +620,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QTreeWidget" name="twSavings">
-               <column>
-                <property name="text">
-                 <string notr="true">1</string>
-                </property>
-               </column>
-              </widget>
+              <widget class="QTableView" name="tableViewSavings"/>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_7">

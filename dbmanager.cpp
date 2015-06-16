@@ -24,15 +24,17 @@ DBManager::DBManager()
     bool works = false;
     if(openDB())
     {
-        qDebug() << QString("Create DB tables?");
         works = createTables();
     }
+
+    closeDB();
 }
 
 std::deque<QStringList> DBManager::getBudgetedExpenses(int month)
 {
     std::deque<QStringList> temp;
     temp = getData("expense_budget", month);
+
     return temp;
 }
 
@@ -40,6 +42,7 @@ std::deque<QStringList> DBManager::getActualExpenses(int month)
 {
     std::deque<QStringList> temp;
     temp = getData("expense_actual", month);
+
     return temp;
 }
 
@@ -47,6 +50,7 @@ std::deque<QStringList>  DBManager::getIncome(int month)
 {
     std::deque<QStringList> temp;
     temp = getData("income_budget", month);
+
     return temp;
 }
 
@@ -54,6 +58,7 @@ std::deque<QStringList> DBManager::getLoan(int month)
 {
     std::deque<QStringList> temp;
     temp = getData("loans", month);
+
     return temp;
 }
 
@@ -61,6 +66,7 @@ std::deque<QStringList> DBManager::getSavings(int month)
 {
     std::deque<QStringList> temp;
     temp = getData("savings", month);
+
     return temp;
 }
 
@@ -85,12 +91,13 @@ bool DBManager::addBudgetedExpense(QStringList *list, int month)
     {
         dbUpdated =  updateData(QString("expense_budget"), list);
     }
+
     return dbUpdated;
 }
 
 bool DBManager::removeBudgetedExpense(QString id)
 {
-    removeData(QString("expense_budget"), id);
+    return removeData(QString("expense_budget"), id);
 }
 
 bool DBManager::updateActualExpense(QStringList *list)
@@ -114,12 +121,13 @@ bool DBManager::addActualExpense(QStringList *list, int month)
     {
         dbUpdated =  updateData(QString("expense_actual"), list);
     }
+
     return dbUpdated;
 }
 
 bool DBManager::removeActualExpense(QString id)
 {
-    removeData(QString("expense_actual"), id);
+    return removeData(QString("expense_actual"), id);
 }
 
 bool DBManager::updateIncome(QStringList *list)
@@ -149,7 +157,7 @@ bool DBManager::addIncome(QStringList *list, int month)
 
 bool DBManager::removeIncome(QString id)
 {
-    removeData(QString("income_budget"), id);
+    return removeData(QString("income_budget"), id);
 }
 
 bool DBManager::updateLoan(QStringList *list)
@@ -179,7 +187,7 @@ bool DBManager::addLoan(QStringList *list, int month)
 
 bool DBManager::removeLoan(QString id)
 {
-    removeData(QString("loans"), id);
+    return removeData(QString("loans"), id);
 }
 
 bool DBManager::updateSavings(QStringList *list)
@@ -209,7 +217,7 @@ bool DBManager::addSavings(QStringList *list, int month)
 
 bool DBManager::removeSavings(QString id)
 {
-    removeData(QString("savings"), id);
+    return removeData(QString("savings"), id);
 }
 
 /**
@@ -230,13 +238,17 @@ bool DBManager::openDB()
 
     dbPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString(), QStandardPaths::LocateDirectory);
     dbPath.append("financeCalulatorDB.sqlite");
-//    qDebug() << dbPath;
     db.setDatabaseName(dbPath);
 
     if (!db.open()) {
         return false;
     }
     return true;
+}
+
+bool DBManager::closeDB()
+{
+    db.close();
 }
 
 /**
@@ -315,6 +327,9 @@ bool DBManager::addData(QString tableName, QStringList *data, int month)
 {
     bool queryOk = false;
     qDebug() << QString("addData");
+
+    openDB();
+
     if (!db.isOpen())
     {
         qDebug() << QString("db closed");
@@ -343,6 +358,8 @@ bool DBManager::addData(QString tableName, QStringList *data, int month)
         queryOk = query.exec(queryString);
     }
 
+    closeDB();
+
     return queryOk;
 }
 
@@ -350,6 +367,9 @@ bool DBManager::updateData(QString tableName, QStringList *data)
 {
     bool queryOk = false;
     qDebug() << QString("updateData");
+
+    openDB();
+
     if (!db.isOpen())
     {
         qDebug() << QString("db closed");
@@ -374,11 +394,15 @@ bool DBManager::updateData(QString tableName, QStringList *data)
         queryOk = query.exec(queryString);
     }
 
+    closeDB();
+
     return queryOk;
 }
 
 bool DBManager::removeData(QString tableName, QString id)
 {
+    openDB();
+
     if (db.isOpen())
     {
         QString queryString = "";
@@ -401,12 +425,16 @@ bool DBManager::removeData(QString tableName, QString id)
         qDebug() << QString("DB is Closed!");
     }
 
+    closeDB();
+
     return true;
 
 }
 
 std::deque<QStringList> DBManager::getData(QString tableName, int month)
 {
+    openDB();
+
     std::deque<QStringList> queryResult;// = new std::deque<QStringList>;
     if (db.isOpen())
     {
@@ -443,6 +471,8 @@ std::deque<QStringList> DBManager::getData(QString tableName, int month)
     {
         qDebug() << QString("DB is Closed!");
     }
+
+    closeDB();
 
     return queryResult;
 }

@@ -221,6 +221,12 @@ private:
     */
     bool openDB();
 
+    //! A method to close database connection.
+    /*!
+      \sa DBManager()
+    */
+    bool closeDB();
+
     //! A method to create database tables if not already existing.
     /*!
       \sa DBManager()
