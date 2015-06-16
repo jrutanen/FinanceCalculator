@@ -159,6 +159,8 @@ void MainWindow::addChildFromDB(QTreeWidgetItem *parent, QString name, QString a
 
 void MainWindow::on_pbCalculateInvestmentValue_clicked()
 {
+    bool ok;
+    QLocale *locale = new QLocale();
     bool fieldsNotEmpty = false;
     vector< vector<double> > values;
     vector<DataSet> *dataset = new vector<DataSet>;
@@ -175,15 +177,15 @@ void MainWindow::on_pbCalculateInvestmentValue_clicked()
         }
 
         //rate, balance, monthlyPayment, paymentTime, savingsTime
-        Investment inv( ui->leRate->text().toDouble(),
-                        ui->leStartBalance->text().toDouble(),
-                        ui->leMonthlyPayment->text().toDouble(),
+        Investment inv( locale->toDouble(ui->leRate->text(), &ok),
+                        locale->toDouble(ui->leStartBalance->text(), &ok),
+                        locale->toDouble(ui->leMonthlyPayment->text(), &ok),
                         ui->lePayments->text().toInt(),
                         ui->leSavingsTime->text().toInt());
 
-        values = inv.CalculateValue( ui->leRate->text().toDouble(),
-                             ui->leStartBalance->text().toDouble(),
-                             ui->leMonthlyPayment->text().toDouble(),
+        values = inv.CalculateValue( locale->toDouble(ui->leRate->text(), &ok),
+                             locale->toDouble(ui->leStartBalance->text(), &ok),
+                             locale->toDouble(ui->leMonthlyPayment->text(), &ok),
                              ui->lePayments->text().toInt(),
                              ui->leSavingsTime->text().toInt() );
 
@@ -241,6 +243,8 @@ void MainWindow::setComboToCurrentMonth()
 
 void MainWindow::on_pbCalculateMortagePayment_clicked()
 {
+    bool ok;
+    QLocale *locale = new QLocale();
     bool fieldsNotEmpty = false;
     vector<DataSet> *dataset = new vector<DataSet>;
     QString name;
@@ -256,15 +260,18 @@ void MainWindow::on_pbCalculateMortagePayment_clicked()
     if (fieldsNotEmpty)
     {
 
-        payment = m->MonthlyPayment(ui->leTopLoanInterest->text().toDouble(),
-                                    ui->leTopLoan->text().toDouble()+ui->leBottomLoan->text().toDouble(),
-                                    ui->leMortageYears->text().toDouble());
+        payment = m->MonthlyPayment(locale->toDouble(ui->leTopLoanInterest->text(), &ok),
+                                    locale->toDouble(ui->leTopLoan->text(), &ok)
+                                    + locale->toDouble(ui->leBottomLoan->text(), &ok),
+                                    ui->leMortageYears->text().toInt());
 
         ui->leMonthlyMortagePayment->setText(QString("%1").arg(payment, 0, 'f', 0));
 
-        values = m->GetPayments(ui->leTopLoanInterest->text().toDouble(),
-                    ui->leTopLoan->text().toDouble()+ui->leBottomLoan->text().toDouble(),
-                    ui->leMortageYears->text().toDouble(), ui->cbPaymentPlan->currentIndex());
+        values = m->GetPayments(locale->toDouble(ui->leTopLoanInterest->text(), &ok),
+                                locale->toDouble(ui->leTopLoan->text(), &ok)
+                                + locale->toDouble(ui->leBottomLoan->text(), &ok),
+                                ui->leMortageYears->text().toInt(),
+                                ui->cbPaymentPlan->currentIndex());
 
         for (uint i = 0; i < values.size(); i++)
         {

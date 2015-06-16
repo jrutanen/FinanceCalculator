@@ -32,6 +32,7 @@
 #include <QTreeWidgetItemIterator>
 #include <QDateTime>
 #include <QMessageBox>
+#include <QLocale>
 #include "lsbarchart.h"
 #include "dataset.h"
 #include "ui_mainwindow.h"
