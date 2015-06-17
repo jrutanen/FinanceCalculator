@@ -157,6 +157,7 @@ std::vector < std::vector<double> > Mortage::GetPayments(double yRate, double pr
 
     return yearlyPayments(mPayments);//mPayments;
 }
+
 double Mortage::CalculateMonthlyPayment(double eRate, double principal, int months)
 {
     /*

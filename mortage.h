@@ -46,7 +46,7 @@ public:
     */
     double MonthlyPayment(double yRate, double principal, int years);
 
-    //! A method to calculate the monthly payment for the mortage.
+    //! A method to calculate the monthly payments for the mortage.
     /*!
       \param yRate double value containing the yearly interest rate for mortage.
       \param principal double for total amount of mortage.
@@ -56,7 +56,8 @@ public:
               interest rate and total payments made.
       \sa Mortage()
     */
-    std::vector < std::vector<double> > GetPayments(double yRate, double principal, int years, int loanType);
+    std::vector < std::vector<double> > GetPayments(double yRate, double principal,
+                                                    int years, int loanType);
 
 private:
     //! A method to calculate the monthly payment for the mortage with annuity.

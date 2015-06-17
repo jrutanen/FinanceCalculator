@@ -132,8 +132,6 @@ MainWindow::MainWindow(QWidget *parent) :
     //set validators for the lineedits
     QDoubleValidator *vDouble = new QDoubleValidator(0);
     QIntValidator *vInt = new QIntValidator(0);
-    ui->leBottomLoan->setValidator(vDouble);
-    ui->leBottomLoanInterest->setValidator(vDouble);
     ui->leTopLoan->setValidator(vDouble);
     ui->leTopLoanInterest->setValidator(vDouble);
     ui->leRate->setValidator(vDouble);
@@ -261,15 +259,13 @@ void MainWindow::on_pbCalculateMortagePayment_clicked()
     {
 
         payment = m->MonthlyPayment(locale->toDouble(ui->leTopLoanInterest->text(), &ok),
-                                    locale->toDouble(ui->leTopLoan->text(), &ok)
-                                    + locale->toDouble(ui->leBottomLoan->text(), &ok),
+                                    locale->toDouble(ui->leTopLoan->text(), &ok),
                                     ui->leMortageYears->text().toInt());
 
         ui->leMonthlyMortagePayment->setText(QString("%1").arg(payment, 0, 'f', 0));
 
         values = m->GetPayments(locale->toDouble(ui->leTopLoanInterest->text(), &ok),
-                                locale->toDouble(ui->leTopLoan->text(), &ok)
-                                + locale->toDouble(ui->leBottomLoan->text(), &ok),
+                                locale->toDouble(ui->leTopLoan->text(), &ok),
                                 ui->leMortageYears->text().toInt(),
                                 ui->cbPaymentPlan->currentIndex());
 

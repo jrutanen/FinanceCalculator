@@ -33,7 +33,7 @@
        <locale language="English" country="UnitedStates"/>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_invest">
        <property name="locale">
@@ -229,7 +229,7 @@
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,2">
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+         <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0,0,0,0,0,0,0,0,0,0">
           <item>
            <widget class="QLabel" name="label_19">
             <property name="text">
@@ -263,7 +263,7 @@
           <item>
            <widget class="QLabel" name="label_13">
             <property name="text">
-             <string>Top Loan</string>
+             <string>Loan Amount</string>
             </property>
            </widget>
           </item>
@@ -280,32 +280,12 @@
           <item>
            <widget class="QLabel" name="label_14">
             <property name="text">
-             <string>Top Loan Interest (%)</string>
+             <string>Loan Interest Rate (%)</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="leTopLoanInterest"/>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_15">
-            <property name="text">
-             <string>Bottom Loan</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="leBottomLoan"/>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_16">
-            <property name="text">
-             <string>Bottom Loan Interest (%)</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="leBottomLoanInterest"/>
           </item>
           <item>
            <widget class="QLabel" name="label_18">
@@ -1019,8 +999,6 @@
   <tabstop>cbPaymentPlan</tabstop>
   <tabstop>leTopLoan</tabstop>
   <tabstop>leTopLoanInterest</tabstop>
-  <tabstop>leBottomLoan</tabstop>
-  <tabstop>leBottomLoanInterest</tabstop>
   <tabstop>leMortageYears</tabstop>
   <tabstop>leMonthlyMortagePayment</tabstop>
   <tabstop>pbCalculateMortagePayment</tabstop>
