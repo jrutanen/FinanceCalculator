@@ -26,6 +26,7 @@
 #include <QFont>
 #include <QBrush>
 #include <deque>
+#include <QDate>
 #include "dbmanager.h"
 
 //!  BudgetModel class.
@@ -94,16 +95,6 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex & index) const;
 
-    /*! A overriden virtual method taking tree arguments and returning bool value.
-      Adds new row of values to the model.
-      \param row a integer containing index of the row to add.
-      \param count a integer containing number of rows to be added.
-      \param parent a QModelIndex containing row, column and parent for the edited data.
-      \return true if row addition was successful, otherwise returns false.
-      \sa BudgetModel()
-    */
-//    bool insertRows(int row, int count, const QModelIndex & parent = QModelIndex());
-
     /*! A method to set the type of data object contains (budgeted expense, actual expense, income, savings or investment).
       \param name a QString containing datatype.
       \sa BudgetModel()
@@ -139,6 +130,15 @@ private:
 
     //! Stores the number of the month for the data (1 to 12)
     int month;
+
+    //! Stores the year for the data
+    int year;
+
+    //! Stores the year for the data
+    int day;
+
+    //! Stores the year for the data
+    QDate date;
 
     //! Stores the total sum of values for the datatype
     double sum;
@@ -193,6 +193,12 @@ private slots:
      *  \param cbMonth an integer.
      */
     void changeMonth(int cbMonth);
+
+    /*! \fn void changeYear(QString year)
+     *  \brief Changes year in the model
+     *  \param year as QString.
+     */
+    void changeYear(QString cbYear);
 
 signals:
 

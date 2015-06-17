@@ -30,42 +30,42 @@ DBManager::DBManager()
     closeDB();
 }
 
-std::deque<QStringList> DBManager::getBudgetedExpenses(int month)
+std::deque<QStringList> DBManager::getBudgetedExpenses(QDate date)
 {
     std::deque<QStringList> temp;
-    temp = getData("expense_budget", month);
+    temp = getData("expense_budget", date);
 
     return temp;
 }
 
-std::deque<QStringList> DBManager::getActualExpenses(int month)
+std::deque<QStringList> DBManager::getActualExpenses(QDate date)
 {
     std::deque<QStringList> temp;
-    temp = getData("expense_actual", month);
+    temp = getData("expense_actual", date);
 
     return temp;
 }
 
-std::deque<QStringList>  DBManager::getIncome(int month)
+std::deque<QStringList>  DBManager::getIncome(QDate date)
 {
     std::deque<QStringList> temp;
-    temp = getData("income_budget", month);
+    temp = getData("income_budget", date);
 
     return temp;
 }
 
-std::deque<QStringList> DBManager::getLoan(int month)
+std::deque<QStringList> DBManager::getLoan(QDate date)
 {
     std::deque<QStringList> temp;
-    temp = getData("loans", month);
+    temp = getData("loans", date);
 
     return temp;
 }
 
-std::deque<QStringList> DBManager::getSavings(int month)
+std::deque<QStringList> DBManager::getSavings(QDate date)
 {
     std::deque<QStringList> temp;
-    temp = getData("savings", month);
+    temp = getData("savings", date);
 
     return temp;
 }
@@ -79,13 +79,13 @@ bool DBManager::updateBudgetedExpense(QStringList *list)
     return dbUpdated;
 }
 
-int DBManager::addBudgetedExpense(QStringList *list, int month)
+int DBManager::addBudgetedExpense(QStringList *list, QDate date)
 {
     qDebug() << QString("addBudgetedExpense");
     int dbUpdated = -1;
     if (list->at(0).isEmpty())
     {
-        dbUpdated =  addData(QString("expense_budget"), list, month);
+        dbUpdated =  addData(QString("expense_budget"), list, date);
     }
     else
     {
@@ -109,13 +109,13 @@ bool DBManager::updateActualExpense(QStringList *list)
     return dbUpdated;
 }
 
-int DBManager::addActualExpense(QStringList *list, int month)
+int DBManager::addActualExpense(QStringList *list, QDate date)
 {
     qDebug() << QString("addActualExpense");
     bool dbUpdated = false;
     if (list->at(0).isEmpty())
     {
-        dbUpdated =  addData(QString("expense_actual"), list, month);
+        dbUpdated =  addData(QString("expense_actual"), list, date);
     }
     else
     {
@@ -139,13 +139,13 @@ bool DBManager::updateIncome(QStringList *list)
     return dbUpdated;
 }
 
-int DBManager::addIncome(QStringList *list, int month)
+int DBManager::addIncome(QStringList *list, QDate date)
 {
     qDebug() << QString("addIncome");
     int dbUpdated;
     if (list->at(0).isEmpty())
     {
-        dbUpdated =  addData(QString("income_budget"), list, month);
+        dbUpdated =  addData(QString("income_budget"), list, date);
     }
     else
     {
@@ -169,13 +169,13 @@ bool DBManager::updateLoan(QStringList *list)
     return dbUpdated;
 }
 
-int DBManager::addLoan(QStringList *list, int month)
+int DBManager::addLoan(QStringList *list, QDate date)
 {
     qDebug() << QString("addLoan");
     int dbUpdated;
     if (list->at(0).isEmpty())
     {
-        dbUpdated =  addData(QString("loans"), list, month);
+        dbUpdated =  addData(QString("loans"), list, date);
     }
     else
     {
@@ -199,13 +199,13 @@ bool DBManager::updateSavings(QStringList *list)
     return dbUpdated;
 }
 
-int DBManager::addSavings(QStringList *list, int month)
+int DBManager::addSavings(QStringList *list, QDate date)
 {
     qDebug() << QString("addSavings");
     int dbUpdated;
     if (list->at(0).isEmpty())
     {
-        dbUpdated =  addData(QString("savings"), list, month);
+        dbUpdated =  addData(QString("savings"), list, date);
     }
     else
     {
@@ -323,7 +323,7 @@ bool DBManager::createTables()
     return queryOk;
 }
 
-int DBManager::addData(QString tableName, QStringList *data, int month)
+int DBManager::addData(QString tableName, QStringList *data, QDate date)
 {
     bool queryOk = false;
     int rowId = -1;
@@ -338,9 +338,8 @@ int DBManager::addData(QString tableName, QStringList *data, int month)
     if (db.isOpen())
     {
         //all dates are first day of the month (this is monthly bydget)
-        QString date = QString("%1-%2-01")
-                       .arg(QDateTime::currentDateTime().toString("yyyy"))
-                       .arg(intToDateMonth(month));
+//        QString date = QString("%1")
+//                       .arg(QDate::currentDateTime().toString(date));
 
         QString queryString = "";
 
@@ -351,7 +350,7 @@ int DBManager::addData(QString tableName, QStringList *data, int month)
                                    .arg(tableName)
                                    .arg(data->at(1))
                                    .arg(data->at(2))
-                                   .arg(date)
+                                   .arg(date.toString())
                                    );
 
         qDebug() << queryString;
@@ -438,22 +437,21 @@ bool DBManager::removeData(QString tableName, QString id)
 
 }
 
-std::deque<QStringList> DBManager::getData(QString tableName, int month)
+std::deque<QStringList> DBManager::getData(QString tableName, QDate date)
 {
     openDB();
 
     std::deque<QStringList> queryResult;// = new std::deque<QStringList>;
     if (db.isOpen())
     {
-        QString date = QDateTime::currentDateTime().toString("yyyy")
-                        + "-" + intToDateMonth(month) + "-01";
+//        QString date = QDate::currentDateTime().toString(date);
         qDebug() << date;
         QString queryString = "";
         QSqlQuery query(db);
 
         queryString.append(QString("SELECT * FROM %1 WHERE date='%2'")
                            .arg(tableName)
-                           .arg(date));
+                           .arg(date.toString("yyyy-MM-dd")));
 
         qDebug() << queryString;
 

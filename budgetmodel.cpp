@@ -26,6 +26,10 @@ BudgetModel::BudgetModel(QObject *parent) : QAbstractTableModel(parent)
         month = 0;
         rows = 0;
         cols = 2;
+        year = 2015;
+        month = 1;
+        day = 1;
+        date.setDate(year, month, day);
 }
 
 int BudgetModel::rowCount(const QModelIndex &parent) const
@@ -115,27 +119,18 @@ bool BudgetModel::setData(const QModelIndex &index, const QVariant &value, int r
         }
 
         //save value from editor to expenses
-/*        if(row > dataSet.size())
-        {
-            //New row
-            dataSet.push_back(newList);
-        }
-        else
-        {
-*/
-            QStringList values;
-            dataSet.at(row).replace(col + 1, value.toString());
-            values << dataSet.at(row).at(0) << dataSet.at(row).at(1) << dataSet.at(row).at(2);
-            updateData(values);
-            dataSet.pop_front();
-            dataSet.push_front(calculateTotal(dataSet));// at(0).replace(3, value.toString());
-//        }
-        qDebug() << value.toString();
+        QStringList values;
+        //update model data
+        dataSet.at(row).replace(col + 1, value.toString());
+        //update database
+        values << dataSet.at(row).at(0) << dataSet.at(row).at(1) << dataSet.at(row).at(2);
+        updateData(values);
 
-        //inform view that the particular cell has changed.
-//        QModelIndex topLeft = index(&index., 0);
-//        QModelIndex bottomRight = index(row, 2);
+        //recalculate total
+        dataSet.pop_front();
+        dataSet.push_front(calculateTotal(dataSet));// at(0).replace(3, value.toString());
 
+        //inform view that the cell has changed.
         emit dataChanged(index, index);
     } //if (role == Qt::EditRole)
 
@@ -155,7 +150,7 @@ void BudgetModel::setDataType(QString name)
 
 void BudgetModel::updateData(QStringList values)
 {
-    //actualExpenses, budgetedExpenses, income
+    //actualExpenses, budgetedExpenses, income, loan, savings
     if(dataType.contains("actualExpenses"))
     {
         db->updateActualExpense(&values);
@@ -196,27 +191,27 @@ void BudgetModel::readData()
         //actualExpenses, budgetedExpenses, income
         if(dataType.contains("actualExpenses"))
         {
-            dataSet = db->getActualExpenses(month);
+            dataSet = db->getActualExpenses(date);
             dataSet.push_front(calculateTotal(dataSet));
         }
         else if (dataType.contains("budgetedExpenses"))
         {
-            dataSet = db->getBudgetedExpenses(month);
+            dataSet = db->getBudgetedExpenses(date);
             dataSet.push_front(calculateTotal(dataSet));
         }
         else if (dataType.contains("income"))
         {
-            dataSet = db->getIncome(month);
+            dataSet = db->getIncome(date);
             dataSet.push_front(calculateTotal(dataSet));
         }
         else if (dataType.contains("loan"))
         {
-            dataSet = db->getLoan(month);
+            dataSet = db->getLoan(date);
             dataSet.push_front(calculateTotal(dataSet));
         }
         else if (dataType.contains("savings"))
         {
-            dataSet = db->getSavings(month);
+            dataSet = db->getSavings(date);
             dataSet.push_front(calculateTotal(dataSet));
         }
     endResetModel();
@@ -233,23 +228,23 @@ void BudgetModel::addRow()
        //actualExpenses, budgetedExpenses, income, loan, savings
        if(dataType.contains("actualExpenses"))
        {
-           id = db->addActualExpense(&row , month);
+           id = db->addActualExpense(&row , date);
        }
        else if (dataType.contains("budgetedExpenses"))
        {
-           id = db->addBudgetedExpense(&row , month);
+           id = db->addBudgetedExpense(&row , date);
        }
        else if (dataType.contains("income"))
        {
-           id = db->addIncome(&row , month);
+           id = db->addIncome(&row , date);
        }
        else if (dataType.contains("loan"))
        {
-           id = db->addLoan(&row , month);
+           id = db->addLoan(&row , date);
        }
        else if (dataType.contains("savings"))
        {
-           id = db->addSavings(&row , month);
+           id = db->addSavings(&row , date);
        }
        if (id > -1)
        {
@@ -301,5 +296,13 @@ void BudgetModel::removeRow(int row)
 void BudgetModel::changeMonth(int cbMonth)
 {
     month = cbMonth;
+    date.setDate(year, month, day);
+    readData();
+}
+
+void BudgetModel::changeYear(QString cbYear)
+{
+    year = cbYear.toInt();
+    date.setDate(year, month, day);
     readData();
 }

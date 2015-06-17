@@ -91,11 +91,14 @@ private slots:
     void on_tabWidget_currentChanged(int index);
     void on_cbMonth_currentIndexChanged(int index);
 
+    void on_cbYear_currentIndexChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
     QPushButton *pbCalculateInvestmentValue;
     void drawGraph(QGraphicsView*, vector<DataSet>);
     void setComboToCurrentMonth();
+    void setComboToCurrentYear();
 
 signals:
     void addCostRow();
@@ -107,6 +110,7 @@ signals:
     void addSavingsRow();
     void removeSavingsRow(int);
     void monthChanged(int);
+    void yearChanged(QString);
 };
 
 #endif // MAINWINDOW_H

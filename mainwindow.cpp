@@ -48,10 +48,12 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect signals for the cost tableview
     QObject::connect(this, SIGNAL(addCostRow()),
                      mBudgetedCost, SLOT(addRow()));
-    QObject::connect(this, SIGNAL(monthChanged(int)),
-                     mBudgetedCost, SLOT(changeMonth(int)));
     QObject::connect(this, SIGNAL(removeCostRow(int)),
                      mBudgetedCost, SLOT(removeRow(int)));
+    QObject::connect(this, SIGNAL(monthChanged(int)),
+                     mBudgetedCost, SLOT(changeMonth(int)));
+    QObject::connect(this, SIGNAL(yearChanged(QString)),
+                     mBudgetedCost, SLOT(changeYear(QString)));
 
     mActualCost = new BudgetModel(0);
 
@@ -73,10 +75,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QObject::connect(this, SIGNAL(addIncomeRow()),
                      mIncome, SLOT(addRow()));
-    QObject::connect(this, SIGNAL(monthChanged(int)),
-                     mIncome, SLOT(changeMonth(int)));
     QObject::connect(this, SIGNAL(removeIncomeRow(int)),
                      mIncome, SLOT(removeRow(int)));
+    QObject::connect(this, SIGNAL(monthChanged(int)),
+                     mIncome, SLOT(changeMonth(int)));
+    QObject::connect(this, SIGNAL(yearChanged(QString)),
+                     mIncome, SLOT(changeYear(QString)));
 
 
     //connect table view loan to the budget model
@@ -98,10 +102,12 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect signals for the cost tableview
     QObject::connect(this, SIGNAL(addLoanRow()),
                      mLoans, SLOT(addRow()));
-    QObject::connect(this, SIGNAL(monthChanged(int)),
-                     mLoans, SLOT(changeMonth(int)));
     QObject::connect(this, SIGNAL(removeLoanRow(int)),
                      mLoans, SLOT(removeRow(int)));
+    QObject::connect(this, SIGNAL(monthChanged(int)),
+                     mLoans, SLOT(changeMonth(int)));
+    QObject::connect(this, SIGNAL(yearChanged(QString)),
+                     mLoans, SLOT(changeYear(QString)));
 
     //connect table view savings to the budget model
     mSavings = new BudgetModel(0);
@@ -122,10 +128,12 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect signals for the cost tableview
     QObject::connect(this, SIGNAL(addSavingsRow()),
                      mSavings, SLOT(addRow()));
-    QObject::connect(this, SIGNAL(monthChanged(int)),
-                     mSavings, SLOT(changeMonth(int)));
     QObject::connect(this, SIGNAL(removeSavingsRow(int)),
                      mSavings, SLOT(removeRow(int)));
+    QObject::connect(this, SIGNAL(monthChanged(int)),
+                     mSavings, SLOT(changeMonth(int)));
+    QObject::connect(this, SIGNAL(yearChanged(QString)),
+                     mActualCost, SLOT(changeYear(QString)));
 
     mActualCost = new BudgetModel(0);
 
@@ -144,6 +152,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Set current month to the cbMonth combobox
     setComboToCurrentMonth();
+    //Set current year to the cbYear combobox
+    setComboToCurrentYear();
 }
 
 void MainWindow::handleCalculateInvestment() {
@@ -237,6 +247,12 @@ void MainWindow::setComboToCurrentMonth()
     QString date = QDateTime::currentDateTime().toString("M");
     int index = date.toInt() - 1;
     ui->cbMonth->setCurrentIndex(index);
+}
+
+void MainWindow::setComboToCurrentYear()
+{
+    QString date = QDateTime::currentDateTime().toString("yyyy");
+    ui->cbMonth->setCurrentText(date); //setCurrent(index);
 }
 
 void MainWindow::on_pbCalculateMortagePayment_clicked()
@@ -423,4 +439,9 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 void MainWindow::on_cbMonth_currentIndexChanged(int index)
 {
     emit monthChanged(index + 1);
+}
+
+void MainWindow::on_cbYear_currentIndexChanged(const QString &year)
+{
+    emit yearChanged(year);
 }

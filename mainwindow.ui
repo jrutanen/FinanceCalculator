@@ -33,7 +33,7 @@
        <locale language="English" country="UnitedStates"/>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_invest">
        <property name="locale">
@@ -442,6 +442,87 @@
              <item>
               <property name="text">
                <string>December</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_Month_3">
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Year</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="cbYear">
+             <property name="maximumSize">
+              <size>
+               <width>200</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="maxCount">
+              <number>100</number>
+             </property>
+             <item>
+              <property name="text">
+               <string>2015</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2016</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2017</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2018</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2019</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2020</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2021</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2022</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2023</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2024</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2025</string>
               </property>
              </item>
             </widget>

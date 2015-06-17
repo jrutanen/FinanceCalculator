@@ -26,7 +26,7 @@
 #include <QSqlQuery>
 #include <QDebug>
 #include <QStandardPaths>
-#include <QDateTime>
+#include <QDate>
 #include <deque>
 
 //!  DBManager class.
@@ -49,7 +49,7 @@ public:
       \return deque<QStringList> with data rows for the month from the database
       \sa DBManager()
     */
-    std::deque<QStringList> getBudgetedExpenses(int month);
+    std::deque<QStringList> getBudgetedExpenses(QDate date);
 
     //! A method to read actual expenses from the database for a given month.
     /*!
@@ -57,7 +57,7 @@ public:
       \return deque<QStringList> with data rows for the month from the database
       \sa DBManager()
     */
-    std::deque<QStringList> getActualExpenses(int month);
+    std::deque<QStringList> getActualExpenses(QDate date);
 
     //! A method to read budgeted income from the database for a given month.
     /*!
@@ -65,7 +65,7 @@ public:
       \return deque<QStringList> with data rows for the month from the database
       \sa DBManager()
     */
-    std::deque<QStringList> getIncome(int month);
+    std::deque<QStringList> getIncome(QDate date);
 
     //! A method to read loan balances from the database for a given month.
     /*!
@@ -73,7 +73,7 @@ public:
       \return deque<QStringList> with data rows for the month from the database
       \sa DBManager()
     */
-    std::deque<QStringList> getLoan(int month);
+    std::deque<QStringList> getLoan(QDate date);
 
     //! A method to read savings balance from the database for a given month.
     /*!
@@ -81,7 +81,7 @@ public:
       \return deque<QStringList> with data rows for the month from the database
       \sa DBManager()
     */
-    std::deque<QStringList> getSavings(int month);
+    std::deque<QStringList> getSavings(QDate date);
 
     //! A method to update budgeted expense row in the database.
     /*!
@@ -98,7 +98,7 @@ public:
       \return id of the inserted row as integer, -1 if insert was not successful.
       \sa DBManager()
     */
-    int addBudgetedExpense(QStringList *list, int month);
+    int addBudgetedExpense(QStringList *list, QDate date);
 
     //! A method to remove expense from the budgeted expenses in the database.
     /*!
@@ -123,7 +123,7 @@ public:
       \return id of the inserted row as int
       \sa DBManager()
     */
-    int addActualExpense(QStringList *list, int month);
+    int addActualExpense(QStringList *list, QDate date);
 
     //! A method to remove actual expense from the budgeted expenses in the database.
     /*!
@@ -148,7 +148,7 @@ public:
       \return id of the inserted row as int
       \sa DBManager()
     */
-    int addIncome(QStringList *list, int month);
+    int addIncome(QStringList *list, QDate date);
 
     //! A method to remove income row from the database.
     /*!
@@ -173,7 +173,7 @@ public:
       \return id of the inserted row as integer, -1 if insert was not successful.
       \sa DBManager()
     */
-    int addLoan(QStringList *list, int month);
+    int addLoan(QStringList *list, QDate date);
 
     //! A method to remove loan row from the database.
     /*!
@@ -198,7 +198,7 @@ public:
       \return id of the inserted row as int -1 if insert was not successful.
       \sa DBManager()
     */
-    int addSavings(QStringList *list, int month);
+    int addSavings(QStringList *list, QDate date);
 
     //! A method to remove savings row from the database.
     /*!
@@ -249,7 +249,7 @@ private:
       \return id for the inserted row as integer, -1 if the insert was not succesful.
       \sa DBManager()
     */
-    int addData(QString tableName, QStringList *data, int month);
+    int addData(QString tableName, QStringList *data, QDate date);
 
     //! A method to update datarow in the database.
     /*!
@@ -276,7 +276,7 @@ private:
       \return deque<QStringList> containing the fetched records.
       \sa DBManager()
     */
-    std::deque<QStringList> getData(QString tableName, int month);
+    std::deque<QStringList> getData(QString tableName, QDate date);
 
     //! A method to convert month number integer (1 to 12) to string (01 to 12) that can be used in date.
     /*!
