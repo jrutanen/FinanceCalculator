@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     chartview.cpp \
     dbmanager.cpp \
     budgetrow.cpp \
-    budgetmodel.cpp
+    budgetmodel.cpp \
+    comboboxdelegate.cpp
 
 HEADERS  += mainwindow.h \
     investment.h \
@@ -38,6 +39,7 @@ HEADERS  += mainwindow.h \
     dbmanager.h \
     budgetrow.h \
     budgetmodel.h \
-    chartview.h
+    chartview.h \
+    comboboxdelegate.h
 
 FORMS    += mainwindow.ui

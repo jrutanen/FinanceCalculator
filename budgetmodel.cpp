@@ -25,7 +25,7 @@ BudgetModel::BudgetModel(QObject *parent) : QAbstractTableModel(parent)
         db = new DBManager();
         month = 0;
         rows = 0;
-        cols = 2;
+        cols = 3;
         year = 2015;
         month = 1;
         day = 1;
