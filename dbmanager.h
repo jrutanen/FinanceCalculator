@@ -95,10 +95,10 @@ public:
     /*!
       \param *list a pointer to the QStringList containing the row to be added.
       \param month a int number of the month (1 to 12).
-      \return true if addition was succesful, false if not.
+      \return id of the inserted row as integer, -1 if insert was not successful.
       \sa DBManager()
     */
-    bool addBudgetedExpense(QStringList *list, int month);
+    int addBudgetedExpense(QStringList *list, int month);
 
     //! A method to remove expense from the budgeted expenses in the database.
     /*!
@@ -120,10 +120,10 @@ public:
     /*!
       \param *list a pointer to the QStringList containing the row to be added.
       \param month a int number of the month (1 to 12).
-      \return true if addition was succesful, false if not.
+      \return id of the inserted row as int
       \sa DBManager()
     */
-    bool addActualExpense(QStringList *list, int month);
+    int addActualExpense(QStringList *list, int month);
 
     //! A method to remove actual expense from the budgeted expenses in the database.
     /*!
@@ -145,10 +145,10 @@ public:
     /*!
       \param *list a pointer to the QStringList containing the row to be added.
       \param month a int number of the month (1 to 12).
-      \return true if addition was succesful, false if not.
+      \return id of the inserted row as int
       \sa DBManager()
     */
-    bool addIncome(QStringList *list, int month);
+    int addIncome(QStringList *list, int month);
 
     //! A method to remove income row from the database.
     /*!
@@ -170,10 +170,10 @@ public:
     /*!
       \param *list a pointer to the QStringList containing the row to be added.
       \param month a int number of the month (1 to 12).
-      \return true if addition was succesful, false if not.
+      \return id of the inserted row as integer, -1 if insert was not successful.
       \sa DBManager()
     */
-    bool addLoan(QStringList *list, int month);
+    int addLoan(QStringList *list, int month);
 
     //! A method to remove loan row from the database.
     /*!
@@ -195,10 +195,10 @@ public:
     /*!
       \param *list a pointer to the QStringList containing the row to be added.
       \param month a int number of the month (1 to 12).
-      \return true if addition was succesful, false if not.
+      \return id of the inserted row as int -1 if insert was not successful.
       \sa DBManager()
     */
-    bool addSavings(QStringList *list, int month);
+    int addSavings(QStringList *list, int month);
 
     //! A method to remove savings row from the database.
     /*!
@@ -246,10 +246,10 @@ private:
       \param *data pointer to the QStringList containing the data for the row to be added
       \param month int containing the number of the month (1-12). Month value is used to calculate
              date value for the data row. All items are stored to the first day of the given month.
-      \return true if addition was succesful, false if not.
+      \return id for the inserted row as integer, -1 if the insert was not succesful.
       \sa DBManager()
     */
-    bool addData(QString tableName, QStringList *data, int month);
+    int addData(QString tableName, QStringList *data, int month);
 
     //! A method to update datarow in the database.
     /*!

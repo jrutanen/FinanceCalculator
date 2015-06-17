@@ -79,10 +79,10 @@ bool DBManager::updateBudgetedExpense(QStringList *list)
     return dbUpdated;
 }
 
-bool DBManager::addBudgetedExpense(QStringList *list, int month)
+int DBManager::addBudgetedExpense(QStringList *list, int month)
 {
     qDebug() << QString("addBudgetedExpense");
-    bool dbUpdated = false;
+    int dbUpdated = -1;
     if (list->at(0).isEmpty())
     {
         dbUpdated =  addData(QString("expense_budget"), list, month);
@@ -109,7 +109,7 @@ bool DBManager::updateActualExpense(QStringList *list)
     return dbUpdated;
 }
 
-bool DBManager::addActualExpense(QStringList *list, int month)
+int DBManager::addActualExpense(QStringList *list, int month)
 {
     qDebug() << QString("addActualExpense");
     bool dbUpdated = false;
@@ -139,10 +139,10 @@ bool DBManager::updateIncome(QStringList *list)
     return dbUpdated;
 }
 
-bool DBManager::addIncome(QStringList *list, int month)
+int DBManager::addIncome(QStringList *list, int month)
 {
     qDebug() << QString("addIncome");
-    bool dbUpdated = false;
+    int dbUpdated;
     if (list->at(0).isEmpty())
     {
         dbUpdated =  addData(QString("income_budget"), list, month);
@@ -169,10 +169,10 @@ bool DBManager::updateLoan(QStringList *list)
     return dbUpdated;
 }
 
-bool DBManager::addLoan(QStringList *list, int month)
+int DBManager::addLoan(QStringList *list, int month)
 {
     qDebug() << QString("addLoan");
-    bool dbUpdated = false;
+    int dbUpdated;
     if (list->at(0).isEmpty())
     {
         dbUpdated =  addData(QString("loans"), list, month);
@@ -199,10 +199,10 @@ bool DBManager::updateSavings(QStringList *list)
     return dbUpdated;
 }
 
-bool DBManager::addSavings(QStringList *list, int month)
+int DBManager::addSavings(QStringList *list, int month)
 {
     qDebug() << QString("addSavings");
-    bool dbUpdated = false;
+    int dbUpdated;
     if (list->at(0).isEmpty())
     {
         dbUpdated =  addData(QString("savings"), list, month);
@@ -323,9 +323,10 @@ bool DBManager::createTables()
     return queryOk;
 }
 
-bool DBManager::addData(QString tableName, QStringList *data, int month)
+int DBManager::addData(QString tableName, QStringList *data, int month)
 {
     bool queryOk = false;
+    int rowId = -1;
     qDebug() << QString("addData");
 
     openDB();
@@ -356,11 +357,17 @@ bool DBManager::addData(QString tableName, QStringList *data, int month)
         qDebug() << queryString;
 
         queryOk = query.exec(queryString);
+        if (queryOk)
+        {
+//            queryOk = query.exec("SELECT last_insert_rowid()");
+//            query.first();
+            rowId = query.lastInsertId().toInt();
+        }
     }
 
     closeDB();
 
-    return queryOk;
+    return rowId;
 }
 
 bool DBManager::updateData(QString tableName, QStringList *data)
