@@ -71,6 +71,7 @@ private:
     BudgetModel* mIncome;
     BudgetModel* mLoans;
     BudgetModel* mSavings;
+    void initializeView(BudgetModel* model, QTableView *view, QItemSelectionModel *selectionModel);
 
 protected:
     void updateAmount(QTreeWidgetItem *item, int column);

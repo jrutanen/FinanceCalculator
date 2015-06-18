@@ -35,15 +35,8 @@ MainWindow::MainWindow(QWidget *parent) :
     mBudgetedCost->setDataType(QString("budgetedExpenses"));
     // set selection model
     QItemSelectionModel *costSelectionModel = new QItemSelectionModel(mBudgetedCost);
-
     //connect model to the cost tableview
-    ui->tableViewCost->setModel(mBudgetedCost);
-    ui->tableViewCost->setSelectionModel(costSelectionModel);
-    ui->tableViewCost->setColumnWidth(0, 230);
-    ui->tableViewCost->setColumnWidth(1, ui->tableViewCost->width() - 240);
-    ui->tableViewCost->verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
-    ui->tableViewCost->verticalHeader()->setDefaultSectionSize(20);
-    ui->tableViewCost->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    initializeView(mBudgetedCost, ui->tableViewCost, costSelectionModel);
 
     //connect signals for the cost tableview
     QObject::connect(this, SIGNAL(addCostRow()),
@@ -55,24 +48,16 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(this, SIGNAL(yearChanged(QString)),
                      mBudgetedCost, SLOT(changeYear(QString)));
 
-    mActualCost = new BudgetModel(0);
-
     //connect table view income to the budget model
     mIncome = new BudgetModel(0);
     //select the type of data to fetch
     mIncome->setDataType(QString("income"));
     // set selection model
     QItemSelectionModel *incomeSelectionModel = new QItemSelectionModel(mIncome);
-
     //connect model to the tableview
-    ui->tableViewIncome->setModel(mIncome);
-    ui->tableViewIncome->setSelectionModel(incomeSelectionModel);
-    ui->tableViewIncome->setColumnWidth(0, 230);
-    ui->tableViewIncome->setColumnWidth(1, ui->tableViewIncome->width() - 240);
-    ui->tableViewIncome->verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
-    ui->tableViewIncome->verticalHeader()->setDefaultSectionSize(20);
-    ui->tableViewIncome->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    initializeView(mIncome, ui->tableViewIncome, incomeSelectionModel);
 
+    //connect signals for the cost tableview
     QObject::connect(this, SIGNAL(addIncomeRow()),
                      mIncome, SLOT(addRow()));
     QObject::connect(this, SIGNAL(removeIncomeRow(int)),
@@ -82,22 +67,14 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(this, SIGNAL(yearChanged(QString)),
                      mIncome, SLOT(changeYear(QString)));
 
-
     //connect table view loan to the budget model
     mLoans = new BudgetModel(0);
     //select the type of data to fetch
     mLoans->setDataType(QString("loan"));
     // set selection model
     QItemSelectionModel *loanSelectionModel = new QItemSelectionModel(mLoans);
-
     //connect model to the cost tableview
-    ui->tableViewLoan->setModel(mLoans);
-    ui->tableViewLoan->setSelectionModel(loanSelectionModel);
-    ui->tableViewLoan->setColumnWidth(0, 230);
-    ui->tableViewLoan->setColumnWidth(1, ui->tableViewLoan->width() - 240);
-    ui->tableViewLoan->verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
-    ui->tableViewLoan->verticalHeader()->setDefaultSectionSize(20);
-    ui->tableViewLoan->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    initializeView(mLoans, ui->tableViewLoan, loanSelectionModel);
 
     //connect signals for the cost tableview
     QObject::connect(this, SIGNAL(addLoanRow()),
@@ -115,15 +92,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mSavings->setDataType(QString("savings"));
     // set selection model
     QItemSelectionModel *savingsSelectionModel = new QItemSelectionModel(mSavings);
-
-    //connect model to the cost tableview
-    ui->tableViewSavings->setModel(mSavings);
-    ui->tableViewSavings->setSelectionModel(savingsSelectionModel);
-    ui->tableViewSavings->setColumnWidth(0, 230);
-    ui->tableViewSavings->setColumnWidth(1, ui->tableViewSavings->width() - 240);
-    ui->tableViewSavings->verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
-    ui->tableViewSavings->verticalHeader()->setDefaultSectionSize(20);
-    ui->tableViewSavings->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    initializeView(mSavings, ui->tableViewSavings, savingsSelectionModel);
 
     //connect signals for the cost tableview
     QObject::connect(this, SIGNAL(addSavingsRow()),
@@ -133,7 +102,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(this, SIGNAL(monthChanged(int)),
                      mSavings, SLOT(changeMonth(int)));
     QObject::connect(this, SIGNAL(yearChanged(QString)),
-                     mActualCost, SLOT(changeYear(QString)));
+                     mSavings, SLOT(changeYear(QString)));
 
     mActualCost = new BudgetModel(0);
 
@@ -163,6 +132,18 @@ void MainWindow::handleCalculateInvestment() {
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::initializeView(BudgetModel *model, QTableView *view, QItemSelectionModel *selectionModel)
+{
+    //connect model to the cost tableview
+    view->setModel(model);
+    view->setSelectionModel(selectionModel);
+    view->setColumnWidth(0, 230);
+    view->setColumnWidth(1, ui->tableViewCost->width() - 240);
+    view->verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
+    view->verticalHeader()->setDefaultSectionSize(20);
+    view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 void MainWindow::on_pbCalculateInvestmentValue_clicked()

@@ -5,7 +5,6 @@ ComboBoxDelegate::ComboBoxDelegate(QObject *parent)
 
 }
 
-
 QWidget *ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QComboBox *editor = new QComboBox(parent);
@@ -36,3 +35,4 @@ void ComboBoxDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionV
 {
     editor->setGeometry(option.rect);
 }
+

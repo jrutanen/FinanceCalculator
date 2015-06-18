@@ -25,7 +25,7 @@ BudgetModel::BudgetModel(QObject *parent) : QAbstractTableModel(parent)
         db = new DBManager();
         month = 0;
         rows = 0;
-        cols = 3;
+        cols = 2;
         year = 2015;
         month = 1;
         day = 1;
@@ -56,7 +56,7 @@ QVariant BudgetModel::data(const QModelIndex &index, int role) const
     switch(role)
     {
         case Qt::DisplayRole:
-            return dataSet.at(row).at(col+1);
+            return dataSet.at(row).at(col + 1);
             break;
         case Qt::FontRole:
             if (row == 0) //change font only for cell(0,0)
@@ -248,7 +248,7 @@ void BudgetModel::addRow()
        }
        if (id > -1)
        {
-           row.replace(0, QString(id));
+           row.replace(0, QString::number(id));
            dataSet.push_back(row);
        }
        else

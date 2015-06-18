@@ -350,7 +350,7 @@ int DBManager::addData(QString tableName, QStringList *data, QDate date)
                                    .arg(tableName)
                                    .arg(data->at(1))
                                    .arg(data->at(2))
-                                   .arg(date.toString())
+                                   .arg(date.toString("yyyy-MM-dd"))
                                    );
 
         qDebug() << queryString;
