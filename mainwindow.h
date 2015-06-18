@@ -41,6 +41,7 @@
 #include "dataset.h"
 #include "dbmanager.h"
 #include "budgetmodel.h"
+#include "comboboxdelegate.h"
 
 using namespace std;
 

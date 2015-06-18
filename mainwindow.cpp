@@ -33,10 +33,17 @@ MainWindow::MainWindow(QWidget *parent) :
     mBudgetedCost = new BudgetModel(0);
     //select the type of data to fetch
     mBudgetedCost->setDataType(QString("budgetedExpenses"));
+    //add extra column for category data
+    mBudgetedCost->setCols(3);
     // set selection model
     QItemSelectionModel *costSelectionModel = new QItemSelectionModel(mBudgetedCost);
     //connect model to the cost tableview
     initializeView(mBudgetedCost, ui->tableViewCost, costSelectionModel);
+
+    //add category combox to the third column
+    ComboBoxDelegate *cbDelegate = new ComboBoxDelegate();
+    ui->tableViewCost->setItemDelegateForColumn(2, cbDelegate);
+    ui->tableViewCost->setColumnWidth(2, 105);
 
     //connect signals for the cost tableview
     QObject::connect(this, SIGNAL(addCostRow()),
@@ -139,8 +146,8 @@ void MainWindow::initializeView(BudgetModel *model, QTableView *view, QItemSelec
     //connect model to the cost tableview
     view->setModel(model);
     view->setSelectionModel(selectionModel);
-    view->setColumnWidth(0, 230);
-    view->setColumnWidth(1, ui->tableViewCost->width() - 240);
+    view->setColumnWidth(0, 140);
+    view->setColumnWidth(1, 60);
     view->verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
     view->verticalHeader()->setDefaultSectionSize(20);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

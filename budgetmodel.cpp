@@ -82,6 +82,8 @@ QVariant BudgetModel::headerData(int section, Qt::Orientation orientation, int r
                 return QString("Expense");
             case 1:
                 return QString("Amount");
+            case 2:
+                return QString("Category");
             }
         }
     }
@@ -92,6 +94,11 @@ QVariant BudgetModel::headerData(int section, Qt::Orientation orientation, int r
 void BudgetModel::setMonth(int cbMonth)
 {
     this->month = cbMonth;
+}
+
+void BudgetModel::setCols(int columns)
+{
+    cols = columns;
 }
 
 bool BudgetModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -123,7 +130,14 @@ bool BudgetModel::setData(const QModelIndex &index, const QVariant &value, int r
         //update model data
         dataSet.at(row).replace(col + 1, value.toString());
         //update database
-        values << dataSet.at(row).at(0) << dataSet.at(row).at(1) << dataSet.at(row).at(2);
+        if (dataSet.at(row).size() < 4)
+        {
+            values << dataSet.at(row).at(0) << dataSet.at(row).at(1) << dataSet.at(row).at(2);
+        }
+        else
+        {
+            values << dataSet.at(row).at(0) << dataSet.at(row).at(1) << dataSet.at(row).at(2) << dataSet.at(row).at(3);
+        }
         updateData(values);
 
         //recalculate total
@@ -181,7 +195,7 @@ QStringList BudgetModel::calculateTotal(std::deque<QStringList> data)
         totalAmount += data.at(i).at(2).toDouble();
     }
     QStringList row;
-    row <<"" << "Total" << QString::number(totalAmount);
+    row <<"" << "Total" << QString::number(totalAmount) << "";
     return row;
 }
 
@@ -221,7 +235,7 @@ void BudgetModel::addRow()
 {
     int id = -1;
     QStringList row;
-    row << ""<< "New Item" << "0.0";
+    row << ""<< "New Item" << "0.0" << "";
     //notify that expenses is appended
     beginInsertRows(QModelIndex(), dataSet.size()-1, dataSet.size()-1);
        //add new row to the dataset and get the id of the new row

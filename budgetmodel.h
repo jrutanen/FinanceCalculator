@@ -107,6 +107,12 @@ public:
     */
     void setMonth(int cbMonth);
 
+    /*! A method to change the number of columns in the model.
+      \param cols a int containing month number columns.
+      \sa BudgetModel()
+    */
+    void setCols(int columns);
+
 private:
     //! Pointer to the database.
     /*!

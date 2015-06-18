@@ -345,14 +345,28 @@ int DBManager::addData(QString tableName, QStringList *data, QDate date)
 
         QSqlQuery query(db);
 
-        queryString.append(QString("INSERT INTO %1 (type, amount, date) "
+        if(!tableName.contains("expense"))
+        {
+            queryString.append(QString("INSERT INTO %1 (type, amount, date) "
                                    "VALUES ('%2', '%3', '%4')")
                                    .arg(tableName)
                                    .arg(data->at(1))
                                    .arg(data->at(2))
                                    .arg(date.toString("yyyy-MM-dd"))
                                    );
+        }
+        else
+        {
+            queryString.append(QString("INSERT INTO %1 (type, amount, date, category) "
+                                   "VALUES ('%2', '%3', '%4', '%5')")
+                                   .arg(tableName)
+                                   .arg(data->at(1))
+                                   .arg(data->at(2))
+                                   .arg(date.toString("yyyy-MM-dd"))
+                                   .arg(data->at(3))
+                                   );
 
+        }
         qDebug() << queryString;
 
         queryOk = query.exec(queryString);
@@ -386,14 +400,30 @@ bool DBManager::updateData(QString tableName, QStringList *data)
 
         QSqlQuery query(db);
 
-        queryString.append(QString("UPDATE %1 "
-                                   "SET type='%2', amount='%3' "
-                                   "WHERE id='%4'")
-                                   .arg(tableName)
-                                   .arg(data->at(1))
-                                   .arg(data->at(2))
-                                   .arg(data->at(0))
-                                   );
+        if(!tableName.contains("expense"))
+        {
+            queryString.append(QString("UPDATE %1 "
+                                       "SET type='%2', amount='%3' "
+                                       "WHERE id='%4'")
+                                       .arg(tableName)
+                                       .arg(data->at(1))
+                                       .arg(data->at(2))
+                                       .arg(data->at(0))
+                                       );
+        }
+        else
+        {
+            queryString.append(QString("UPDATE %1 "
+                                       "SET type='%2', amount='%3', category='%4' "
+                                       "WHERE id='%5'")
+                                       .arg(tableName)
+                                       .arg(data->at(1))
+                                       .arg(data->at(2))
+                                       .arg(data->at(3))
+                                       .arg(data->at(0))
+                                       );
+
+        }
 
         qDebug() << queryString;
 
@@ -459,16 +489,36 @@ std::deque<QStringList> DBManager::getData(QString tableName, QDate date)
 
         while (query.next()) {
             QStringList list;
-            list << query.value(0).toString()
-                 << query.value(1).toString()
-                 << query.value(2).toString()
-                 << query.value(3).toString();
+            if (!tableName.contains("expense"))
+            {
+                list << query.value(0).toString()
+                     << query.value(1).toString()
+                     << query.value(2).toString()
+                     << query.value(3).toString();
 
-            qDebug() << QString("%1, %2, %3, %4")
-                        .arg(query.value(0).toString())
-                        .arg(query.value(1).toString())
-                        .arg(query.value(2).toString())
-                        .arg(query.value(3).toString());
+                qDebug() << QString("%1, %2, %3, %4")
+                            .arg(query.value(0).toString())
+                            .arg(query.value(1).toString())
+                            .arg(query.value(2).toString())
+                            .arg(query.value(3).toString());
+
+            }
+            else
+            {
+                list << query.value(0).toString()
+                     << query.value(1).toString()
+                     << query.value(2).toString()
+                     << query.value(4).toString()
+                     << query.value(3).toString();
+
+                qDebug() << QString("%1, %2, %3, %4, %5")
+                            .arg(query.value(0).toString())
+                            .arg(query.value(1).toString())
+                            .arg(query.value(2).toString())
+                            .arg(query.value(4).toString())
+                            .arg(query.value(3).toString());
+
+            }
             queryResult.push_back(list);
         }
     }

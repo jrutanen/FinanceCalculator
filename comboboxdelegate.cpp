@@ -8,7 +8,13 @@ ComboBoxDelegate::ComboBoxDelegate(QObject *parent)
 QWidget *ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QComboBox *editor = new QComboBox(parent);
-//    editor->setMinimum(0);
+    editor->addItem("Food");
+    editor->addItem("Utilities");
+    editor->addItem("Housing");
+    editor->addItem("Clothing");
+    editor->addItem("Transportation");
+    editor->addItem("Saving");
+    editor->addItem("Personal");
 //    editor->setMaximum(100);
 
     return editor;
@@ -16,17 +22,17 @@ QWidget *ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
 
 void ComboBoxDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    int value = index.model()->data(index, Qt::EditRole).toInt();
+    QString value = index.model()->data(index, Qt::EditRole).toString();//.toInt();
 
     QComboBox *comboBox = static_cast<QComboBox*>(editor);
-    comboBox->setCurrentIndex(value);
+    comboBox->setCurrentText(value); //setCurrentIndex(value);
 }
 
 void ComboBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
     QComboBox *comboBox = static_cast<QComboBox*>(editor);
 //    comboBox->interpretText();
-    int value = comboBox->currentIndex();
+    QString value = comboBox->currentText();
 
     model->setData(index, value, Qt::EditRole);
 }
