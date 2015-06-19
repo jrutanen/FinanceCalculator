@@ -54,6 +54,9 @@ MainWindow::MainWindow(QWidget *parent) :
                      mBudgetedCost, SLOT(changeMonth(int)));
     QObject::connect(this, SIGNAL(yearChanged(QString)),
                      mBudgetedCost, SLOT(changeYear(QString)));
+    QObject::connect(this, SIGNAL(copyPreviousMonth(QDate)),
+                     mBudgetedCost, SLOT(copyFromPreviousMonth(QDate)));
+    //copyPreviousMonth(currentMonth)
 
     //connect table view income to the budget model
     mIncome = new BudgetModel(0);
@@ -432,4 +435,12 @@ void MainWindow::on_cbMonth_currentIndexChanged(int index)
 void MainWindow::on_cbYear_currentIndexChanged(const QString &year)
 {
     emit yearChanged(year);
+}
+
+void MainWindow::on_pbCopyPreviousMonth_clicked()
+{
+    QDate currentMonth = QDate(ui->cbYear->currentText().toInt(),
+                               ui->cbMonth->currentIndex() + 1,
+                               1);
+    emit copyPreviousMonth(currentMonth);
 }

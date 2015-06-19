@@ -181,9 +181,15 @@ private:
     */
     QStringList calculateTotal(std::deque<QStringList> data);
 
+    /*! Method adds new row to the database and notifies view of the change.
+     *  \param newRow an QStringList.
+        \sa BudgetModel()
+     */
+    void addNewRow(QStringList newRow);
+
 private slots:
     /*! \fn void addRow()
-     *  \brief slot to add new row to the model. Function adds row with content "New Item", "0.0"
+     *  \brief slot to add new row to the model. Function adds row with content "New Item", "0.0", ""
      *  \param row an integer.
      */
     void addRow();
@@ -205,6 +211,12 @@ private slots:
      *  \param year as QString.
      */
     void changeYear(QString cbYear);
+
+    /*! \fn void copyFromPreviousMonth(QDate toDate)
+     *  \brief Copies entries from previous month to the model
+     *  \param toDate as QDate.
+     */
+    void copyFromPreviousMonth(QDate toDate);
 
 signals:
 

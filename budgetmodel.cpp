@@ -199,6 +199,46 @@ QStringList BudgetModel::calculateTotal(std::deque<QStringList> data)
     return row;
 }
 
+void BudgetModel::addNewRow(QStringList newRow)
+{
+    int id = -1;
+    //notify that expenses is appended
+    beginInsertRows(QModelIndex(), dataSet.size()-1, dataSet.size()-1);
+       //add new row to the dataset and get the id of the new row
+       //actualExpenses, budgetedExpenses, income, loan, savings
+       if(dataType.contains("actualExpenses"))
+       {
+           id = db->addActualExpense(&newRow , date);
+       }
+       else if (dataType.contains("budgetedExpenses"))
+       {
+           id = db->addBudgetedExpense(&newRow , date);
+       }
+       else if (dataType.contains("income"))
+       {
+           id = db->addIncome(&newRow , date);
+       }
+       else if (dataType.contains("loan"))
+       {
+           id = db->addLoan(&newRow , date);
+       }
+       else if (dataType.contains("savings"))
+       {
+           id = db->addSavings(&newRow , date);
+       }
+       if (id > -1)
+       {
+           newRow.replace(0, QString::number(id));
+           dataSet.push_back(newRow);
+       }
+       else
+       {
+           readData();
+       }
+   //notify views that you're done with modifying the underlying data
+   endInsertRows();
+}
+
 void BudgetModel::readData()
 {
     beginResetModel();
@@ -300,7 +340,6 @@ void BudgetModel::removeRow(int row)
             {
                 db->removeSavings(dataSet.at(row).at(0));
             }
-//            readData();
         }
     endRemoveRows();
 
@@ -318,5 +357,57 @@ void BudgetModel::changeYear(QString cbYear)
 {
     year = cbYear.toInt();
     date.setDate(year, month, day);
+    readData();
+}
+
+void BudgetModel::copyFromPreviousMonth(QDate toDate)
+{
+    std::deque<QStringList> dataSetPreviousMonth;
+    QDate fromDate = toDate.addMonths(-1);
+
+    //actualExpenses, budgetedExpenses, income, loan, savings
+    if(dataType.contains("actualExpenses"))
+    {
+        dataSetPreviousMonth = db->getActualExpenses(fromDate);
+//        dataSet.push_front(calculateTotal(dataSet));
+    }
+    else if (dataType.contains("budgetedExpenses"))
+    {
+        dataSetPreviousMonth = db->getBudgetedExpenses(fromDate);
+//        dataSet.push_front(calculateTotal(dataSet));
+    }
+    else if (dataType.contains("income"))
+    {
+        dataSetPreviousMonth = db->getIncome(fromDate);
+//        dataSet.push_front(calculateTotal(dataSet));
+    }
+    else if (dataType.contains("loan"))
+    {
+        dataSetPreviousMonth = db->getLoan(fromDate);
+//        dataSet.push_front(calculateTotal(dataSet));
+    }
+    else if (dataType.contains("savings"))
+    {
+        dataSetPreviousMonth = db->getSavings(fromDate);
+//        dataSet.push_front(calculateTotal(dataSet));
+    }
+    for (uint i = 0; i < dataSetPreviousMonth.size(); ++i)
+    {
+        //row << ""<< "New Item" << "0.0" << "";
+        QStringList row;
+        if(!dataType.contains("Expenses"))
+        {
+            row << "" << dataSetPreviousMonth.at(i).at(1)
+                      << dataSetPreviousMonth.at(i).at(2) << "";
+        }
+        else
+        {
+            row << "" << dataSetPreviousMonth.at(i).at(1)
+                      << dataSetPreviousMonth.at(i).at(2)
+                      << dataSetPreviousMonth.at(i).at(3)
+                      << "";
+        }
+        addNewRow(row);
+    }
     readData();
 }

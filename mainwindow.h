@@ -95,6 +95,8 @@ private slots:
 
     void on_cbYear_currentIndexChanged(const QString &arg1);
 
+    void on_pbCopyPreviousMonth_clicked();
+
 private:
     Ui::MainWindow *ui;
     QPushButton *pbCalculateInvestmentValue;
@@ -113,6 +115,7 @@ signals:
     void removeSavingsRow(int);
     void monthChanged(int);
     void yearChanged(QString);
+    void copyPreviousMonth(QDate);
 };
 
 #endif // MAINWINDOW_H
