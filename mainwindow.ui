@@ -33,7 +33,7 @@
        <locale language="English" country="UnitedStates"/>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab_invest">
        <property name="locale">
@@ -781,7 +781,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="cbMonth_2">
+            <widget class="QComboBox" name="cbMonthActual">
              <property name="maximumSize">
               <size>
                <width>300</width>
@@ -851,6 +851,87 @@
             </widget>
            </item>
            <item>
+            <widget class="QLabel" name="label_Month_4">
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Year</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="cbYearActual">
+             <property name="maximumSize">
+              <size>
+               <width>200</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="maxCount">
+              <number>100</number>
+             </property>
+             <item>
+              <property name="text">
+               <string>2015</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2016</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2017</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2018</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2019</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2020</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2021</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2022</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2023</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2024</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2025</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
             <spacer name="horizontalSpacer_2">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -884,7 +965,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QTableView" name="tableViewCost_2">
+              <widget class="QTableView" name="tableViewCostActual">
                <property name="verticalScrollBarPolicy">
                 <enum>Qt::ScrollBarAlwaysOn</enum>
                </property>
@@ -932,75 +1013,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QTableView" name="tableViewIncome_2">
-               <property name="verticalScrollBarPolicy">
-                <enum>Qt::ScrollBarAlwaysOn</enum>
-               </property>
-               <property name="horizontalScrollBarPolicy">
-                <enum>Qt::ScrollBarAlwaysOff</enum>
-               </property>
-               <property name="autoScroll">
-                <bool>true</bool>
-               </property>
-               <property name="autoScrollMargin">
-                <number>16</number>
-               </property>
-               <property name="gridStyle">
-                <enum>Qt::DotLine</enum>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_12">
-               <item>
-                <widget class="QPushButton" name="pbAddIncome_2">
-                 <property name="text">
-                  <string>Add Income</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pbRemoveIncome_2">
-                 <property name="text">
-                  <string>Remove Income</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
               <widget class="QLabel" name="labelLoans_2">
                <property name="text">
                 <string>Loans</string>
                </property>
               </widget>
-             </item>
-             <item>
-              <widget class="QTreeWidget" name="twLoan_2">
-               <column>
-                <property name="text">
-                 <string notr="true">1</string>
-                </property>
-               </column>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_13">
-               <item>
-                <widget class="QPushButton" name="pbAddLoan_2">
-                 <property name="text">
-                  <string>Add Creditor</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pbRemoveLoan_2">
-                 <property name="text">
-                  <string>Remove Creditor</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
              </item>
              <item>
               <widget class="QLabel" name="labelSavings_2">
@@ -1010,31 +1027,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QTreeWidget" name="twSavings_2">
-               <column>
-                <property name="text">
-                 <string notr="true">1</string>
-                </property>
-               </column>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_14">
-               <item>
-                <widget class="QPushButton" name="pbAddSavings_2">
-                 <property name="text">
-                  <string>Add Investment</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pbRemoveSavings_2">
-                 <property name="text">
-                  <string>Remove Investment</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+              <layout class="QHBoxLayout" name="horizontalLayout_14"/>
              </item>
             </layout>
            </item>

@@ -238,12 +238,14 @@ void MainWindow::setComboToCurrentMonth()
     QString date = QDateTime::currentDateTime().toString("M");
     int index = date.toInt() - 1;
     ui->cbMonth->setCurrentIndex(index);
+    ui->cbMonthActual->setCurrentIndex(index);
 }
 
 void MainWindow::setComboToCurrentYear()
 {
     QString date = QDateTime::currentDateTime().toString("yyyy");
-    ui->cbMonth->setCurrentText(date); //setCurrent(index);
+    ui->cbYear->setCurrentText(date); //setCurrent(index);
+    ui->cbYearActual->setCurrentText(date); //setCurrent(index);
 }
 
 void MainWindow::on_pbCalculateMortagePayment_clicked()
