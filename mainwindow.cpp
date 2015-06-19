@@ -444,7 +444,6 @@ void MainWindow::on_pbAddCost_clicked()
 void MainWindow::on_pbRemoveCost_clicked()
 {
     emit removeCostRow(ui->tableViewCost->selectionModel()->currentIndex().row());
-    updateActualCostLabels();
 }
 
 void MainWindow::on_pbAddIncome_clicked()
@@ -484,21 +483,18 @@ void MainWindow::on_pbSave_clicked()
 
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
-//    updateActualCostLabels();
 }
 
 void MainWindow::on_cbMonth_currentIndexChanged(int index)
 {
     emit monthChanged(index + 1);
     ui->cbMonthActual->setCurrentIndex(index);
-    updateActualCostLabels();
 }
 
 void MainWindow::on_cbYear_currentIndexChanged(const QString &year)
 {
     emit yearChanged(year);
     ui->cbYearActual->setCurrentText(year);
-    updateActualCostLabels();
 }
 
 void MainWindow::on_pbCopyPreviousMonth_clicked()
@@ -507,7 +503,6 @@ void MainWindow::on_pbCopyPreviousMonth_clicked()
                                ui->cbMonth->currentIndex() + 1,
                                1);
     emit copyPreviousMonth(currentMonth);
-    updateActualCostLabels();
 }
 
 void MainWindow::on_pbAddCostActual_clicked()
@@ -518,7 +513,6 @@ void MainWindow::on_pbAddCostActual_clicked()
 void MainWindow::on_pbRemoveCostActual_clicked()
 {
     emit removeActualCostRow(ui->tableViewCostActual->selectionModel()->currentIndex().row());
-    updateActualCostLabels();
 }
 
 void MainWindow::on_cbMonthActual_currentIndexChanged(int index)

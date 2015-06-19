@@ -112,7 +112,7 @@ bool DBManager::updateActualExpense(QStringList *list)
 int DBManager::addActualExpense(QStringList *list, QDate date)
 {
     qDebug() << QString("addActualExpense");
-    bool dbUpdated = false;
+    int dbUpdated = -1;
     if (list->at(0).isEmpty())
     {
         dbUpdated =  addData(QString("expense_actual"), list, date);
@@ -424,8 +424,6 @@ int DBManager::addData(QString tableName, QStringList *data, QDate date)
         queryOk = query.exec(queryString);
         if (queryOk)
         {
-//            queryOk = query.exec("SELECT last_insert_rowid()");
-//            query.first();
             rowId = query.lastInsertId().toInt();
         }
     }
