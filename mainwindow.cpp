@@ -115,6 +115,28 @@ MainWindow::MainWindow(QWidget *parent) :
                      mSavings, SLOT(changeYear(QString)));
 
     mActualCost = new BudgetModel(0);
+    //select the type of data to fetch
+    mActualCost->setDataType(QString("actualExpenses"));
+    //add extra column for category data
+    mActualCost->setCols(3);
+    // set selection model
+    QItemSelectionModel *actualCostSelectionModel = new QItemSelectionModel(mActualCost);
+    initializeView(mActualCost, ui->tableViewCostActual, actualCostSelectionModel);
+
+    //add category combox to the third column
+    ComboBoxDelegate *cbActualDelegate = new ComboBoxDelegate();
+    ui->tableViewCostActual->setItemDelegateForColumn(2, cbActualDelegate);
+    ui->tableViewCostActual->setColumnWidth(2, 105);
+
+    //connect signals for the cost tableview
+    QObject::connect(this, SIGNAL(addActualCostRow()),
+                     mActualCost, SLOT(addRow()));
+    QObject::connect(this, SIGNAL(removeActualCostRow(int)),
+                     mActualCost, SLOT(removeRow(int)));
+    QObject::connect(this, SIGNAL(monthChanged(int)),
+                     mActualCost, SLOT(changeMonth(int)));
+    QObject::connect(this, SIGNAL(yearChanged(QString)),
+                     mActualCost, SLOT(changeYear(QString)));
 
     //set validators for the lineedits
     QDoubleValidator *vDouble = new QDoubleValidator(0);
@@ -133,6 +155,14 @@ MainWindow::MainWindow(QWidget *parent) :
     setComboToCurrentMonth();
     //Set current year to the cbYear combobox
     setComboToCurrentYear();
+    //calculate actuals
+    updateActualCostLabels();
+
+    //connect model updates to summary update
+    QObject::connect(mBudgetedCost, SIGNAL(modelDataUpdated()),
+                     this, SLOT(on_modelDataChanged()));
+    QObject::connect(mActualCost, SIGNAL(modelDataUpdated()),
+                     this, SLOT(on_modelDataChanged()));
 }
 
 void MainWindow::handleCalculateInvestment() {
@@ -246,6 +276,49 @@ void MainWindow::setComboToCurrentYear()
     QString date = QDateTime::currentDateTime().toString("yyyy");
     ui->cbYear->setCurrentText(date); //setCurrent(index);
     ui->cbYearActual->setCurrentText(date); //setCurrent(index);
+}
+
+void MainWindow::updateActualCostLabels()
+{
+    vector<double> budgetedCosts;
+    vector<double> actualCosts;
+    //Food(0), Housing(1), Utilities(2), Transportation(3), Clothing(4),
+    //Personal(5), Saving(6), Total(7)
+    budgetedCosts = mBudgetedCost->getCategorySummary();
+    actualCosts = mActualCost->getCategorySummary();
+    //Food
+    ui->lbFoodBudget->setText(QString::number(budgetedCosts.at(0)));
+    ui->lbFoodCost->setText(QString::number(actualCosts.at(0)));
+    ui->lbFoodLeft->setText(QString::number(budgetedCosts.at(0)-actualCosts.at(0)));
+    //Housing
+    ui->lbHousingBudget->setText(QString::number(budgetedCosts.at(1)));
+    ui->lbHousingCost->setText(QString::number(actualCosts.at(1)));
+    ui->lbHousingLeft->setText(QString::number(budgetedCosts.at(1)-actualCosts.at(1)));
+    //Utilities
+    ui->lbUtilitiesBudget->setText(QString::number(budgetedCosts.at(2)));
+    ui->lbUtilitiesCost->setText(QString::number(actualCosts.at(2)));
+    ui->lbUtilitiesLeft->setText(QString::number(budgetedCosts.at(2)-actualCosts.at(2)));
+    //Transportation
+    ui->lbTransportationBudget->setText(QString::number(budgetedCosts.at(3)));
+    ui->lbTransportationCost->setText(QString::number(actualCosts.at(3)));
+    ui->lbTransportationLeft->setText(QString::number(budgetedCosts.at(3)-actualCosts.at(3)));
+    //Clothing
+    ui->lbClothingBudget->setText(QString::number(budgetedCosts.at(4)));
+    ui->lbClothingCost->setText(QString::number(actualCosts.at(4)));
+    ui->lbClothingLeft->setText(QString::number(budgetedCosts.at(4)-actualCosts.at(4)));
+    //Personal
+    ui->lbPersonalBudget->setText(QString::number(budgetedCosts.at(5)));
+    ui->lbPersonalCost->setText(QString::number(actualCosts.at(5)));
+    ui->lbPersonalLeft->setText(QString::number(budgetedCosts.at(5)-actualCosts.at(5)));
+    //Saving
+    ui->lbSavingBudget->setText(QString::number(budgetedCosts.at(6)));
+    ui->lbSavingCost->setText(QString::number(actualCosts.at(6)));
+    ui->lbSavingLeft->setText(QString::number(budgetedCosts.at(6)-actualCosts.at(6)));
+    //Total
+    ui->lbTotalBudget->setText(QString::number(budgetedCosts.at(7)));
+    ui->lbTotalCost->setText(QString::number(actualCosts.at(7)));
+    ui->lbTotalLeft->setText(QString::number(budgetedCosts.at(7)-actualCosts.at(7)));
+
 }
 
 void MainWindow::on_pbCalculateMortagePayment_clicked()
@@ -363,22 +436,6 @@ void MainWindow::on_cbInvestmentType_currentIndexChanged(int index)
     ui->leRate->setText(QString("%1").arg(rate));
 }
 
-void MainWindow::updateAmount(QTreeWidgetItem *item, int column)
-{
-    double totalCost = 0.0;
-    if (column == 1)
-    {
-        if (item->parent())
-        {
-            for (int i = 0; i < item->parent()->childCount(); i++)
-            {
-                totalCost += item->parent()->child(i)->text(1).toDouble();
-            }
-            item->parent()->setText(1, QString::number(totalCost));
-        }
-    }
-}
-
 void MainWindow::on_pbAddCost_clicked()
 {
     emit addCostRow();
@@ -387,6 +444,7 @@ void MainWindow::on_pbAddCost_clicked()
 void MainWindow::on_pbRemoveCost_clicked()
 {
     emit removeCostRow(ui->tableViewCost->selectionModel()->currentIndex().row());
+    updateActualCostLabels();
 }
 
 void MainWindow::on_pbAddIncome_clicked()
@@ -426,17 +484,21 @@ void MainWindow::on_pbSave_clicked()
 
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
-
+//    updateActualCostLabels();
 }
 
 void MainWindow::on_cbMonth_currentIndexChanged(int index)
 {
     emit monthChanged(index + 1);
+    ui->cbMonthActual->setCurrentIndex(index);
+    updateActualCostLabels();
 }
 
 void MainWindow::on_cbYear_currentIndexChanged(const QString &year)
 {
     emit yearChanged(year);
+    ui->cbYearActual->setCurrentText(year);
+    updateActualCostLabels();
 }
 
 void MainWindow::on_pbCopyPreviousMonth_clicked()
@@ -445,4 +507,35 @@ void MainWindow::on_pbCopyPreviousMonth_clicked()
                                ui->cbMonth->currentIndex() + 1,
                                1);
     emit copyPreviousMonth(currentMonth);
+    updateActualCostLabels();
+}
+
+void MainWindow::on_pbAddCostActual_clicked()
+{
+    emit addActualCostRow();
+}
+
+void MainWindow::on_pbRemoveCostActual_clicked()
+{
+    emit removeActualCostRow(ui->tableViewCostActual->selectionModel()->currentIndex().row());
+    updateActualCostLabels();
+}
+
+void MainWindow::on_cbMonthActual_currentIndexChanged(int index)
+{
+    emit monthChanged(index + 1);
+    ui->cbMonth->setCurrentIndex(index);
+    updateActualCostLabels();
+}
+
+void MainWindow::on_cbYearActual_currentIndexChanged(const QString &year)
+{
+    emit yearChanged(year);
+    ui->cbYear->setCurrentText(year);
+    updateActualCostLabels();
+}
+
+void MainWindow::on_modelDataChanged()
+{
+    updateActualCostLabels();
 }

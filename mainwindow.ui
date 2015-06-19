@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>706</width>
-    <height>688</height>
+    <width>711</width>
+    <height>691</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -755,283 +755,897 @@
        <attribute name="title">
         <string>Actual Costs</string>
        </attribute>
-       <widget class="QWidget" name="verticalLayoutWidget_4">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>691</width>
-          <height>588</height>
+          <x>10</x>
+          <y>10</y>
+          <width>661</width>
+          <height>32</height>
          </rect>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_8">
+        <layout class="QHBoxLayout" name="horizontalLayout_11">
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <widget class="QLabel" name="label_Month_2">
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Month</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cbMonthActual">
+           <property name="maximumSize">
+            <size>
+             <width>300</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <item>
-            <widget class="QLabel" name="label_Month_2">
+            <property name="text">
+             <string>January</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>February</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>March</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>April</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>May</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>June</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>July</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>August</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>September</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>October</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>November</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>December</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_Month_4">
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Year</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cbYearActual">
+           <property name="maximumSize">
+            <size>
+             <width>200</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="maxCount">
+            <number>100</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>2015</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2016</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2017</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2018</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2019</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2020</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2021</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2022</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2023</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2024</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2025</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="verticalLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>50</y>
+          <width>361</width>
+          <height>531</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="QLabel" name="label_expenses_2">
+           <property name="text">
+            <string>Monthly Expenses</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTableView" name="tableViewCostActual">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOn</enum>
+           </property>
+           <property name="horizontalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="autoScroll">
+            <bool>true</bool>
+           </property>
+           <property name="autoScrollMargin">
+            <number>16</number>
+           </property>
+           <property name="gridStyle">
+            <enum>Qt::DotLine</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <item>
+            <widget class="QPushButton" name="pbAddCostActual">
              <property name="maximumSize">
               <size>
                <width>50</width>
                <height>16777215</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
              <property name="text">
-              <string>Month</string>
+              <string extracomment="Add Row">+</string>
+             </property>
+             <property name="default">
+              <bool>false</bool>
+             </property>
+             <property name="flat">
+              <bool>false</bool>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="cbMonthActual">
-             <property name="maximumSize">
-              <size>
-               <width>300</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <item>
-              <property name="text">
-               <string>January</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>February</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>March</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>April</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>May</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>June</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>July</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>August</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>September</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>October</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>November</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>December</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_Month_4">
+            <widget class="QPushButton" name="pbRemoveCostActual">
              <property name="maximumSize">
               <size>
                <width>50</width>
                <height>16777215</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
              <property name="text">
-              <string>Year</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="cbYearActual">
-             <property name="maximumSize">
-              <size>
-               <width>200</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="maxCount">
-              <number>100</number>
-             </property>
-             <item>
-              <property name="text">
-               <string>2015</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>2016</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>2017</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>2018</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>2019</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>2020</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>2021</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>2022</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>2023</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>2024</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>2025</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pbSave_2">
-             <property name="text">
-              <string>Lock This Monts Budget</string>
+              <string extracomment="Remove Row">-</string>
              </property>
             </widget>
            </item>
           </layout>
          </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_8">
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_9">
-             <item>
-              <widget class="QLabel" name="label_expenses_2">
-               <property name="text">
-                <string>Monthly Expenses</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QTableView" name="tableViewCostActual">
-               <property name="verticalScrollBarPolicy">
-                <enum>Qt::ScrollBarAlwaysOn</enum>
-               </property>
-               <property name="horizontalScrollBarPolicy">
-                <enum>Qt::ScrollBarAlwaysOff</enum>
-               </property>
-               <property name="autoScroll">
-                <bool>true</bool>
-               </property>
-               <property name="autoScrollMargin">
-                <number>16</number>
-               </property>
-               <property name="gridStyle">
-                <enum>Qt::DotLine</enum>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_9">
-               <item>
-                <widget class="QPushButton" name="pbAddCost_2">
-                 <property name="text">
-                  <string>Add Expense</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pbRemoveCost_2">
-                 <property name="text">
-                  <string>Remove Expense</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_4">
-             <item>
-              <widget class="QLabel" name="labelIncome_2">
-               <property name="text">
-                <string>Monthly Income</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="labelLoans_2">
-               <property name="text">
-                <string>Loans</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="labelSavings_2">
-               <property name="text">
-                <string>Savings</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_14"/>
-             </item>
-            </layout>
-           </item>
-          </layout>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="formLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>380</x>
+          <y>80</y>
+          <width>141</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="formLayout">
+         <property name="labelAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="formAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+         <item row="0" column="1">
+          <widget class="QWidget" name="foodBudget" native="true"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_69">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+             <underline>true</underline>
+            </font>
+           </property>
+           <property name="text">
+            <string>Food</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_70">
+           <property name="text">
+            <string>Budget</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="lbFoodBudget">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_71">
+           <property name="text">
+            <string>Current</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="lbFoodCost">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_72">
+           <property name="text">
+            <string>Money Left</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="lbFoodLeft">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="formLayoutWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>380</x>
+          <y>200</y>
+          <width>141</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="formLayout_2">
+         <property name="labelAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="formAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+         <item row="0" column="1">
+          <widget class="QWidget" name="foodBudget_2" native="true"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_73">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+             <underline>true</underline>
+            </font>
+           </property>
+           <property name="text">
+            <string>Housing</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_74">
+           <property name="text">
+            <string>Budget</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="lbHousingBudget">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_75">
+           <property name="text">
+            <string>Current</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="lbHousingCost">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_76">
+           <property name="text">
+            <string>Money Left</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="lbHousingLeft">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="formLayoutWidget_3">
+        <property name="geometry">
+         <rect>
+          <x>380</x>
+          <y>320</y>
+          <width>141</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="formLayout_3">
+         <property name="labelAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="formAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+         <item row="0" column="1">
+          <widget class="QWidget" name="foodBudget_3" native="true"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_77">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+             <underline>true</underline>
+            </font>
+           </property>
+           <property name="text">
+            <string>Utilities</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_78">
+           <property name="text">
+            <string>Budget</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="lbUtilitiesBudget">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_79">
+           <property name="text">
+            <string>Current</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="lbUtilitiesCost">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_80">
+           <property name="text">
+            <string>Money Left</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="lbUtilitiesLeft">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="formLayoutWidget_4">
+        <property name="geometry">
+         <rect>
+          <x>380</x>
+          <y>440</y>
+          <width>141</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="formLayout_4">
+         <property name="labelAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="formAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+         <item row="0" column="1">
+          <widget class="QWidget" name="foodBudget_4" native="true"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_81">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+             <underline>true</underline>
+            </font>
+           </property>
+           <property name="text">
+            <string>Transportation</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_82">
+           <property name="text">
+            <string>Budget</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="lbTransportationBudget">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_83">
+           <property name="text">
+            <string>Current</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="lbTransportationCost">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_84">
+           <property name="text">
+            <string>Money Left</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="lbTransportationLeft">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="formLayoutWidget_5">
+        <property name="geometry">
+         <rect>
+          <x>540</x>
+          <y>80</y>
+          <width>141</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="formLayout_5">
+         <property name="labelAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="formAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+         <item row="0" column="1">
+          <widget class="QWidget" name="foodBudget_5" native="true"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_85">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+             <underline>true</underline>
+            </font>
+           </property>
+           <property name="text">
+            <string>Clothing</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_86">
+           <property name="text">
+            <string>Budget</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="lbClothingBudget">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_87">
+           <property name="text">
+            <string>Current</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="lbClothingCost">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_88">
+           <property name="text">
+            <string>Money Left</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="lbClothingLeft">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="formLayoutWidget_6">
+        <property name="geometry">
+         <rect>
+          <x>540</x>
+          <y>200</y>
+          <width>141</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="formLayout_6">
+         <property name="labelAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="formAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+         <item row="0" column="1">
+          <widget class="QWidget" name="foodBudget_6" native="true"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_89">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+             <underline>true</underline>
+            </font>
+           </property>
+           <property name="text">
+            <string>Personal</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_90">
+           <property name="text">
+            <string>Budget</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="lbPersonalBudget">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_91">
+           <property name="text">
+            <string>Current</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="lbPersonalCost">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_92">
+           <property name="text">
+            <string>Money Left</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="lbPersonalLeft">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="formLayoutWidget_7">
+        <property name="geometry">
+         <rect>
+          <x>540</x>
+          <y>320</y>
+          <width>141</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="formLayout_7">
+         <property name="labelAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="formAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+         <item row="0" column="1">
+          <widget class="QWidget" name="foodBudget_7" native="true"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_93">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+             <underline>true</underline>
+            </font>
+           </property>
+           <property name="text">
+            <string>Saving</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_94">
+           <property name="text">
+            <string>Budget</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="lbSavingBudget">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_95">
+           <property name="text">
+            <string>Current</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="lbSavingCost">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_96">
+           <property name="text">
+            <string>Money Left</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="lbSavingLeft">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="formLayoutWidget_8">
+        <property name="geometry">
+         <rect>
+          <x>540</x>
+          <y>440</y>
+          <width>141</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="formLayout_8">
+         <property name="labelAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="formAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+         <item row="0" column="1">
+          <widget class="QWidget" name="foodBudget_8" native="true"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_97">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+             <underline>true</underline>
+            </font>
+           </property>
+           <property name="text">
+            <string>Total</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_98">
+           <property name="text">
+            <string>Budget</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="lbTotalBudget">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_99">
+           <property name="text">
+            <string>Current</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="lbTotalCost">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_100">
+           <property name="text">
+            <string>Money Left</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="lbTotalLeft">
+           <property name="text">
+            <string>0,00</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -1045,7 +1659,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>706</width>
+     <width>711</width>
      <height>22</height>
     </rect>
    </property>
@@ -1120,7 +1734,6 @@
   <tabstop>leMonthlyMortagePayment</tabstop>
   <tabstop>pbCalculateMortagePayment</tabstop>
   <tabstop>gvMortage</tabstop>
-  <tabstop>tabWidget</tabstop>
  </tabstops>
  <resources/>
  <connections/>

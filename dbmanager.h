@@ -208,6 +208,14 @@ public:
     */
     bool removeSavings(QString id);
 
+    //! A method to get sum for categories in the table.
+    /*!
+      \param category QString for the category in the database
+      \return sum of all values in that category.
+      \sa DBManager()
+    */
+    double getSumFor(QString dataType, QString category, QDate date);
+
 private:
     //! Variable to store the database info.
     /*!

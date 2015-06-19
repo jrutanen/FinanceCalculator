@@ -113,6 +113,13 @@ public:
     */
     void setCols(int columns);
 
+    /*! A method to return sum of values in different categories.
+      \return vector<double> containing values for the categories
+      Food, Housing, Utilities, Transportation, Clothing, Personal, Saving, Total
+      \sa BudgetModel()
+    */
+    std::vector<double> getCategorySummary();
+
 private:
     //! Pointer to the database.
     /*!
@@ -219,6 +226,7 @@ private slots:
     void copyFromPreviousMonth(QDate toDate);
 
 signals:
+    void modelDataUpdated();
 
 };
 

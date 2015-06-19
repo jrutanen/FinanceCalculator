@@ -75,7 +75,7 @@ private:
     void initializeView(BudgetModel* model, QTableView *view, QItemSelectionModel *selectionModel);
 
 protected:
-    void updateAmount(QTreeWidgetItem *item, int column);
+
 private slots:
     void handleCalculateInvestment();
     void on_pbCalculateInvestmentValue_clicked();
@@ -92,10 +92,13 @@ private slots:
     void on_pbSave_clicked();
     void on_tabWidget_currentChanged(int index);
     void on_cbMonth_currentIndexChanged(int index);
-
-    void on_cbYear_currentIndexChanged(const QString &arg1);
-
+    void on_cbYear_currentIndexChanged(const QString &year);
     void on_pbCopyPreviousMonth_clicked();
+    void on_pbAddCostActual_clicked();
+    void on_pbRemoveCostActual_clicked();
+    void on_cbMonthActual_currentIndexChanged(int index);
+    void on_cbYearActual_currentIndexChanged(const QString &year);
+    void on_modelDataChanged();
 
 private:
     Ui::MainWindow *ui;
@@ -103,10 +106,13 @@ private:
     void drawGraph(QGraphicsView*, vector<DataSet>);
     void setComboToCurrentMonth();
     void setComboToCurrentYear();
+    void updateActualCostLabels();
 
 signals:
     void addCostRow();
     void removeCostRow(int);
+    void addActualCostRow();
+    void removeActualCostRow(int);
     void addIncomeRow();
     void removeIncomeRow(int);
     void addLoanRow();

@@ -220,6 +220,58 @@ bool DBManager::removeSavings(QString id)
     return removeData(QString("savings"), id);
 }
 
+double DBManager::getSumFor(QString dataType, QString category, QDate date)
+{
+    QString tableName;
+    if(dataType.contains("actualExpenses"))
+    {
+        tableName = "expense_actual";
+    }
+    else
+    {
+        tableName = "expense_budget";
+    }
+
+    openDB();
+
+    double queryResult;
+
+    if (db.isOpen())
+    {
+        QString queryString = "";
+        QSqlQuery query(db);
+        if(!category.contains("Total"))
+        {
+            queryString.append(QString("SELECT SUM(amount) FROM %1 WHERE date='%2' AND category='%3'")
+                               .arg(tableName)
+                               .arg(date.toString("yyyy-MM-dd"))
+                               .arg(category));
+        }
+        else
+        {
+            queryString.append(QString("SELECT SUM(amount) FROM %1 WHERE date='%2'")
+                               .arg(tableName)
+                               .arg(date.toString("yyyy-MM-dd")));
+        }
+
+        qDebug() << queryString;
+
+        query.exec(queryString);
+
+        while (query.next()) {
+            queryResult = query.value(0).toInt();
+        }
+    }
+    else
+    {
+        qDebug() << QString("DB is Closed!");
+    }
+
+    closeDB();
+
+    return queryResult;
+}
+
 /**
  * @brief Opens the database
  * @return bool db.open()

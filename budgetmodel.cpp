@@ -101,6 +101,22 @@ void BudgetModel::setCols(int columns)
     cols = columns;
 }
 
+std::vector<double> BudgetModel::getCategorySummary()
+{
+    std::vector<double> values;
+    //Food, Housing, Utilities, Transportation, Clothing, Personal, Saving, Total
+    values.push_back(db->getSumFor(dataType , "Food", date));
+    values.push_back(db->getSumFor(dataType , "Housing", date));
+    values.push_back(db->getSumFor(dataType , "Utilities", date));
+    values.push_back(db->getSumFor(dataType , "Transportation", date));
+    values.push_back(db->getSumFor(dataType , "Clothing", date));
+    values.push_back(db->getSumFor(dataType , "Personal", date));
+    values.push_back(db->getSumFor(dataType , "Saving", date));
+    values.push_back(db->getSumFor(dataType , "Total", date));
+
+    return values;
+}
+
 bool BudgetModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     //safety check for index
@@ -168,10 +184,12 @@ void BudgetModel::updateData(QStringList values)
     if(dataType.contains("actualExpenses"))
     {
         db->updateActualExpense(&values);
+        emit modelDataUpdated();
     }
     else if (dataType.contains("budgetedExpenses"))
     {
         db->updateBudgetedExpense(&values);
+        emit modelDataUpdated();
     }
     else if (dataType.contains("income"))
     {
@@ -209,10 +227,12 @@ void BudgetModel::addNewRow(QStringList newRow)
        if(dataType.contains("actualExpenses"))
        {
            id = db->addActualExpense(&newRow , date);
+           emit modelDataUpdated();
        }
        else if (dataType.contains("budgetedExpenses"))
        {
            id = db->addBudgetedExpense(&newRow , date);
+           emit modelDataUpdated();
        }
        else if (dataType.contains("income"))
        {
@@ -283,10 +303,12 @@ void BudgetModel::addRow()
        if(dataType.contains("actualExpenses"))
        {
            id = db->addActualExpense(&row , date);
+           emit modelDataUpdated();
        }
        else if (dataType.contains("budgetedExpenses"))
        {
            id = db->addBudgetedExpense(&row , date);
+           emit modelDataUpdated();
        }
        else if (dataType.contains("income"))
        {
@@ -322,11 +344,13 @@ void BudgetModel::removeRow(int row)
             //actualExpenses, budgetedExpenses, income
             if(dataType.contains("actualExpenses"))
             {
-              //  db->removeActualExpenses(month); //TODO
+                db->removeActualExpense(dataSet.at(row).at(0));
+                emit modelDataUpdated();
             }
             else if (dataType.contains("budgetedExpenses"))
             {
                 db->removeBudgetedExpense(dataSet.at(row).at(0));
+                emit modelDataUpdated();
             }
             else if (dataType.contains("income"))
             {
